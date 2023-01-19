@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "raygun4maui", "raygun4maui.csproj", "{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "raygun4mauiUnitTesting", "..\raygun4mauiUnitTesting\raygun4mauiUnitTesting.csproj", "{333CA348-9B0A-4986-8EEE-F5ED031F3082}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{333CA348-9B0A-4986-8EEE-F5ED031F3082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{333CA348-9B0A-4986-8EEE-F5ED031F3082}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{333CA348-9B0A-4986-8EEE-F5ED031F3082}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{333CA348-9B0A-4986-8EEE-F5ED031F3082}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7C94A459-12D4-4202-860C-5E763712FD03}
+	EndGlobalSection
+EndGlobal
