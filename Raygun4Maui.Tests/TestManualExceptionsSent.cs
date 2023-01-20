@@ -7,21 +7,20 @@ namespace raygun4mauiUnitTesting
     public class TestManualExceptionsSent
     {
         private readonly String _apiKey;
-        private IConfigurationRoot _configuration;
 
         public TestManualExceptionsSent()
         {
-            _configuration = new ConfigurationBuilder()
+            var configuration = new ConfigurationBuilder()
                .AddUserSecrets<TestManualExceptionsSent>()
                .Build();
 
-            _apiKey = _configuration["apiKey"];
+            _apiKey = configuration["apiKey"] ?? "";            
         }
 
         [TestMethod]
         public void TestApiKeyPresent()
         {
-            Assert.IsNotNull(_apiKey);
+            Assert.AreNotEqual("", _apiKey);
         }
 
         [TestMethod]
