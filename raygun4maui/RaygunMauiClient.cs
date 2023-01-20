@@ -16,9 +16,9 @@ namespace raygun4maui
             _raygunClient.Send(exception);
         }
 
-        public void SendInBackground(Exception exception) 
+        public Task SendInBackground(Exception exception) 
         {
-            _raygunClient.SendInBackground(exception);
+            return _raygunClient.SendInBackground(exception);
         }
     }
 }

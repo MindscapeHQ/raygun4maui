@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "raygun4maui", "raygun4maui.csproj", "{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui", "Raygun4Maui.csproj", "{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "raygun4mauiUnitTesting", "..\raygun4mauiUnitTesting\raygun4mauiUnitTesting.csproj", "{333CA348-9B0A-4986-8EEE-F5ED031F3082}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui.Tests", "..\Raygun4Maui.Tests\Raygun4Maui.Tests.csproj", "{333CA348-9B0A-4986-8EEE-F5ED031F3082}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
