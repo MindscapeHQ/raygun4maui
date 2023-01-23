@@ -28,6 +28,14 @@
                 FontSize="18"
                 HorizontalOptions="Center" />
 
+            <Label
+                x:Name="apiKeyLabel"
+                Text="Raygun Api Key: "
+                SemanticProperties.HeadingLevel="Level3"
+                SemanticProperties.Description="Raygun Api Key"
+                FontSize="15"
+                HorizontalOptions="Center" />
+
             <Button
                 x:Name="CounterBtn"
                 Text="Click me"

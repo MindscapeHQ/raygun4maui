@@ -1,13 +1,33 @@
 ﻿namespace Raygun4Maui.SampleApp;
 
+using Microsoft.Extensions.Configuration;
+using raygun4maui;
+
 public partial class MainPage : ContentPage
 {
 	int count = 0;
 
+    private readonly String _apiKey;
+
 	public MainPage()
 	{
 		InitializeComponent();
-	}
+
+        var configuration = new ConfigurationBuilder()
+               .AddUserSecrets<MainPage>()
+               .Build();
+
+        _apiKey = configuration["apiKey"] ?? "";
+
+        if (_apiKey != "")
+        {
+            apiKeyLabel.Text += _apiKey;
+        }
+        else
+        {
+            apiKeyLabel.Text += "Not set! Please set it Right-Click on the project solution and selecting Manage User Secrets";
+        }
+    }
 
 	private void OnCounterClicked(object sender, EventArgs e)
 	{
@@ -25,6 +45,9 @@ public partial class MainPage : ContentPage
 	{
         ManualExceptionButton.Text += ".";
 
+        RaygunMauiClient raygunMauiClient = new(_apiKey);
+
+        raygunMauiClient.SendInBackground(new Exception("Raygun4Maui.SampleApp Manual Exception @ " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")));
     }
 
     private void OnUnhandledExceptionClicked(object sender, EventArgs e)
