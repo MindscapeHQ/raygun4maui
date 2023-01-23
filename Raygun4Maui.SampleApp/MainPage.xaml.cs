@@ -20,5 +20,21 @@ public partial class MainPage : ContentPage
 
 		SemanticScreenReader.Announce(CounterBtn.Text);
 	}
+
+	private void OnManualExceptionClicked(object sender, EventArgs e)
+	{
+        ManualExceptionButton.Text += ".";
+
+    }
+
+    private void OnUnhandledExceptionClicked(object sender, EventArgs e)
+    {
+        UnhandledExceptionButton.Text += ".";
+    }
+
+    private void OnILoggerErrorClicked(object sender, EventArgs e)
+    {
+        ILoggerButton.Text += ".";
+    }
 }
 

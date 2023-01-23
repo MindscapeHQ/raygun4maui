@@ -12,7 +12,7 @@
             <Image
                 Source="dotnet_bot.png"
                 SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
+                HeightRequest="100"
                 HorizontalOptions="Center" />
 
             <Label
@@ -34,6 +34,27 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Center" />
+
+            <Button
+                x:Name="ManualExceptionButton"
+                Text="Send Manual Exception to Raygun"
+                SemanticProperties.Hint="Sends Manual Exception to Raygun"
+                Clicked="OnManualExceptionClicked"
+                HorizontalOptions="Center"/>
+
+            <Button
+                x:Name="UnhandledExceptionButton"
+                Text="Throw Unhandled Exception"
+                SemanticProperties.Hint="Throws an Unhandled Exception, which should be caught and sent to Raygun"
+                Clicked="OnUnhandledExceptionClicked"
+                HorizontalOptions="Center"/>
+
+            <Button
+                x:Name="ILoggerButton"
+                Text="Record an ILogger Error"
+                SemanticProperties.Hint="Records an ILogger error, which should be caught and sent to Raygun"
+                Clicked="OnILoggerErrorClicked"
+                HorizontalOptions="Center"/>
 
         </VerticalStackLayout>
     </ScrollView>
