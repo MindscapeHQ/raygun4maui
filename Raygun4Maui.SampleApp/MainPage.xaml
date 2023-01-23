@@ -5,14 +5,14 @@
 
     <ScrollView>
         <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
+            Spacing="20"
+            Padding="25,0"
             VerticalOptions="Center">
 
             <Image
                 Source="dotnet_bot.png"
                 SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="100"
+                HeightRequest="80"
                 HorizontalOptions="Center" />
 
             <Label
