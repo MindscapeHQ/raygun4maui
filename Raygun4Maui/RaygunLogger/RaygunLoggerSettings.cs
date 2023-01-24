@@ -2,18 +2,16 @@
 
 namespace Raygun4Maui.RaygunLogger
 {
-    public sealed class RaygunLoggerSettings : AbstractRaygunLogger
+    public sealed class RaygunLoggerSettings : RaygunSettings
     {
-        private readonly RaygunSettingsBase _settings;
+        public bool SendDefaultTags{get; set;}
 
-        public RaygunLoggerSettings(RaygunSettingsBase settings)
-        {
-            _settings = settings;
-        }   
+        public bool SendDefaultCustomData { get; set;}
 
-        protected override RaygunClient RaygunClientFactory()
+        public RaygunLoggerSettings()
         {
-            return new RaygunClient(_settings);
+            SendDefaultTags = true;
+            SendDefaultCustomData = true;
         }
     }
 }
