@@ -83,7 +83,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
-	  <PackageReference Include="Raygun4Maui" Version="0.0.2-alpha" />
+	  <PackageReference Include="Raygun4Maui" Version="0.0.3-alpha" />
 	</ItemGroup>
 
 </Project>

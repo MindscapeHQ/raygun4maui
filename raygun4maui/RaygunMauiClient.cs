@@ -3,22 +3,21 @@
 namespace Mindscape.Raygun4Maui
 {
     // All the code in this file is included in all platforms.
-    public class RaygunMauiClient
+    public class RaygunMauiClient : RaygunClient
     {
-        private readonly RaygunClient _raygunClient;
-        public RaygunMauiClient(String apiKey)
+        public RaygunMauiClient(string apiKey) : base(apiKey)
         {
-            _raygunClient = new RaygunClient(apiKey);
+            this._raygunMauiClientInit();
         }
 
-        public void Send(Exception exception)
+        public RaygunMauiClient(RaygunSettingsBase settings) : base(settings)
         {
-            _raygunClient.Send(exception);
+            this._raygunMauiClientInit();
         }
 
-        public Task SendInBackground(Exception exception) 
+        private void _raygunMauiClientInit()
         {
-            return _raygunClient.SendInBackground(exception);
+
         }
     }
 }
