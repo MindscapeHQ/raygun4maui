@@ -51,5 +51,23 @@ namespace Raygun4Maui.Tests
         {
             e.CustomGroupingKey = "TestCustomGrouping";
         }
+
+        [TestMethod]
+        public void TestUniqueUserTracking()
+        {
+            RaygunMauiClient raygunMauiClient = new RaygunMauiClient(_apiKey);
+            raygunMauiClient.User = "user@email.com";
+            raygunMauiClient.Send(new Exception("raygun4mauiUnitTesting: TestUniqueUserTracking " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")));
+
+            raygunMauiClient.UserInfo = new RaygunIdentifierMessage("user@email.com")
+            {
+                IsAnonymous = false,
+                FullName = "Robbie Robot",
+                FirstName = "Robbie"
+            };
+            raygunMauiClient.Send(new Exception("raygun4mauiUnitTesting: TestUniqueUserTracking " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")));
+
+            raygunMauiClient.SendInBackground(new Exception("raygun4mauiUnitTesting: TestUniqueUserTracking " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")), null, null, new RaygunIdentifierMessage("user@email.com") { IsAnonymous = false, FullName = "Robbie Robot", FirstName = "Robbie" });
+        }
     }
 }

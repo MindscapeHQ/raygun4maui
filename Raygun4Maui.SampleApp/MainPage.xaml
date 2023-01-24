@@ -29,7 +29,7 @@
                 HorizontalOptions="Center" />
 
             <Label
-                x:Name="apiKeyLabel"
+                x:Name="ApiKeyLabel"
                 Text="Raygun Api Key: "
                 SemanticProperties.HeadingLevel="Level3"
                 SemanticProperties.Description="Raygun Api Key"
@@ -45,22 +45,22 @@
 
             <Button
                 x:Name="ManualExceptionButton"
-                Text="Send Manual Exception to Raygun"
-                SemanticProperties.Hint="Sends Manual Exception to Raygun"
+                Text="Test Manual Exceptions to Raygun"
+                SemanticProperties.Hint="Test Manual Exceptions to Raygun"
                 Clicked="OnManualExceptionClicked"
                 HorizontalOptions="Center"/>
 
             <Button
                 x:Name="UnhandledExceptionButton"
-                Text="Throw Unhandled Exception"
-                SemanticProperties.Hint="Throws an Unhandled Exception, which should be caught and sent to Raygun"
+                Text="Test Unhandled Exceptions"
+                SemanticProperties.Hint="Test Unhandled Exceptions, which should be caught and sent to Raygun"
                 Clicked="OnUnhandledExceptionClicked"
                 HorizontalOptions="Center"/>
 
             <Button
                 x:Name="ILoggerButton"
-                Text="Record an ILogger Error"
-                SemanticProperties.Hint="Records an ILogger error, which should be caught and sent to Raygun"
+                Text="Test ILogger Errors"
+                SemanticProperties.Hint="Test recording ILogger errors, which should be caught and sent to Raygun"
                 Clicked="OnILoggerErrorClicked"
                 HorizontalOptions="Center"/>
 

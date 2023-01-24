@@ -21,11 +21,11 @@ public partial class MainPage : ContentPage
 
         if (_apiKey != "")
         {
-            apiKeyLabel.Text += _apiKey;
+            ApiKeyLabel.Text += _apiKey;
         }
         else
         {
-            apiKeyLabel.Text += "Not set! Please set it Right-Click on the project solution and selecting Manage User Secrets";
+            ApiKeyLabel.Text += "Not set! Please set it Right-Click on the project solution and selecting Manage User Secrets";
         }
     }
 
@@ -45,9 +45,9 @@ public partial class MainPage : ContentPage
 	{
         ManualExceptionButton.Text += ".";
 
-        RaygunMauiClient raygunMauiClient = new(_apiKey);
+        TestManualExceptionsSent testManualExceptionsSent = new(_apiKey);
 
-        raygunMauiClient.SendInBackground(new Exception("Raygun4Maui.SampleApp Manual Exception @ " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")));
+        testManualExceptionsSent.runAllTests();
     }
 
     private void OnUnhandledExceptionClicked(object sender, EventArgs e)
