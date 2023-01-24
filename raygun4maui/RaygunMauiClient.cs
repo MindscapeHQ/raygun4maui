@@ -1,5 +1,7 @@
 ﻿using Mindscape.Raygun4Net;
 
+using Raygun4Maui.MattJohnsonPint.Maui;
+
 namespace Mindscape.Raygun4Maui
 {
     // All the code in this file is included in all platforms.
@@ -22,7 +24,7 @@ namespace Mindscape.Raygun4Maui
 
         private void AttachMauiExceptionHandler()
         {
-            MattJohnsonPint.Maui.MauiExceptions.UnhandledException += (sender, args) =>
+            MauiExceptions.UnhandledException += (sender, args) =>
             {
                 Exception e = (Exception)args.ExceptionObject;
                 this.Send(e);
