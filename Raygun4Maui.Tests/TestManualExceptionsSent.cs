@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
-using raygun4maui;
+using Mindscape.Raygun4Maui;
 
-namespace raygun4mauiUnitTesting
+namespace Raygun4Maui.Tests
 {
     [TestClass]
     public class TestManualExceptionsSent

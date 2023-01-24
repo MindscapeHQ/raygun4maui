@@ -1,6 +1,6 @@
 ﻿using Mindscape.Raygun4Net;
 
-namespace raygun4maui
+namespace Mindscape.Raygun4Maui
 {
     // All the code in this file is included in all platforms.
     public class RaygunMauiClient

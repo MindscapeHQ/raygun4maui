@@ -1,7 +1,7 @@
 ﻿namespace Raygun4Maui.SampleApp;
 
 using Microsoft.Extensions.Configuration;
-using raygun4maui;
+using Mindscape.Raygun4Maui;
 
 public partial class MainPage : ContentPage
 {

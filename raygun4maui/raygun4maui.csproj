@@ -16,46 +16,77 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Version>0.0.2-alpha</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
 	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+	  <ApplicationDisplayVersion></ApplicationDisplayVersion>
+	  <ApplicationVersion></ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
 	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+	  <ApplicationDisplayVersion></ApplicationDisplayVersion>
+	  <ApplicationVersion></ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
 	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+	  <ApplicationDisplayVersion></ApplicationDisplayVersion>
+	  <ApplicationVersion></ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
 	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+	  <ApplicationDisplayVersion></ApplicationDisplayVersion>
+	  <ApplicationVersion></ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
 	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+	  <ApplicationDisplayVersion></ApplicationDisplayVersion>
+	  <ApplicationVersion></ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
 	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+	  <ApplicationDisplayVersion></ApplicationDisplayVersion>
+	  <ApplicationVersion></ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-maccatalyst|AnyCPU'">
 	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+	  <ApplicationDisplayVersion></ApplicationDisplayVersion>
+	  <ApplicationVersion></ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-maccatalyst|AnyCPU'">
 	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+	  <ApplicationDisplayVersion></ApplicationDisplayVersion>
+	  <ApplicationVersion></ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows10.0.19041.0|AnyCPU'">
 	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+	  <ApplicationDisplayVersion></ApplicationDisplayVersion>
+	  <ApplicationVersion></ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows10.0.19041.0|AnyCPU'">
 	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+	  <ApplicationDisplayVersion></ApplicationDisplayVersion>
+	  <ApplicationVersion></ApplicationVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
