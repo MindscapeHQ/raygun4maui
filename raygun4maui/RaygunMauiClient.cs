@@ -7,17 +7,26 @@ namespace Mindscape.Raygun4Maui
     {
         public RaygunMauiClient(string apiKey) : base(apiKey)
         {
-            this._raygunMauiClientInit();
+            this.RaygunMauiClientInit();
         }
 
         public RaygunMauiClient(RaygunSettingsBase settings) : base(settings)
         {
-            this._raygunMauiClientInit();
+            this.RaygunMauiClientInit();
         }
 
-        private void _raygunMauiClientInit()
+        private void RaygunMauiClientInit()
         {
+            AttachMauiExceptionHandler();
+        }
 
+        private void AttachMauiExceptionHandler()
+        {
+            MattJohnsonPint.Maui.MauiExceptions.UnhandledException += (sender, args) =>
+            {
+                Exception e = (Exception)args.ExceptionObject;
+                this.Send(e);
+            };
         }
     }
 }

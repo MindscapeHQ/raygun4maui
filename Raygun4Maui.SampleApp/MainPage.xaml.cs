@@ -47,12 +47,15 @@ public partial class MainPage : ContentPage
 
         TestManualExceptionsSent testManualExceptionsSent = new(_apiKey);
 
-        testManualExceptionsSent.runAllTests();
+        testManualExceptionsSent.RunAllTests();
     }
 
     private void OnUnhandledExceptionClicked(object sender, EventArgs e)
     {
         UnhandledExceptionButton.Text += ".";
+
+        TestUnhandledExceptionsSent testUnhandledExceptionsSent = new(_apiKey);
+        testUnhandledExceptionsSent.RunAllTests();
     }
 
     private void OnILoggerErrorClicked(object sender, EventArgs e)
