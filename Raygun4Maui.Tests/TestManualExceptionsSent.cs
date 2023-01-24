@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Mindscape.Raygun4Maui;
+using Mindscape.Raygun4Net;
 
 namespace Raygun4Maui.Tests
 {
@@ -35,6 +36,20 @@ namespace Raygun4Maui.Tests
         {
             RaygunMauiClient raygunMauiClient = new RaygunMauiClient(_apiKey);
             raygunMauiClient.SendInBackground(new Exception("raygun4mauiUnitTesting: SendInBackground " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"))).Wait();
+        }
+
+        [TestMethod]
+        public void TestCustomGrouping()
+        {
+            RaygunMauiClient raygunMauiClient = new RaygunMauiClient(_apiKey);
+            raygunMauiClient.CustomGroupingKey += _raygunClient_CustomGroupingKey;
+
+            raygunMauiClient.Send(new Exception("raygun4mauiUnitTesting: TestCustomGrouping " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")));
+            raygunMauiClient.Send(new Exception("raygun4mauiUnitTesting: TestCustomGrouping " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")));
+        }
+        private void _raygunClient_CustomGroupingKey(object? sender, RaygunCustomGroupingKeyEventArgs e)
+        {
+            e.CustomGroupingKey = "TestCustomGrouping";
         }
     }
 }
