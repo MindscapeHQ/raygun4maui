@@ -4,9 +4,6 @@ namespace Raygun4Maui.RaygunLogger
 {
     public sealed class RaygunLoggerConfiguration
     {
-        public Dictionary<LogLevel, RaygunLoggerSettings> LogLevelToRaygunSettings { get; set; } = new()
-        {
-            
-        };
+        public RaygunLoggerSettings RaygunLoggerSettings { get; set; }
     }
 }

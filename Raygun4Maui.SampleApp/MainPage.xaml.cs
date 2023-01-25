@@ -1,7 +1,8 @@
 ﻿namespace Raygun4Maui.SampleApp;
 
 using Microsoft.Extensions.Configuration;
-using Mindscape.Raygun4Maui;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 public partial class MainPage : ContentPage
 {
@@ -61,6 +62,13 @@ public partial class MainPage : ContentPage
     private void OnILoggerErrorClicked(object sender, EventArgs e)
     {
         ILoggerButton.Text += ".";
+
+        using IHost host = Host.CreateDefaultBuilder().Build();
+
+        var logger = host.Services.GetRequiredService<ILogger<MainPage>>();
+
+        TestLoggerErrorsSent testLoggerErrorsSent = new(_apiKey, logger);
+        testLoggerErrorsSent.RunAllTests();
     }
 }
 
