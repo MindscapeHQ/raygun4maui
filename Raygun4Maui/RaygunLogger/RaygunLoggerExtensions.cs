@@ -7,24 +7,29 @@ namespace Raygun4Maui.RaygunLogger
 {
     public static class RaygunLoggerExtensions
     {
-        public static ILoggingBuilder AddRaygunLogger(this ILoggingBuilder builder)
+        public static MauiAppBuilder AddRaygun4Maui(this MauiAppBuilder mauiAppBuilder)
         {
-            builder.AddConfiguration();
-
-            builder.Services.TryAddEnumerable(
+            /* 
+            //mauiAppbuilder.AddConfiguration();
+     
+            mauiAppBuilder.Services.TryAdd(
                 ServiceDescriptor.Singleton<ILoggerProvider, RaygunLoggerProvider>());
 
             LoggerProviderOptions.RegisterProviderOptions
-                <RaygunLoggerConfiguration, RaygunLoggerProvider>(builder.Services);
+                <RaygunLoggerConfiguration, RaygunLoggerProvider>(mauiAppBuilder.Services);
+            */
 
-            return builder;
+            mauiAppBuilder.Services.AddSingleton<RaygunLoggerProvider>();
+            mauiAppBuilder.Services.AddSingleton<MauiApp>();
+            
+            return mauiAppBuilder;
         }
 
-        public static ILoggingBuilder AddRaygunLogger(
-            this ILoggingBuilder builder,
+        public static MauiAppBuilder AddRaygun4Maui(
+            this MauiAppBuilder builder,
             Action<RaygunLoggerConfiguration> configure)
         {
-            builder.AddRaygunLogger();
+            builder.AddRaygun4Maui();
             builder.Services.Configure(configure);
 
             return builder;

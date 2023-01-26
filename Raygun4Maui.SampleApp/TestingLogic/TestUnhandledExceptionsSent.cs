@@ -1,11 +1,11 @@
 ﻿using Mindscape.Raygun4Maui;
 
-namespace Raygun4Maui.SampleApp
+namespace Raygun4Maui.SampleApp.TestingLogic
 {
     internal class TestUnhandledExceptionsSent
     {
         private readonly string _apiKey;
-        public TestUnhandledExceptionsSent(String apiKey)
+        public TestUnhandledExceptionsSent(string apiKey)
         {
             _apiKey = apiKey;
         }

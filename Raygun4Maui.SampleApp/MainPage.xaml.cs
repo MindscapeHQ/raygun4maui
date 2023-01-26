@@ -3,6 +3,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
+using Microsoft.Extensions.Options;
+using Raygun4Maui.RaygunLogger;
+using Raygun4Maui.SampleApp.TestingLogic;
 
 public partial class MainPage : ContentPage
 {
@@ -65,7 +69,7 @@ public partial class MainPage : ContentPage
 
         using IHost host = Host.CreateDefaultBuilder().Build();
 
-        var logger = host.Services.GetRequiredService<ILogger<MainPage>>();
+        var logger = host.Services.GetRequiredService<ILogger<MauiApp>>();
 
         TestLoggerErrorsSent testLoggerErrorsSent = new(_apiKey, logger);
         testLoggerErrorsSent.RunAllTests();

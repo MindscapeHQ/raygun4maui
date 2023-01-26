@@ -1,12 +1,12 @@
 ﻿using Mindscape.Raygun4Maui;
 using Mindscape.Raygun4Net;
 
-namespace Raygun4Maui.SampleApp
+namespace Raygun4Maui.SampleApp.TestingLogic
 {
     internal class TestManualExceptionsSent
     {
         private readonly string _apiKey;
-        public TestManualExceptionsSent(String apiKey)
+        public TestManualExceptionsSent(string apiKey)
         {
             _apiKey = apiKey;
         }

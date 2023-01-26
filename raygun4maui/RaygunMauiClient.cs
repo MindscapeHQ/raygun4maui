@@ -22,8 +22,6 @@ namespace Mindscape.Raygun4Maui
         private void RaygunMauiClientInit(string apiKey)
         {
             AttachMauiExceptionHandler();
-
-            AttachRaygunLogger(apiKey);
         }
 
         private void AttachMauiExceptionHandler()
@@ -33,21 +31,6 @@ namespace Mindscape.Raygun4Maui
                 Exception e = (Exception)args.ExceptionObject;
                 this.Send(e);
             };
-        }
-
-        private void AttachRaygunLogger(string apiKey)
-        {
-            using IHost host = Host.CreateDefaultBuilder()
-            .ConfigureLogging(builder =>
-                builder.AddRaygunLogger(configuration =>
-                    {
-                        configuration.RaygunLoggerSettings = new RaygunLoggerSettings
-                        {
-                            ApiKey = apiKey
-                        };
-                    }))
-                    .Build();
-
         }
     }
 }

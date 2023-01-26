@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls;
 using Mindscape.Raygun4Maui;
 
-namespace Raygun4Maui.SampleApp
+namespace Raygun4Maui.SampleApp.TestingLogic
 {
     internal class TestLoggerErrorsSent
     {
@@ -33,24 +33,24 @@ namespace Raygun4Maui.SampleApp
 
         private void TestLogDebug()
         {
-            _logger.LogTrace("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogDebug", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            _logger.LogDebug("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogDebug", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
 
         private void TestLogInformation()
         {
-            _logger.LogTrace("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogInformation", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            _logger.LogInformation("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogInformation", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
         private void TestLogWarning()
         {
-            _logger.LogTrace("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogWarning", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            _logger.LogWarning("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogWarning", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
         private void TestLogError()
         {
-            _logger.LogTrace("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogError", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            _logger.LogError("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogError", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
         private void TestLogCritical()
         {
-            _logger.LogTrace("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogCritical", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            _logger.LogCritical("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogCritical", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
     }
 }
