@@ -25,7 +25,7 @@ namespace Raygun4Maui.RaygunLogger
             RaygunClient raygunClient = RaygunClientFactory(_getCurrentConfig());
             raygunClient.SendInBackground(
                 exception,
-                _getCurrentConfig().SendDefaultTags ? new List<string>() { _name, logLevel.ToString()} : null,
+                _getCurrentConfig().SendDefaultTags ? new List<string>() {logLevel.ToString()} : null,
                 _getCurrentConfig().SendDefaultCustomData ? new Dictionary<string, object>() { {"logLevel", logLevel}, {"eventId", eventId}, { "state", state }, { "name", _name }, {"message", formatter(state, exception) } } : null
             );
         }
