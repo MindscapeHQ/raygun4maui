@@ -29,7 +29,7 @@ namespace Mindscape.Raygun4Maui
             MauiExceptions.UnhandledException += (sender, args) =>
             {
                 Exception e = (Exception)args.ExceptionObject;
-                this.Send(e);
+                this.Send(e, new List<string>() { "UnhandledException" }, null);
             };
         }
     }
