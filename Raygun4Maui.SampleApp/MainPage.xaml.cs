@@ -14,7 +14,7 @@ public partial class MainPage : ContentPage
 
     private readonly String _apiKey;
 
-	public MainPage()
+    public MainPage()
 	{
 		InitializeComponent();
 
@@ -67,11 +67,11 @@ public partial class MainPage : ContentPage
     {
         ILoggerButton.Text += ".";
 
-        using IHost host = Host.CreateDefaultBuilder().Build();
+        //  using IHost host = Host.CreateDefaultBuilder().Build();
 
-        var logger = host.Services.GetRequiredService<ILogger<MauiApp>>();
+        // var logger = host.Services.GetRequiredService<ILogger<MauiApp>>();
 
-        TestLoggerErrorsSent testLoggerErrorsSent = new(_apiKey, logger);
+        TestLoggerErrorsSent testLoggerErrorsSent = new(_apiKey, Handler.MauiContext.Services.GetService<ILogger<MainPage>>());
         testLoggerErrorsSent.RunAllTests();
     }
 }

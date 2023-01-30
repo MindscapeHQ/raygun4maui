@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Logging.Configuration;
+using Mindscape.Raygun4Net;
 
 namespace Raygun4Maui.RaygunLogger
 {
@@ -10,20 +11,11 @@ namespace Raygun4Maui.RaygunLogger
     {
         public static MauiAppBuilder AddRaygun4Maui(this MauiAppBuilder mauiAppBuilder)
         {
-             
-            //mauiAppbuilder.AddConfiguration();
-     
-            mauiAppBuilder.Services.TryAdd(ServiceDescriptor.Singleton<ILoggerProvider, RaygunLoggerProvider>());
-            mauiAppBuilder.Services.TryAdd(ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(RaygunLoggerProvider)));
 
-            LoggerProviderOptions.RegisterProviderOptions
-                <RaygunLoggerConfiguration, RaygunLoggerProvider>(mauiAppBuilder.Services);
-            
-            /*
-            mauiAppBuilder.Services.AddSingleton<RaygunLoggerProvider>();
-            mauiAppBuilder.Services.AddSingleton<MauiApp>();
-            */
-            
+            mauiAppBuilder.Services.AddOptions<RaygunLoggerConfiguration>().BindConfiguration(nameof(RaygunLoggerConfiguration));
+
+            mauiAppBuilder.Logging.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, RaygunLoggerProvider>());
+
             return mauiAppBuilder;
         }
 

@@ -11,6 +11,7 @@ namespace Raygun4Maui.RaygunLogger
         public RaygunLogger(string name, Func<RaygunLoggerConfiguration> getCurrentConfig) =>
             (_name, _getCurrentConfig) = (name, getCurrentConfig);
 
+        //TODO: Get from https://github.com/MindscapeHQ/serilog-sinks-raygun/blob/dev/src/Serilog.Sinks.Raygun/Sinks/Raygun/RaygunSink.cs
         public IDisposable BeginScope<TState>(TState state) where TState : notnull => default!;
 
         public bool IsEnabled(LogLevel logLevel) => (logLevel >= _getCurrentConfig().MinLogLevel && logLevel <= _getCurrentConfig().MaxLogLevel);
@@ -24,7 +25,7 @@ namespace Raygun4Maui.RaygunLogger
 
             RaygunClient raygunClient = RaygunClientFactory(_getCurrentConfig());
             raygunClient.SendInBackground(
-                exception,
+                new Exception(formatter(state, exception)),
                 _getCurrentConfig().SendDefaultTags ? new List<string>() {logLevel.ToString()} : null,
                 _getCurrentConfig().SendDefaultCustomData ? new Dictionary<string, object>() { {"logLevel", logLevel}, {"eventId", eventId}, { "state", state }, { "name", _name }, {"message", formatter(state, exception) } } : null
             );
