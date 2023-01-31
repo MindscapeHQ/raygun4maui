@@ -4,15 +4,8 @@ namespace Raygun4Maui.SampleApp.TestingLogic
 {
     internal class TestUnhandledExceptionsSent
     {
-        private readonly string _apiKey;
-        public TestUnhandledExceptionsSent(string apiKey)
+        public static void RunAllTests()
         {
-            _apiKey = apiKey;
-        }
-
-        public void RunAllTests()
-        {
-            RaygunMauiClient raygunMauiClient = new(_apiKey);
             TestThrowUnhandledException();
         }
 

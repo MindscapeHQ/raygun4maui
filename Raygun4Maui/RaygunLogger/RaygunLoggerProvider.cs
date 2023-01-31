@@ -4,28 +4,22 @@ using System.Collections.Concurrent;
 
 namespace Raygun4Maui.RaygunLogger
 {
-    [ProviderAlias("Raygun")]
     public sealed class RaygunLoggerProvider : ILoggerProvider
     {
-        private readonly IDisposable _onChangeToken;
-        private RaygunLoggerConfiguration _currentConfig;
+        private RaygunLoggerConfiguration _raygunLoggerConfiguration;
         private readonly ConcurrentDictionary<string, RaygunLogger> _loggers = new(StringComparer.OrdinalIgnoreCase);
 
-        public RaygunLoggerProvider(IOptionsMonitor<RaygunLoggerConfiguration> config)
+        public RaygunLoggerProvider(RaygunLoggerConfiguration raygunLoggerConfiguration)
         {
-            _currentConfig = config.CurrentValue;
-            _onChangeToken = config.OnChange(updatedConfig => _currentConfig = updatedConfig);
+            _raygunLoggerConfiguration = raygunLoggerConfiguration;
         }
 
         public ILogger CreateLogger(string categoryName) =>
-            _loggers.GetOrAdd(categoryName, name => new RaygunLogger(name, GetCurrentConfig));
-
-        private RaygunLoggerConfiguration GetCurrentConfig() => _currentConfig;
+            _loggers.GetOrAdd(categoryName, name => new RaygunLogger(name, _raygunLoggerConfiguration));
 
         public void Dispose()
         {
             _loggers.Clear();
-            _onChangeToken?.Dispose();
         }
     }
 }

@@ -59,19 +59,16 @@ public partial class MainPage : ContentPage
     {
         UnhandledExceptionButton.Text += ".";
 
-        TestUnhandledExceptionsSent testUnhandledExceptionsSent = new(_apiKey);
-        testUnhandledExceptionsSent.RunAllTests();
+        TestUnhandledExceptionsSent.RunAllTests();
     }
 
     private void OnILoggerErrorClicked(object sender, EventArgs e)
     {
         ILoggerButton.Text += ".";
 
-        //  using IHost host = Host.CreateDefaultBuilder().Build();
+        ILogger logger = Handler.MauiContext.Services.GetService<ILogger<MainPage>>();
 
-        // var logger = host.Services.GetRequiredService<ILogger<MauiApp>>();
-
-        TestLoggerErrorsSent testLoggerErrorsSent = new(_apiKey, Handler.MauiContext.Services.GetService<ILogger<MainPage>>());
+        TestLoggerErrorsSent testLoggerErrorsSent = new(_apiKey, logger);
         testLoggerErrorsSent.RunAllTests();
     }
 }

@@ -1,10 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
-using Microsoft.Maui.Hosting;
 using Mindscape.Raygun4Maui;
-using Mindscape.Raygun4Net;
-using Raygun4Maui.RaygunLogger;
 
 namespace Raygun4Maui.SampleApp;
 
@@ -19,7 +14,7 @@ public static class MauiProgram
         string apiKey = configuration["apiKey"] ?? "";
 
         var builder = MauiApp.CreateBuilder();
-        builder.Configuration.AddUserSecrets<MainPage>();
+        //builder.Configuration.AddUserSecrets<MainPage>();
 
         builder
             .UseMauiApp<App>()
@@ -27,7 +22,7 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            }).AddRaygun4Maui();
+            }).AddRaygun4Maui(apiKey) ;
 
         return builder.Build();
 	}
