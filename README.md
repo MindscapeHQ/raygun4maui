@@ -3,7 +3,7 @@
 
 Coming soon! [Raygun](http://raygun.com) under-construction provider for .NET MAUI
 
-! IMPORTANT: THIS PROVIDER IS UNDER DEVELOPMENT AND NOT READY GENERAL USAGE !
+! IMPORTANT: THIS PROVIDER IS UNDER DEVELOPMENT AND NOT READY FOR GENERAL USAGE !
 ====================
 
 Build Local Nuget
