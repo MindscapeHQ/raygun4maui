@@ -56,21 +56,18 @@ ILogger logger = Handler.MauiContext.Services.GetService<ILogger<MainPage>>();
 logger.LogInformation("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogInformation", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
 logger.LogCritical("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogCritical", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
 ```
-* To send an explicit exception/message to Raygun:
-* Create a new RaygunMauiClient instance, which inherits RaygunClient from Raygun4Net:
+* You can also manually catch-and-log an exception as follows:
 ```
-RaygunMauiClient raygunMauiClient = new RaygunMauiClient("YOUR_APP_API_KEY");
-```
-* Invoke the new client's Send, SendInBackground, etc., methods, as described in Raygun4Net:
-```
-try{
-    ...
-}
-catch (Exception exception)
+try
 {
-    raygunMauiClient.Send(exception);
+    //Code that throws exception
+}
+catch (Exception e)
+{
+    _logger.Log(LogLevel.Error, e, "Exception caught at {Timestamp}", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
 }
 ```
+* If you require more fine-grain control on sending messages to Raygun, you can create a `RaygunClient` instance from the package `Mindscape.Raygun4Net`, which is already wrapped in this module, and then invoke the new client's Send, SendInBackground, etc., methods, as described in Raygun4Net.
 
 Configuration
 ====================
@@ -99,8 +96,4 @@ RaygunMauiSettings raygunMauiSettings = new RaygunMauiSettings(){
             .UseMauiApp<App>()
             ...
             .AddRaygun4Maui(raygunMauiSettings);
-```
-* To configure a RaygunMauiClient:
-```
-RaygunMauiClient raygunMauiClient = new RaygunMauiClient(raygunMauiSettings);
 ```
