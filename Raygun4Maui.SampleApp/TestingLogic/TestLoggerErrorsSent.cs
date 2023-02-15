@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls;
-using Mindscape.Raygun4Maui;
+using Raygun4Maui;
 
 namespace Raygun4Maui.SampleApp.TestingLogic
 {
@@ -11,7 +11,6 @@ namespace Raygun4Maui.SampleApp.TestingLogic
 
         public TestLoggerErrorsSent(string apiKey, ILogger logger)
         {
-            _ = new RaygunMauiClient(apiKey);
             _logger = logger;
         }
 

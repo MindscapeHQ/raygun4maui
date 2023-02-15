@@ -5,7 +5,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
-using Raygun4Maui.RaygunLogger;
 using Raygun4Maui.SampleApp.TestingLogic;
 
 public partial class MainPage : ContentPage

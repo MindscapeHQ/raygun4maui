@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Mindscape.Raygun4Maui;
+using Raygun4Maui;
 
 namespace Raygun4Maui.SampleApp;
 

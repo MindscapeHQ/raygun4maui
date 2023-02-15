@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
 
-namespace Raygun4Maui.RaygunLogger
+namespace Raygun4Net.RaygunLogger
 {
     public sealed class RaygunLoggerProvider : ILoggerProvider
     {

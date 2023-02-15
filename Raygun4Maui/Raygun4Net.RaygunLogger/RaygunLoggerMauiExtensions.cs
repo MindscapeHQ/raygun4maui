@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
-namespace Raygun4Maui.RaygunLogger
+namespace Raygun4Net.RaygunLogger
 {
     public static class RaygunLoggerMauiExtensions
     {

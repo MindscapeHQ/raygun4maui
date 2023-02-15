@@ -1,13 +1,13 @@
 ﻿using Raygun4Maui.MauiUnhandledExceptions;
-using Raygun4Maui.RaygunLogger;
+using Raygun4Net.RaygunLogger;
 
-namespace Mindscape.Raygun4Maui
+namespace Raygun4Maui
 {
-    public static class RaygunMauiExtensions
+    public static class Raygun4MauiExtensions
     {
         public static MauiAppBuilder AddRaygun4Maui(
             this MauiAppBuilder mauiAppBuilder,
-            RaygunMauiSettings raygunMauiSettings)
+            Raygun4MauiSettings raygunMauiSettings)
         {
             return mauiAppBuilder
                 .AddRaygunUnhandledExceptionsListener(raygunMauiSettings)
@@ -19,7 +19,7 @@ namespace Mindscape.Raygun4Maui
             string apiKey
             )
         {
-            return mauiAppBuilder.AddRaygun4Maui(new RaygunMauiSettings() { ApiKey = apiKey});
+            return mauiAppBuilder.AddRaygun4Maui(new Raygun4MauiSettings() { ApiKey = apiKey });
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Mindscape.Raygun4Maui;
-using Mindscape.Raygun4Net;
+﻿using Mindscape.Raygun4Net;
 
 namespace Raygun4Maui.SampleApp.TestingLogic
 {
@@ -29,23 +28,23 @@ namespace Raygun4Maui.SampleApp.TestingLogic
 
         private void TestSend()
         {
-            RaygunMauiClient raygunMauiClient = new(_apiKey);
-            raygunMauiClient.Send(GenerateException("TestSend"));
+            RaygunClient raygunClient = new(_apiKey);
+            raygunClient.Send(GenerateException("TestSend"));
         }
 
         private void TestSendInBackground()
         {
-            RaygunMauiClient raygunMauiClient = new(_apiKey);
-            raygunMauiClient.SendInBackground(GenerateException("TestSendInBackground")).Wait();
+            RaygunClient raygunClient = new(_apiKey);
+            raygunClient.SendInBackground(GenerateException("TestSendInBackground")).Wait();
         }
 
         private void TestCustomGrouping()
         {
-            RaygunMauiClient raygunMauiClient = new(_apiKey);
-            raygunMauiClient.CustomGroupingKey += RaygunClient_CustomGroupingKey;
+            RaygunClient raygunClient = new(_apiKey);
+            raygunClient.CustomGroupingKey += RaygunClient_CustomGroupingKey;
 
-            raygunMauiClient.Send(GenerateException("TestCustomGrouping"));
-            raygunMauiClient.Send(GenerateException("TestCustomGrouping"));
+            raygunClient.Send(GenerateException("TestCustomGrouping"));
+            raygunClient.Send(GenerateException("TestCustomGrouping"));
         }
         private static void RaygunClient_CustomGroupingKey(object sender, RaygunCustomGroupingKeyEventArgs e)
         {
@@ -54,40 +53,40 @@ namespace Raygun4Maui.SampleApp.TestingLogic
 
         private void TestUniqueUserTracking()
         {
-            RaygunMauiClient raygunMauiClient = new(_apiKey);
-            raygunMauiClient.User = "user1@email.com";
-            raygunMauiClient.Send(GenerateException("TestUniqueUserTracking"));
+            RaygunClient raygunClient = new(_apiKey);
+            raygunClient.User = "user1@email.com";
+            raygunClient.Send(GenerateException("TestUniqueUserTracking"));
 
-            raygunMauiClient.UserInfo = new RaygunIdentifierMessage("user2@email.com")
+            raygunClient.UserInfo = new RaygunIdentifierMessage("user2@email.com")
             {
                 IsAnonymous = false,
                 FullName = "Robbie Robot",
                 FirstName = "Robbie"
             };
-            raygunMauiClient.Send(GenerateException("TestUniqueUserTracking"));
+            raygunClient.Send(GenerateException("TestUniqueUserTracking"));
 
-            raygunMauiClient.SendInBackground(GenerateException("TestUniqueUserTracking"), null, null, new RaygunIdentifierMessage("user3@email.com") { IsAnonymous = false, FullName = "Robbie Robot", FirstName = "Robbie" });
+            raygunClient.SendInBackground(GenerateException("TestUniqueUserTracking"), null, null, new RaygunIdentifierMessage("user3@email.com") { IsAnonymous = false, FullName = "Robbie Robot", FirstName = "Robbie" });
         }
 
         private void TestTags()
         {
-            RaygunMauiClient raygunMauiClient = new(_apiKey);
+            RaygunClient raygunClient = new(_apiKey);
 
-            raygunMauiClient.Send(GenerateException("TestTags"), new List<string>() { "tag1", "tag2" });
+            raygunClient.Send(GenerateException("TestTags"), new List<string>() { "tag1", "tag2" });
         }
 
         private void TestCustomData()
         {
-            RaygunMauiClient raygunMauiClient = new(_apiKey);
+            RaygunClient raygunClient = new(_apiKey);
 
-            raygunMauiClient.Send(GenerateException("TestCustomData"), null, new Dictionary<string, object>() { { "key", "value" } });
+            raygunClient.Send(GenerateException("TestCustomData"), null, new Dictionary<string, object>() { { "key", "value" } });
         }
 
         private void TestVersionNumbering()
         {
-            RaygunMauiClient raygunMauiClient = new(_apiKey);
-            raygunMauiClient.ApplicationVersion = "TestVersionNumbering";
-            raygunMauiClient.Send(GenerateException("TestVersionNumbering"));
+            RaygunClient raygunClient = new(_apiKey);
+            raygunClient.ApplicationVersion = "TestVersionNumbering";
+            raygunClient.Send(GenerateException("TestVersionNumbering"));
         }
     }
 }

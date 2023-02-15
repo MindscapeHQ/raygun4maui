@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mindscape.Raygun4Maui;
 using Mindscape.Raygun4Net;
+using Raygun4Net.BuildPlatforms;
 
-namespace Raygun4Maui.RaygunLogger
+namespace Raygun4Net.RaygunLogger
 {
     public sealed class RaygunLogger : ILogger
     {
@@ -27,7 +27,7 @@ namespace Raygun4Maui.RaygunLogger
             RaygunClient raygunClient = RaygunClientFactory(_raygunLoggerConfiguration);
             raygunClient.SendInBackground(
                 new Exception(formatter(state, exception)),
-                _raygunLoggerConfiguration.SendDefaultTags ? new List<string>() {logLevel.ToString(), RaygunMauiClient.GetBuildPlatform()} : null,
+                _raygunLoggerConfiguration.SendDefaultTags ? new List<string>() {logLevel.ToString(), Raygun4NetBuildPlatforms.GetBuildPlatform()} : null,
                 _raygunLoggerConfiguration.SendDefaultCustomData ? new Dictionary<string, object>() { {"logLevel", logLevel}, {"eventId", eventId}, { "state", state }, { "name", _name }, {"message", formatter(state, exception) } } : null
             );
         }

@@ -1,5 +1,7 @@
-﻿using Mindscape.Raygun4Maui;
+﻿using Mindscape.Raygun4Net;
 using Raygun4Maui.MattJohnsonPint.Maui;
+using Raygun4Maui;
+using Raygun4Net.BuildPlatforms;
 
 namespace Raygun4Maui.MauiUnhandledExceptions
 {
@@ -7,7 +9,7 @@ namespace Raygun4Maui.MauiUnhandledExceptions
     {
         internal static MauiAppBuilder AddRaygunUnhandledExceptionsListener(
             this MauiAppBuilder mauiAppBuilder,
-            RaygunMauiSettings raygunMauiSettings
+            Raygun4MauiSettings raygunMauiSettings
             )
         {
             AttachMauiExceptionHandler(raygunMauiSettings);
@@ -15,7 +17,7 @@ namespace Raygun4Maui.MauiUnhandledExceptions
             return mauiAppBuilder;
         }
 
-        private static void AttachMauiExceptionHandler(RaygunMauiSettings raygunMauiSettings)
+        private static void AttachMauiExceptionHandler(Raygun4MauiSettings raygunMauiSettings)
         {
             MauiExceptions.UnhandledException += (sender, args) =>
             {
@@ -24,10 +26,10 @@ namespace Raygun4Maui.MauiUnhandledExceptions
 
                 if (raygunMauiSettings.SendDefaultTags)
                 {
-                    tags.Add(RaygunMauiClient.GetBuildPlatform());
+                    tags.Add(Raygun4NetBuildPlatforms.GetBuildPlatform());
                 }
 
-                (new RaygunMauiClient(raygunMauiSettings)).Send(e, tags, null);
+                (new RaygunClient(raygunMauiSettings)).Send(e, tags, null);
             };
         }
     }
