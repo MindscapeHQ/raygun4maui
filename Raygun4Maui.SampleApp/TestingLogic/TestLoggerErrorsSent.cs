@@ -22,6 +22,7 @@ namespace Raygun4Maui.SampleApp.TestingLogic
             TestLogWarning();
             TestLogError();
             TestLogCritical();
+            TestLogException();
         }
 
         private void TestLogTrace()
@@ -50,6 +51,23 @@ namespace Raygun4Maui.SampleApp.TestingLogic
         private void TestLogCritical()
         {
             _logger.LogCritical("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogCritical", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+        }
+        private void TestLogException()
+        {
+            try
+            {
+                TestLofExceptionInnerMethod();
+            }
+            catch (Exception e)
+            {
+                _logger.Log(LogLevel.Error, e, "TestLogException exception caught at {Timestamp}", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            }
+
+        }
+
+        private static void TestLofExceptionInnerMethod()
+        {
+            throw new Exception("Raygun4Maui.SampleApp.TestLofExceptionInnerMethod");
         }
     }
 }
