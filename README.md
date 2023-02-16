@@ -1,10 +1,10 @@
 # Raygun4Maui
-==========
 
-Coming soon! [Raygun](http://raygun.com) under-construction provider for .NET MAUI
+Version: 1.0.0
 
-! IMPORTANT: THIS PROVIDER IS UNDER DEVELOPMENT AND NOT READY FOR GENERAL USAGE !
-====================
+Raygun's Crash Reporting provider for (a) unhandled exceptions and (b) ILogger logging.
+
+Tested on Windows only.
 
 Build Local Nuget
 ====================
@@ -37,6 +37,10 @@ Updating Local Nuget
 
 Usage
 ====================
+* Import the module by:
+```
+using Raygun4Maui;
+```
 * To activate (a) unhandled exceptions being sent to Raygun and (b) logging, you need to add raygun4maui to your MauiApp builder. To do so, open you main MauiProgram class (MauiProgram.cs) and change the CreateMauiApp method by adding the AddRaygun4Maui extension method:
 ```
         var builder = MauiApp.CreateBuilder();
@@ -64,6 +68,7 @@ try
 }
 catch (Exception e)
 {
+    //Example ILogger call. You can use the ILogger method and arguments of your choice.
     _logger.Log(LogLevel.Error, e, "Exception caught at {Timestamp}", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
 }
 ```
