@@ -16,7 +16,7 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>1.0.0-rc</Version>
+		<Version>1.0.0-rc1</Version>
 		<Authors>Raygun</Authors>
 		<Company>Raygun</Company>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -103,7 +103,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\..\raygun4xamarin\README.md">
+	  <None Include="..\README.md">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
