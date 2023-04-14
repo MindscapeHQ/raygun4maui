@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mindscape.Raygun4Net;
 using Raygun4Net.BuildPlatforms;
+using Raygun4Maui;
 
 namespace Raygun4Net.RaygunLogger
 {
@@ -24,8 +25,8 @@ namespace Raygun4Net.RaygunLogger
                 return;
             }
 
-            RaygunClient raygunClient = RaygunClientFactory(_raygunLoggerConfiguration);
-            raygunClient.SendInBackground(
+            //RaygunClient raygunClient = RaygunClientFactory(_raygunLoggerConfiguration);
+            RaygunMauiClient.current.SendInBackground(
                 new Exception(formatter(state, exception)),
                 _raygunLoggerConfiguration.SendDefaultTags ? new List<string>() {logLevel.ToString(), Raygun4NetBuildPlatforms.GetBuildPlatform()} : null,
                 _raygunLoggerConfiguration.SendDefaultCustomData ? new Dictionary<string, object>() { {"logLevel", logLevel}, {"eventId", eventId}, { "state", state }, { "name", _name }, {"message", formatter(state, exception) } } : null
