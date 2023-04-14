@@ -1,4 +1,5 @@
-﻿using Raygun4Maui.MauiUnhandledExceptions;
+﻿using Mindscape.Raygun4Net;
+using Raygun4Maui.MauiUnhandledExceptions;
 using Raygun4Net.RaygunLogger;
 
 namespace Raygun4Maui
@@ -9,6 +10,7 @@ namespace Raygun4Maui
             this MauiAppBuilder mauiAppBuilder,
             Raygun4MauiSettings raygunMauiSettings)
         {
+            RaygunMauiClient.Init(new RaygunClient(raygunMauiSettings));
             return mauiAppBuilder
                 .AddRaygunUnhandledExceptionsListener(raygunMauiSettings)
                 .AddRaygunLogger(raygunMauiSettings);
