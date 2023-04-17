@@ -6,9 +6,9 @@ namespace Raygun4Maui
     {
         private static RaygunClient _instance;
 
-        public static RaygunClient current => _instance;
+        public static RaygunClient Current => _instance;
 
-        public static void Init(RaygunClient client)
+        public static void Attach(RaygunClient client)
         {
             if (_instance != null)
             {
@@ -17,6 +17,6 @@ namespace Raygun4Maui
             }
 
             _instance = client;
-        }
+        } 
     }
 }
