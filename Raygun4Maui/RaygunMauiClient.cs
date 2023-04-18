@@ -15,7 +15,7 @@ namespace Raygun4Maui
                 //Throwing an exception is probably not the best way to handle this?
                 throw new Exception("RaygunMauiClient already initialized");
             }
-
+          
             _instance = client;
         } 
     }

@@ -24,9 +24,8 @@ namespace Raygun4Net.RaygunLogger
             {
                 return;
             }
-
-            //RaygunClient raygunClient = RaygunClientFactory(_raygunLoggerConfiguration);
-            RaygunMauiClient.current.SendInBackground(
+            
+            RaygunMauiClient.Current.SendInBackground(
                 new Exception(formatter(state, exception)),
                 _raygunLoggerConfiguration.SendDefaultTags ? new List<string>() {logLevel.ToString(), Raygun4NetBuildPlatforms.GetBuildPlatform()} : null,
                 _raygunLoggerConfiguration.SendDefaultCustomData ? new Dictionary<string, object>() { {"logLevel", logLevel}, {"eventId", eventId}, { "state", state }, { "name", _name }, {"message", formatter(state, exception) } } : null
