@@ -31,9 +31,5 @@ namespace Raygun4Net.RaygunLogger
                 _raygunLoggerConfiguration.SendDefaultCustomData ? new Dictionary<string, object>() { {"logLevel", logLevel}, {"eventId", eventId}, { "state", state }, { "name", _name }, {"message", formatter(state, exception) } } : null
             );
         }
-
-        private static RaygunClient RaygunClientFactory(RaygunSettingsBase raygunSettingsBase) =>
-            new(raygunSettingsBase);
-
     }
 }

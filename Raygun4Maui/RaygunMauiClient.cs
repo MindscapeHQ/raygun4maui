@@ -1,3 +1,4 @@
+
 using Mindscape.Raygun4Net;
 
 namespace Raygun4Maui
@@ -17,6 +18,12 @@ namespace Raygun4Maui
             }
           
             _instance = client;
+            client.SendingMessage += OnSendingMessage;
+        } 
+
+        private static void OnSendingMessage(object sender, RaygunSendingMessageEventArgs e)
+        {
+            e.Message.Details.MachineName = DeviceInfo.Current.Name;
         } 
     }
-}
+} 
