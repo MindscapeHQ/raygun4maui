@@ -43,7 +43,7 @@ The `AddRaygun4Maui` extension method and the `RaygunMauiClient` constructor bot
 - `SendDefaultCustomData` (defaulted to `true`) which adds all available information in the uncaught exception's callback as custom data on the crash report sent to Raygun.
 - `MinLogLevel` and `MaxLogLevel` which specifies the range of logging levels to be sent to Raygun.
 
-To use these additional configurations, create and initialize a new `RaygunMauiSettings` object as followe:
+To use these additional configurations, create and initialize a new `RaygunMauiSettings` object as followed:
 
 ```
 Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
@@ -55,7 +55,7 @@ Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
 };
 ```
 
-Then add Raygun4Maui to your MauiApp builder This time, passing in the `RaygunMauiSettings` object instead of the API key directly:
+Then add Raygun4Maui to your MauiApp builder. This time, passing in the `RaygunMauiSettings` object instead of the API key directly:
 
 ```
 builder
