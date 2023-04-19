@@ -28,7 +28,7 @@ namespace Raygun4Maui
             e.Message.Details.MachineName = DeviceInfo.Current.Name;
             //set the libary information, without this it will show as a .NET client
             e.Message.Details.Client.Name = "Raygun4Maui";
-            e.Message.Details.Client.Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            e.Message.Details.Client.Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(); //reflection might not be a good idea
             e.Message.Details.Client.ClientUrl = "https://github.com/MindscapeHQ/raygun4maui";
         } 
     }

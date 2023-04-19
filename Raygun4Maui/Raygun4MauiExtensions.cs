@@ -23,7 +23,7 @@ namespace Raygun4Maui
         {
             return mauiAppBuilder.AddRaygun4Maui(new Raygun4MauiSettings() { ApiKey = apiKey });
         }
-        public static MauiAppBuilder addRaygun4Maui(
+       /* public static MauiAppBuilder addRaygun4Maui(
             this MauiAppBuilder mauiAppBuilder,
             RaygunClient raygunClient,
             Raygun4MauiSettings raygunMauiSettings
@@ -35,5 +35,6 @@ namespace Raygun4Maui
                 .AddRaygunUnhandledExceptionsListener(raygunMauiSettings)
                 .AddRaygunLogger(raygunMauiSettings);
         }
+        */
     }
 }
