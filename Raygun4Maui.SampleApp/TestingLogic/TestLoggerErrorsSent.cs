@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls;
 using Raygun4Maui;
 
+
 namespace Raygun4Maui.SampleApp.TestingLogic
 {
     internal class TestLoggerErrorsSent
