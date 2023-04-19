@@ -1,4 +1,5 @@
 
+using System.Reflection;
 using Mindscape.Raygun4Net;
 
 namespace Raygun4Maui
@@ -23,7 +24,12 @@ namespace Raygun4Maui
 
         private static void OnSendingMessage(object sender, RaygunSendingMessageEventArgs e)
         {
+            //set the machine name to the device name, this is important for mobile
             e.Message.Details.MachineName = DeviceInfo.Current.Name;
+            //set the libary information, without this it will show as a .NET client
+            e.Message.Details.Client.Name = "Raygun4Maui";
+            e.Message.Details.Client.Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            e.Message.Details.Client.ClientUrl = "https://github.com/MindscapeHQ/raygun4maui";
         } 
     }
 } 
