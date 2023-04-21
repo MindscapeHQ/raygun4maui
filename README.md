@@ -5,6 +5,8 @@ Raygun's Crash Reporting provider for .NET MAUI
 ## Version 1.1.0
 This provider currently supports all Crash Reporting features that are supported by [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/) as well as ILogger logging. 
 
+**Currently this package has only been tested on Windows, iOS, and Android. MacOS may produce unexpected behavior. If you have any questions or concerns, please [contact support](https://raygun.com/about/contact) for additional assitance.**
+
 ---
 
 ## Installation
