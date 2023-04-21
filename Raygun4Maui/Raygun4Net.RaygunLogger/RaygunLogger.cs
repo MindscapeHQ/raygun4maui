@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mindscape.Raygun4Net;
 using Raygun4Net.BuildPlatforms;
 using Raygun4Maui;
 

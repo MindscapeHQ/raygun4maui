@@ -1,6 +1,4 @@
-﻿using Mindscape.Raygun4Net;
-using Raygun4Maui.MattJohnsonPint.Maui;
-using Raygun4Maui;
+﻿using Raygun4Maui.MattJohnsonPint.Maui;
 using Raygun4Net.BuildPlatforms;
 
 namespace Raygun4Maui.MauiUnhandledExceptions
@@ -28,7 +26,6 @@ namespace Raygun4Maui.MauiUnhandledExceptions
                 {
                     tags.Add(Raygun4NetBuildPlatforms.GetBuildPlatform());
                 }
-                //(new RaygunClient(raygunMauiSettings)).Send(e, tags, null);
                 RaygunMauiClient.Current.Send(e, tags, null);
             };
         }
