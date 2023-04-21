@@ -15,19 +15,12 @@ namespace Raygun4Maui
         private static readonly string clientUrl = "https://github.com/MindscapeHQ/raygun4maui";
 
         public static RaygunClient Current => _instance;
-        
-        static RaygunMauiClient() {
-            clientName = "Raygun4Maui";
-            clientVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            clientUrl = "https://github.com/MindscapeHQ/raygun4maui";
-        }
 
         internal static void Attach(RaygunClient client)
         {
             if (_instance != null)
             {
-                //Throwing an exception is probably not the best way to handle this?
-                throw new Exception("RaygunMauiClient already initialized");
+                throw new Exception("You should only call 'AddRaygun4maui' once in your app.");
             }
           
             _instance = client;
