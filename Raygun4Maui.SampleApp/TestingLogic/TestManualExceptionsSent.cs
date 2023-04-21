@@ -28,19 +28,16 @@ namespace Raygun4Maui.SampleApp.TestingLogic
 
         private void TestSend()
         {
-
             RaygunMauiClient.Current.Send(GenerateException("TestSend"));
         }
 
         private void TestSendInBackground()
         {
-
             RaygunMauiClient.Current.SendInBackground(GenerateException("TestSendInBackground")).Wait();
         }
 
         private void TestCustomGrouping()
         {
-
             RaygunMauiClient.Current.CustomGroupingKey += RaygunClient_CustomGroupingKey;
 
             RaygunMauiClient.Current.Send(GenerateException("TestCustomGrouping"));
@@ -53,7 +50,6 @@ namespace Raygun4Maui.SampleApp.TestingLogic
 
         private void TestUniqueUserTracking()
         {
-
             RaygunMauiClient.Current.User = "user1@email.com";
             RaygunMauiClient.Current.Send(GenerateException("TestUniqueUserTracking"));
 
