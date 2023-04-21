@@ -3,7 +3,7 @@
 Raygun's Crash Reporting provider for .NET MAUI
 
 ## Version 1.1.0
-This provider currently supports all Crash Reporting features that are supported by [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/) aswell as ILogger logging. 
+This provider currently supports all Crash Reporting features that are supported by [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/) as well as ILogger logging. 
 
 ---
 
@@ -21,7 +21,7 @@ To install the latest version:
 dotnet add package Raygun4Maui
 ```
 
-Alternitvely you can specify a version tag to install a specific version of the package, see [Raygun4Maui NuGet Gallery page](https://nuget.org/packages/Raygun4Maui) for information of versions. 
+Alternatively you can specify a version tag to install a specific version of the package, see [Raygun4Maui NuGet Gallery page](https://nuget.org/packages/Raygun4Maui) for information of versions. 
 ```
 dotnet add package Raygun4Maui --version 1.0.0
 ```
@@ -66,7 +66,7 @@ Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
 };
 ```
 
-Then add Raygun4Maui to your MauiApp builder, this time passing in the `RaygunMauiSettings` object instead of the API key directly:
+Then add Raygun4Maui to your MauiApp builder. This time, passing in the `RaygunMauiSettings` object instead of the API key directly:
 
 ``` c#
 builder
@@ -81,12 +81,12 @@ builder
 
 Unhandled exceptions will be sent to Raygun automatically.
 
-Raygun4Maui stores a instance of a Raygun4net RaygunClient object, this can be accessed through the following code:
+Raygun4Maui stores a instance of a Raygun4Net RaygunClient object, this can be accessed through the following code:
 ``` c#
 RaygunMauiClient.Current
 ```
 
-Any features supported by the Raygun4net Client are accessible here
+Any features supported by the Raygun4Net Client are accessible here
 
 ---
 
@@ -124,7 +124,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.AddRaygun4Maui('API_KEY');
+			.AddRaygun4Maui("API_KEY");
 
         RaygunMauiClient.Current.SendingMessage += OnSendingMessage;
 
@@ -162,7 +162,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.AddRaygun4Maui('API_KEy');
+			.AddRaygun4Maui("API_KEY");
 
         RaygunMauiClient.Current.CustomGroupingKey += CustomGroupingKey;
 
@@ -191,13 +191,13 @@ At minimum, provide a unique guid to see the number of affected users. You could
 There are several ways to provide user information. One simple method is to set the User property of the RaygunClient instance with an identifier:
 
 ``` c#
-RaygunMauiClient.Current.User = "[user@email.com](mailto:user@email.com)";
+RaygunMauiClient.Current.User = "user@email.com";
 ```
 
 If a single identifier isn't enough, set the UserInfo property to provide more details:
 
 ``` c#
-RaygunMauiClient.Current.UserInfo = new RaygunIdentifierMessage("[user@email.com](mailto:user@email.com)") { 
+RaygunMauiClient.Current.UserInfo = new RaygunIdentifierMessage("user@email.com") { 
 IsAnonymous = false, 
 FullName = "Robbie Robot", 
 FirstName = "Robbie" 
@@ -215,7 +215,7 @@ RaygunIdentifierMessage properties include:
 
 Another way to provide user information is through Send or SendInBackground overloads with a RaygunIdentifierMessage parameter. Use this when user information is only available during a crash, isn't fixed, or in heavily threaded scenarios with separate RaygunClient instances:
 ``` c#
-RaygunMauiClient.Current.SendInBackground(exception, null, null, new RaygunIdentifierMessage("[user@email.com](mailto:user@email.com)") { 
+RaygunMauiClient.Current.SendInBackground(exception, null, null, new RaygunIdentifierMessage("user@email.com") { 
 	IsAnonymous = false, 
 	FullName = "Robbie Robot", 
 	FirstName = "Robbie" 
@@ -250,7 +250,7 @@ The second parameter is the list of tags (mentioned above) which can be null if 
 ---
 
 ### Version numbering
-By default, raygun4maui will attempt to automatically send the version of your project. If this does not work you can set your own custom version value:
+By default, Raygun4Maui will attempt to automatically send the version of your project. If this does not work you can set your own custom version value:
 ``` c#
 RaygunMauiClient.Current.ApplicationVersion = "0.0.0.0";
 ```
