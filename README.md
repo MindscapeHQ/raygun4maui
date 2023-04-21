@@ -46,12 +46,12 @@ builder
 
 ## Additional configuration
 
-The `AddRaygun4Maui` extension method and the `RaygunMauiClient` constructor have overloaded methods that can take a `RaygunMauiSettings` options object, which extends `RaygunSettings` from [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/).
+The `AddRaygun4Maui` extension method and the `RaygunMauiClient` constructor both contain overloaded methods that can take a `RaygunMauiSettings` options object. This extends `RaygunSettings` from [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/).
 
 **RaygunMauiSettings supports the following configurations:**
-- Any configuration available in Raygun4Net's `RaygunSettings`, such as `ApiKey`.
-- `SendDefaultTags` (default `true`) that adds the Log Level (e.g. Severe, Warning, etc.) and the Build Platform (e.g. Windows, Android, iOS, etc.) to reports and logs sent to Raygun.
-- `SendDefaultCustomData` (default `true`) that adds all available information in the uncaught exception's callback as custom data on the crash report sent to Raygun.
+- Any configuration available in the Raygun4Net `RaygunSettings`, such as `ApiKey`.
+- `SendDefaultTags` (defaulted to `true`) adds the Log Level (e.g. Severe, Warning, etc.) and the Build Platform (e.g. Windows, Android, iOS, etc.) to reports and logs sent to Raygun.
+- `SendDefaultCustomData` (defaulted to `true`) adds all available information in the uncaught exception's callback as custom data on the crash report sent to Raygun.
 - `MinLogLevel` and `MaxLogLevel` that specify the range of logging levels to be sent to Raygun.
 
 To use these additional configurations, create and initialize a new `RaygunMauiSettings` object:
