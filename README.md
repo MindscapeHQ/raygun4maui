@@ -49,7 +49,7 @@ The `AddRaygun4Maui` extension method contains an overloaded method that takes a
 - `SendDefaultCustomData` (defaulted to `true`) adds all available information in the uncaught exception as custom data on the crash report sent to Raygun.
 - `MinLogLevel` and `MaxLogLevel` that specify the range of logging levels to be sent to Raygun.
 
-To use these additional configurations, create and initialize a new `RaygunMauiSettings` object:
+To use these additional configurations, create and initialize a new `RaygunMauiSettings` object as follows:
 
 ``` csharp
 Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
