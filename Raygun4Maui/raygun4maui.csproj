@@ -16,7 +16,7 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>1.1.0</Version>
+		<Version>1.1.1</Version>
 		<Authors>Raygun</Authors>
 		<Company>Raygun</Company>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -25,7 +25,7 @@
 		<PackageProjectUrl>https://raygun.com/platform/crash-reporting</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
 		<PackageTags>Raygun4Maui; Raygun; Crash Reporting; MAUI; .NET; dotnet</PackageTags>
-		<PackageReleaseNotes>Support for reporting MAUI .NET unhandled exception and ILogger logs to Raygun with single-step easy-to-use extension method</PackageReleaseNotes>
+		<PackageReleaseNotes>Brought feature parity with the Raygun4net.core provider</PackageReleaseNotes>
 		<Title>Raygun4Maui</Title>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
@@ -120,6 +120,11 @@
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
 	  <PackageReference Include="Mindscape.Raygun4Net.NetCore" Version="6.4.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Builders\" />
+	  <Folder Include="Messages\" />
 	</ItemGroup>
 
 </Project>
