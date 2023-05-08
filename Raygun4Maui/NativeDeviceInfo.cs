@@ -1,13 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 
 #if ANDROID
-using Android.App;
-using Android.Content;
-using Android.Content.Res;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Provider;
 #elif IOS || MACCATALYST
 using Foundation;
 using UIKit;

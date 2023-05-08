@@ -5,8 +5,8 @@ namespace Raygun4Maui.SampleApp;
 
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
-	{
+    public static MauiApp CreateMauiApp()
+    {
         var configuration = new ConfigurationBuilder()
        .AddUserSecrets<MainPage>()
        .Build();
@@ -22,8 +22,8 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            }).AddRaygun4Maui(apiKey) ;
+            }).AddRaygun4Maui(apiKey);
 
         return builder.Build();
-	}
+    }
 }
