@@ -30,6 +30,7 @@
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<PackageIcon>Raygun-icon-128x128.png</PackageIcon>
+		<UserSecretsId>54661550-a31d-44d7-a748-7ac67fc82450</UserSecretsId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">

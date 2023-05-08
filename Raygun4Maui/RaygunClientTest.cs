@@ -31,7 +31,7 @@ namespace Raygun4Maui
                 UtcOffset = TimeZoneInfo.Local.GetUtcOffset(now).TotalHours,
                 Locale = CultureInfo.CurrentCulture.DisplayName,
                 OSVersion = DeviceInfo.Current.VersionString,
-                Architecture = RuntimeInformation.ProcessArchitecture.ToString(),
+                Architecture = NativeDeviceInfo.Architecture(),
                 WindowBoundsWidth = DeviceDisplay.MainDisplayInfo.Width,
                 WindowBoundsHeight = DeviceDisplay.MainDisplayInfo.Height,
                 DeviceManufacturer = DeviceInfo.Current.Manufacturer,
@@ -63,7 +63,7 @@ namespace Raygun4Maui
 
             var details = new RaygunMessageDetails
             {
-                MachineName = DeviceInfo.Current.Name,
+                MachineName = NativeDeviceInfo.MachineName(),
                 Client = client,
                 Error = RaygunErrorMessageBuilder.Build(exception),
                 UserCustomData = userCustomData,
