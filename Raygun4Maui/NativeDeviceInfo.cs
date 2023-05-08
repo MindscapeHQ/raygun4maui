@@ -8,7 +8,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Provider;
-#elif IOS
+#elif IOS || MACCATALYST
 using Foundation;
 using UIKit;
 using ObjCRuntime;
@@ -21,7 +21,8 @@ namespace Raygun4Maui
     {
         private const string MEM_AVAILABLE_PROP_NAME = "hw.usermem";
         private const string MEM_TOTAL_PROP_NAME = "hw.physmem";
-#if IOS
+        private const string MACHINE_PROP_NAME = "hw.machine";
+#if IOS || MACCATALYST
         [DllImport(ObjCRuntime.Constants.SystemLibrary)]
         private static extern int sysctlbyname([MarshalAs(UnmanagedType.LPStr)] string property, IntPtr output, IntPtr oldLen, IntPtr newp, uint newlen);
 
@@ -62,9 +63,51 @@ namespace Raygun4Maui
 
       return ret;
     }
+
+    private static string GetStringSysCtl(string propertyName)
+    {
+       // get the length of the string that will be returned
+      var pLen = Marshal.AllocHGlobal(sizeof(int));
+      sysctlbyname(propertyName, IntPtr.Zero, pLen, IntPtr.Zero, 0);
+
+      var length = Marshal.ReadInt32(pLen);
+
+      // check to see if we got a length
+      if (length <= 0) 
+      {
+        Marshal.FreeHGlobal(pLen);
+        return "Unknown";
+      }
+
+      // get the hardware string
+      var pStr = Marshal.AllocHGlobal(length);
+      sysctlbyname(propertyName, pStr, pLen, IntPtr.Zero, 0);
+
+      // convert the native string into a C# integer
+
+      var hardwareStr = Marshal.PtrToStringAnsi(pStr);
+
+
+      // cleanup
+      Marshal.FreeHGlobal(pLen);
+      Marshal.FreeHGlobal(pStr);
+
+      return hardwareStr;
+    }
 #endif
 
-
+        public static string Model()
+        {
+#if WINDOWS
+return DeviceInfo.Current.Model;
+#elif ANDROID
+return DeviceInfo.Current.Model;
+#elif IOS || MACCATALYST
+return GetStringSysCtl(MACHINE_PROP_NAME);
+#else
+            return "unknown";
+#endif
+        }
 
         public static ulong TotalPhysicalMemory()
         {
@@ -80,11 +123,8 @@ namespace Raygun4Maui
         {
           return 0;
         }
-#elif IOS
+#elif IOS || MACCATALYST
             return GetUIntSysCtl(MEM_TOTAL_PROP_NAME);
-#elif MACCATALYST
-            return 0;
-
 #else
             return 0;
 #endif
@@ -105,10 +145,8 @@ namespace Raygun4Maui
         {
           return 0;
         }
-#elif IOS
+#elif IOS || MACCATALYST
             return GetUIntSysCtl(MEM_AVAILABLE_PROP_NAME);
-#elif MACCATALYST
-            return 0;
 #else
             return 0;
 #endif
@@ -133,8 +171,6 @@ namespace Raygun4Maui
         {
 #if IOS
              return UIDevice.CurrentDevice.Name;
-#elif MACCATALYST
-             return "MacCatalyst";
 #else
             return DeviceInfo.Current.Name;
 #endif
