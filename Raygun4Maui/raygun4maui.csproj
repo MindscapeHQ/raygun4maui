@@ -122,9 +122,4 @@
 	  <PackageReference Include="Mindscape.Raygun4Net.NetCore" Version="6.4.3" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Builders\" />
-	  <Folder Include="Messages\" />
-	</ItemGroup>
-
 </Project>

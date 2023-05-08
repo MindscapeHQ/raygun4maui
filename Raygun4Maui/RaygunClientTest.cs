@@ -21,12 +21,12 @@ namespace Raygun4Maui
         {
         }
 
+
         protected override async Task<RaygunMessage> BuildMessage(Exception exception, IList<string> tags, IDictionary userCustomData, RaygunIdentifierMessage userInfo)
         {
 
             DateTime now = DateTime.Now;
-
-            var environment = new RaygunMauiEnvironmentMessage //can also mostlikely be static
+            var environment = new RaygunMauiEnvironmentMessage //Mostlikely should be static
             {
                 UtcOffset = TimeZoneInfo.Local.GetUtcOffset(now).TotalHours,
                 Locale = CultureInfo.CurrentCulture.DisplayName,
@@ -35,9 +35,25 @@ namespace Raygun4Maui
                 WindowBoundsWidth = DeviceDisplay.MainDisplayInfo.Width,
                 WindowBoundsHeight = DeviceDisplay.MainDisplayInfo.Height,
                 DeviceManufacturer = DeviceInfo.Current.Manufacturer,
-                OS = DeviceInfo.Current.Platform.ToString(),
+                Platform = NativeDeviceInfo.Platform(),
+                Model = DeviceInfo.Current.Model,
+                ProcessorCount = Environment.ProcessorCount,
+                ResolutionScale = DeviceDisplay.MainDisplayInfo.Density,
+                TotalPhysicalMemory = NativeDeviceInfo.TotalPhysicalMemory(),
+                AvailablePhysicalMemory = NativeDeviceInfo.AvailablePhysicalMemory(),
             };
 
+#if WINDOWS
+            
+            
+
+#elif ANDROID
+            environment.CurrentOrientation = DeviceDisplay.MainDisplayInfo.Orientation.ToString();
+#elif IOS
+
+#elif MACCATALYST
+
+#endif
             var client = new RaygunClientMessage //This should be set statically 
             {
                 Name = "Raygun4Maui",
@@ -47,7 +63,7 @@ namespace Raygun4Maui
 
             var details = new RaygunMessageDetails
             {
-                MachineName = Environment.MachineName,
+                MachineName = DeviceInfo.Current.Name,
                 Client = client,
                 Error = RaygunErrorMessageBuilder.Build(exception),
                 UserCustomData = userCustomData,
