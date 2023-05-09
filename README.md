@@ -130,7 +130,10 @@ try {
 ```
 
 ---
+## Platform specific information
+Raygun4Maui will automatically collect information specific to the environment the application is being run in. However, on iOS, Raygun4Maui cannot obtain the devices name. This is a privacy restriction put in place by Apple. If you would like this information to be collected and sent with crash reports you will have to [request for permission from apple](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_device-information_user-assigned-device-name?language=objc).
 
+---
 ## Development Instructions
 
 ### To build a local nuget package
