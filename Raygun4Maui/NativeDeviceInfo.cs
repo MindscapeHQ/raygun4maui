@@ -1,6 +1,8 @@
 ﻿using System.Runtime.InteropServices;
+using System.Diagnostics;
+#if WINDOWS
 
-#if ANDROID
+#elif ANDROID
 using Android.OS;
 #elif IOS || MACCATALYST
 using Foundation;
@@ -20,76 +22,78 @@ namespace Raygun4Maui
         [DllImport(ObjCRuntime.Constants.SystemLibrary)]
         private static extern int sysctlbyname([MarshalAs(UnmanagedType.LPStr)] string property, IntPtr output, IntPtr oldLen, IntPtr newp, uint newlen);
 
-       private static uint GetUIntSysCtl(string propertyName)
-    {
-      // get the length of the string that will be returned
-      var pLen = Marshal.AllocHGlobal(sizeof(int));
-      sysctlbyname(propertyName, IntPtr.Zero, pLen, IntPtr.Zero, 0);
+        private static uint GetUIntSysCtl(string propertyName)
+        {
+            // get the length of the string that will be returned
+            var pLen = Marshal.AllocHGlobal(sizeof(int));
+            sysctlbyname(propertyName, IntPtr.Zero, pLen, IntPtr.Zero, 0);
 
-      var length = Marshal.ReadInt32(pLen);
+            var length = Marshal.ReadInt32(pLen);
 
-      // check to see if we got a length
-      if (length <= 0) 
-      {
-        Marshal.FreeHGlobal(pLen);
-        return 0;
-      }
+            // check to see if we got a length
+            if (length <= 0)
+            {
+                Marshal.FreeHGlobal(pLen);
+                return 0;
+            }
 
-      // get the hardware string
-      var pStr = Marshal.AllocHGlobal(length);
-      sysctlbyname(propertyName, pStr, pLen, IntPtr.Zero, 0);
+            // get the hardware string
+            var pStr = Marshal.AllocHGlobal(length);
+            sysctlbyname(propertyName, pStr, pLen, IntPtr.Zero, 0);
 
-      // convert the native string into a C# integer
+            // convert the native string into a C# integer
 
-      var memoryCount = Marshal.ReadInt32(pStr);
-      uint memoryVal = (uint)memoryCount;
+            var memoryCount = Marshal.ReadInt32(pStr);
+            uint memoryVal = (uint)memoryCount;
 
-      if (memoryCount < 0)
-      {
-        memoryVal = (uint)((uint)int.MaxValue + (-memoryCount));
-      }
+            if (memoryCount < 0)
+            {
+                memoryVal = (uint)((uint)int.MaxValue + (-memoryCount));
+            }
 
-      var ret = memoryVal;
+            var ret = memoryVal;
 
-      // cleanup
-      Marshal.FreeHGlobal(pLen);
-      Marshal.FreeHGlobal(pStr);
+            // cleanup
+            Marshal.FreeHGlobal(pLen);
+            Marshal.FreeHGlobal(pStr);
 
-      return ret;
-    }
+            return ret;
+        }
 
-    private static string GetStringSysCtl(string propertyName)
-    {
-       // get the length of the string that will be returned
-      var pLen = Marshal.AllocHGlobal(sizeof(int));
-      sysctlbyname(propertyName, IntPtr.Zero, pLen, IntPtr.Zero, 0);
+        private static string GetStringSysCtl(string propertyName)
+        {
+            // get the length of the string that will be returned
+            var pLen = Marshal.AllocHGlobal(sizeof(int));
+            sysctlbyname(propertyName, IntPtr.Zero, pLen, IntPtr.Zero, 0);
 
-      var length = Marshal.ReadInt32(pLen);
+            var length = Marshal.ReadInt32(pLen);
 
-      // check to see if we got a length
-      if (length <= 0) 
-      {
-        Marshal.FreeHGlobal(pLen);
-        return "Unknown";
-      }
+            // check to see if we got a length
+            if (length <= 0)
+            {
+                Marshal.FreeHGlobal(pLen);
+                return "Unknown";
+            }
 
-      // get the hardware string
-      var pStr = Marshal.AllocHGlobal(length);
-      sysctlbyname(propertyName, pStr, pLen, IntPtr.Zero, 0);
+            // get the hardware string
+            var pStr = Marshal.AllocHGlobal(length);
+            sysctlbyname(propertyName, pStr, pLen, IntPtr.Zero, 0);
 
-      // convert the native string into a C# integer
+            // convert the native string into a C# integer
 
-      var hardwareStr = Marshal.PtrToStringAnsi(pStr);
+            var hardwareStr = Marshal.PtrToStringAnsi(pStr);
 
 
-      // cleanup
-      Marshal.FreeHGlobal(pLen);
-      Marshal.FreeHGlobal(pStr);
+            // cleanup
+            Marshal.FreeHGlobal(pLen);
+            Marshal.FreeHGlobal(pStr);
 
-      return hardwareStr;
-    }
+            return hardwareStr;
+        }
+
+#elif WINDOWS
+        private static GCMemoryInfo gcMemoryInfo = GC.GetGCMemoryInfo();
 #endif
-
         public static string Model()
         {
 #if WINDOWS
@@ -97,7 +101,7 @@ return DeviceInfo.Current.Model;
 #elif ANDROID
 return DeviceInfo.Current.Model;
 #elif IOS || MACCATALYST
-return GetStringSysCtl(MACHINE_PROP_NAME);
+            return GetStringSysCtl(MACHINE_PROP_NAME);
 #else
             return "unknown";
 #endif
@@ -106,7 +110,7 @@ return GetStringSysCtl(MACHINE_PROP_NAME);
         public static ulong TotalPhysicalMemory()
         {
 #if WINDOWS
-            return 0;
+            return (ulong)(gcMemoryInfo.TotalAvailableMemoryBytes); //This gives the total system memory, which is a different number to what the mobile API's are reporting. 
 #elif ANDROID
         var runtime = Java.Lang.Runtime.GetRuntime();
         if (runtime != null)
@@ -128,7 +132,8 @@ return GetStringSysCtl(MACHINE_PROP_NAME);
         public static ulong AvailablePhysicalMemory()
         {
 #if WINDOWS
-            return 0;
+            Process p = Process.GetCurrentProcess();
+            return (ulong)p.PrivateMemorySize64; //Not sure if this is the right value to use
 #elif ANDROID
         var runtime = Java.Lang.Runtime.GetRuntime();
         if (runtime != null)
@@ -153,20 +158,11 @@ return GetStringSysCtl(MACHINE_PROP_NAME);
 #elif ANDROID
         return "Android";
 #elif IOS
-             return "iOS";
+            return "iOS";
 #elif MACCATALYST
              return "MacCatalyst";
 #else
             return "Unknown";
-#endif
-        }
-
-        public static string MachineName()
-        {
-#if IOS
-             return UIDevice.CurrentDevice.Name;
-#else
-            return DeviceInfo.Current.Name;
 #endif
         }
 
@@ -186,7 +182,7 @@ return GetStringSysCtl(MACHINE_PROP_NAME);
         }
        
 #elif IOS
-             return RuntimeInformation.ProcessArchitecture.ToString();
+            return RuntimeInformation.ProcessArchitecture.ToString();
 #elif MACCATALYST
              return RuntimeInformation.ProcessArchitecture.ToString();
 #else

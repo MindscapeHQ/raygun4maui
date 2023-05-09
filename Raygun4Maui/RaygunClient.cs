@@ -46,7 +46,7 @@ namespace Raygun4Maui
            
             var details = new RaygunMessageDetails
             {
-                MachineName = NativeDeviceInfo.MachineName(),
+                MachineName = DeviceInfo.Current.Name,
                 Client = ClientMessage,
                 Error = RaygunErrorMessageBuilder.Build(exception),
                 UserCustomData = userCustomData,
