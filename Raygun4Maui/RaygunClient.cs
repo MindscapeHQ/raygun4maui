@@ -1,30 +1,30 @@
 ﻿using Mindscape.Raygun4Net;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
 
 namespace Raygun4Maui
 {
-    internal class RaygunClientTest : RaygunClient
+    public class RaygunClient : Mindscape.Raygun4Net.RaygunClient
     {
-        public RaygunClientTest(string apiKey) : base(apiKey)
+        public RaygunClient(string apiKey) : base(apiKey)
         {
         }
 
-        public RaygunClientTest(RaygunSettings settings) : base(settings)
+        public RaygunClient(RaygunSettings settings) : base(settings)
         {
         }
+
+        public static readonly RaygunClientMessage ClientMessage = new()
+        {
+            Name = "Raygun4Maui",
+            Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(),
+            ClientUrl = "https://github.com/MindscapeHQ/raygun4maui"
+        };
 
 
         protected override async Task<RaygunMessage> BuildMessage(Exception exception, IList<string> tags, IDictionary userCustomData, RaygunIdentifierMessage userInfo)
         {
-
             DateTime now = DateTime.Now;
             var environment = new RaygunMauiEnvironmentMessage //Mostlikely should be static
             {
@@ -41,30 +41,13 @@ namespace Raygun4Maui
                 ResolutionScale = DeviceDisplay.MainDisplayInfo.Density,
                 TotalPhysicalMemory = NativeDeviceInfo.TotalPhysicalMemory(),
                 AvailablePhysicalMemory = NativeDeviceInfo.AvailablePhysicalMemory(),
+                CurrentOrientation = DeviceDisplay.MainDisplayInfo.Orientation.ToString(),
             };
-
-#if WINDOWS
-            
-            
-
-#elif ANDROID
-            environment.CurrentOrientation = DeviceDisplay.MainDisplayInfo.Orientation.ToString();
-#elif IOS
-
-#elif MACCATALYST
-
-#endif
-            var client = new RaygunClientMessage //This should be set statically 
-            {
-                Name = "Raygun4Maui",
-                Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(),
-                ClientUrl = "https://github.com/MindscapeHQ/raygun4maui"
-            };
-
+           
             var details = new RaygunMessageDetails
             {
                 MachineName = NativeDeviceInfo.MachineName(),
-                Client = client,
+                Client = ClientMessage,
                 Error = RaygunErrorMessageBuilder.Build(exception),
                 UserCustomData = userCustomData,
                 Tags = tags,

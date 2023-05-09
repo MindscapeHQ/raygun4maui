@@ -5,9 +5,9 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui", "Raygun4Maui.csproj", "{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui.Tests", "..\Raygun4Maui.Tests\Raygun4Maui.Tests.csproj", "{333CA348-9B0A-4986-8EEE-F5ED031F3082}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui.SampleApp", "..\Raygun4Maui.SampleApp\Raygun4Maui.SampleApp.csproj", "{005156B2-833B-406B-B5FD-F50593C4D28B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Raygun4Maui.Test", "..\Raygun4Maui.Test\Raygun4Maui.Test.csproj", "{E288B763-306C-42D6-84DE-49AC6CF889FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,16 +19,16 @@ Global
 		{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{333CA348-9B0A-4986-8EEE-F5ED031F3082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{333CA348-9B0A-4986-8EEE-F5ED031F3082}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{333CA348-9B0A-4986-8EEE-F5ED031F3082}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{333CA348-9B0A-4986-8EEE-F5ED031F3082}.Release|Any CPU.Build.0 = Release|Any CPU
 		{005156B2-833B-406B-B5FD-F50593C4D28B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{005156B2-833B-406B-B5FD-F50593C4D28B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{005156B2-833B-406B-B5FD-F50593C4D28B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{005156B2-833B-406B-B5FD-F50593C4D28B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{005156B2-833B-406B-B5FD-F50593C4D28B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{005156B2-833B-406B-B5FD-F50593C4D28B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{E288B763-306C-42D6-84DE-49AC6CF889FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E288B763-306C-42D6-84DE-49AC6CF889FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E288B763-306C-42D6-84DE-49AC6CF889FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E288B763-306C-42D6-84DE-49AC6CF889FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
