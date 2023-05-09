@@ -16,7 +16,7 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>1.1.1</Version>
+		<Version>1.2.0</Version>
 		<Authors>Raygun</Authors>
 		<Company>Raygun</Company>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
