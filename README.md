@@ -18,7 +18,7 @@ dotnet add package Raygun4Maui
 
 Alternatively you can specify a version tag to install a specific version of the package, see [Raygun4Maui NuGet Gallery page](https://nuget.org/packages/Raygun4Maui) for information of versions. 
 ```
-dotnet add package Raygun4Maui --version 1.0.0
+dotnet add package Raygun4Maui --version 1.2.0
 ```
 
 ### Step 2 - Add Raygun4Maui to your MauiApp builder
@@ -76,17 +76,17 @@ builder
 
 Unhandled exceptions will be sent to Raygun automatically.
 
-Raygun4Maui stores an instance of a [Raygun4Net](https://github.com/MindscapeHQ/raygun4net/tree/master/Mindscape.Raygun4Net.NetCore). `RaygunClient` object, this can be accessed through the following code:
+Raygun4Maui stores an instance of a `RaygunClient` object, this can be accessed through the following code:
 ``` csharp
 RaygunMauiClient.Current
 ```
 
-Any features supported by the Raygun4Net Client are accessible here
+This client extends the Raygun4Net.NetCore `RaygunClient`, as a result any features supported by the Raygun4Net.NetCore Client are supported here. 
 
 ---
 
 ### Manually sending exceptions
-Raygun4Maui automatically sends unhandled exceptions. For manual sending, use Send or SendInBackground methods, as shown below:
+Raygun4Maui automatically sends unhandled exceptions. For manual sending, use `Send` or `SendInBackground` methods, as shown below:
 
 ``` csharp
 try {   
@@ -101,17 +101,17 @@ try {
 An exception needs to be thrown in order for its stack trace to be populated. If the exception is created manually no stack trace data is collected. 
 
 ### Other examples
-For aditional examples on how to use the Raygun4Net client object refer to its deticated instructions [here](https://github.com/MindscapeHQ/raygun4net/tree/master/Mindscape.Raygun4Net.NetCore)
-
+For aditional examples on how to use the `RaygunClient` object refer to the [Raygun4Net.NetCore  documentation](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/)
 ## ILogger logging
+Raygun4Maui will automatically send any logger logs to Raygun.
 
-To make a log entry, acquire the reference to the ILogger services that your MAUI app maintains:
+To make a log entry, obtain the reference to the ILogger services that your MAUI app maintains:
 
 ``` c#
 ILogger logger = Handler.MauiContext.Services.GetService<ILogger<MainPage>>();
 ```
 
-You may now invoke the various ILogger log methods from the logger object accordingly. This uses the same `RaygunClient` object accessible from RaygunMauiClient.Current
+You may now invoke the various ILogger log methods from the logger object accordingly. This uses the same `RaygunClient` object accessible from `RaygunMauiClient.Current`
 
 ```c#
 logger.LogInformation("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogInformation", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
