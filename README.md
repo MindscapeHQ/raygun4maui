@@ -18,7 +18,7 @@ dotnet add package Raygun4Maui
 
 Alternatively, you can specify a version tag to install a specific version of the package. See [Raygun4Maui NuGet Gallery page](https://nuget.org/packages/Raygun4Maui) for information on available versions.
 ```
-dotnet add package Raygun4Maui --version 1.2.0
+dotnet add package Raygun4Maui --version 1.2.1
 ```
 
 ### Step 2 - Add Raygun4Maui to your MauiApp builder
