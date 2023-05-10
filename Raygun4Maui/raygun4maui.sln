@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui", "Raygun4Maui.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui.SampleApp", "..\Raygun4Maui.SampleApp\Raygun4Maui.SampleApp.csproj", "{005156B2-833B-406B-B5FD-F50593C4D28B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Raygun4Maui.Test", "..\Raygun4Maui.Test\Raygun4Maui.Test.csproj", "{E288B763-306C-42D6-84DE-49AC6CF889FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui.Test", "..\Raygun4Maui.Test\Raygun4Maui.Test.csproj", "{C4364C88-B953-45E4-B25E-FAE8F2FEDD4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,12 @@ Global
 		{005156B2-833B-406B-B5FD-F50593C4D28B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{005156B2-833B-406B-B5FD-F50593C4D28B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{005156B2-833B-406B-B5FD-F50593C4D28B}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{E288B763-306C-42D6-84DE-49AC6CF889FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E288B763-306C-42D6-84DE-49AC6CF889FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E288B763-306C-42D6-84DE-49AC6CF889FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E288B763-306C-42D6-84DE-49AC6CF889FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4364C88-B953-45E4-B25E-FAE8F2FEDD4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4364C88-B953-45E4-B25E-FAE8F2FEDD4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4364C88-B953-45E4-B25E-FAE8F2FEDD4F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C4364C88-B953-45E4-B25E-FAE8F2FEDD4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4364C88-B953-45E4-B25E-FAE8F2FEDD4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4364C88-B953-45E4-B25E-FAE8F2FEDD4F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

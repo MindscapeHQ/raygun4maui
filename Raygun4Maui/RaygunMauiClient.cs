@@ -1,18 +1,8 @@
 
 using System.Reflection;
 using Mindscape.Raygun4Net;
-using System.Runtime.InteropServices;
 using System.Globalization;
-using System.Runtime.CompilerServices;
-using Microsoft.Maui.Platform;
-using Microsoft.Maui.Devices;
-using Windows.System;
 using System.Collections;
-#if ANDROID
-using Android.App;
-using Android.Content;
-using Android.OS;
-#endif
 
 namespace Raygun4Maui
 {
@@ -20,6 +10,17 @@ namespace Raygun4Maui
     {
         private static RaygunMauiClient _instance;
         public static RaygunMauiClient Current => _instance;
+
+        private static readonly string Name = Assembly.GetExecutingAssembly().GetName().Name;
+        private static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        private static readonly string ClientUrl = "https://github.com/MindscapeHQ/raygun4maui"; //It does not seem like this can be obtained automatically
+
+        public static readonly RaygunClientMessage clientMessage = new()
+        {
+            Name = Name,
+            Version = Version,
+            ClientUrl = ClientUrl
+        };
         internal static void Attach(RaygunMauiClient client)
         {
             if (_instance != null)
@@ -29,21 +30,16 @@ namespace Raygun4Maui
           
             _instance = client;
         }
-
         public RaygunMauiClient(string apiKey) : base(apiKey)
         {
+
         }
 
         public RaygunMauiClient(RaygunSettings settings) : base(settings)
         {
         }
 
-        public static readonly RaygunClientMessage clientMessage = new()
-        {
-            Name = "Raygun4Maui",
-            Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(),
-            ClientUrl = "https://github.com/MindscapeHQ/raygun4maui"
-        };
+        
 
         protected override async Task<RaygunMessage> BuildMessage(Exception exception, IList<string> tags, IDictionary userCustomData, RaygunIdentifierMessage userInfo)
         {

@@ -76,7 +76,7 @@ builder
 
 Unhandled exceptions will be sent to Raygun automatically.
 
-Raygun4Maui stores an instance of a `RaygunMauiClient` object that is initialised by the Maui builder, this can be accessed through the following code:
+Raygun4Maui stores an instance of a `RaygunMauiClient` object that is initialized by the Maui builder, this can be accessed through the following code:
 ``` csharp
 RaygunMauiClient.Current
 ```

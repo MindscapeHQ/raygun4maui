@@ -15,10 +15,12 @@ namespace Raygun4Maui
 {
     internal static class NativeDeviceInfo
     {
+
+#if IOS || MACCATALYST
         private const string MEM_AVAILABLE_PROP_NAME = "hw.usermem";
         private const string MEM_TOTAL_PROP_NAME = "hw.physmem";
         private const string MACHINE_PROP_NAME = "hw.machine";
-#if IOS || MACCATALYST
+
         [DllImport(ObjCRuntime.Constants.SystemLibrary)]
         private static extern int sysctlbyname([MarshalAs(UnmanagedType.LPStr)] string property, IntPtr output, IntPtr oldLen, IntPtr newp, uint newlen);
 
