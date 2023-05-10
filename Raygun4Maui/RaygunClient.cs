@@ -36,7 +36,7 @@ namespace Raygun4Maui
                 WindowBoundsHeight = DeviceDisplay.MainDisplayInfo.Height,
                 DeviceManufacturer = DeviceInfo.Current.Manufacturer,
                 Platform = NativeDeviceInfo.Platform(),
-                Model = NativeDeviceInfo.Model(),
+                Model = DeviceInfo.Current.Model,
                 ProcessorCount = Environment.ProcessorCount,
                 ResolutionScale = DeviceDisplay.MainDisplayInfo.Density,
                 TotalPhysicalMemory = NativeDeviceInfo.TotalPhysicalMemory(),
