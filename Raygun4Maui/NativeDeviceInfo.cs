@@ -190,6 +190,7 @@ return DeviceInfo.Current.Model;
 #endif
         }
 #if IOS || MACCATALYST
+        //Code from https://github.com/dannycabrera/Get-iOS-Model
         public static string GetModel(string hardware)
         {
             if (hardware.StartsWith("iPhone"))
