@@ -98,7 +98,7 @@ namespace Raygun4Maui
         public static ulong TotalPhysicalMemory()
         {
 #if WINDOWS
-            return (ulong)(gcMemoryInfo.TotalAvailableMemoryBytes); //This gives the total system memory, which is a different number to what the mobile API's are reporting. 
+            return (ulong)(gcMemoryInfo.TotalAvailableMemoryBytes);
 #elif ANDROID
         var runtime = Java.Lang.Runtime.GetRuntime();
         if (runtime != null)
