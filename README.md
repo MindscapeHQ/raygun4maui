@@ -6,7 +6,7 @@ Raygun's Crash Reporting provider for .NET MAUI
 
 ### Step 1 - Install Raygun4Maui
 
-#### Nuget Package manager
+#### NuGet Package manager
 The best way to install Raygun is to use the NuGet package manager. Right-click on your project and select "**Manage NuGet Packages....**". Navigate to the Browse tab, then use the search box to find **Raygun4Maui** and install it.
 
 #### .NET Cli
@@ -16,7 +16,7 @@ To install the latest version:
 dotnet add package Raygun4Maui
 ```
 
-Alternatively you can specify a version tag to install a specific version of the package, see [Raygun4Maui NuGet Gallery page](https://nuget.org/packages/Raygun4Maui) for information of versions. 
+Alternatively, you can specify a version tag to install a specific version of the package. See [Raygun4Maui NuGet Gallery page](https://nuget.org/packages/Raygun4Maui) for information on available versions.
 ```
 dotnet add package Raygun4Maui --version 1.2.0
 ```
@@ -54,10 +54,10 @@ To use these additional configurations, create and initialize a new `RaygunMauiS
 ``` csharp
 Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
     ApiKey = "paste_your_api_key_here",
-    SendDefaultTags = true, // Default value
-    SendDefaultCustomData = true, // Default value
-    MinLogLevel = LogLevel.Debug, // Default value
-    MaxLogLevel = LogLevel.Critical // Default value
+    SendDefaultTags = true, // defaults to true
+    SendDefaultCustomData = true, // defaults to true
+    MinLogLevel = LogLevel.Debug, // defaults to true
+    MaxLogLevel = LogLevel.Critical // defaults to true
 };
 ```
 
@@ -101,26 +101,26 @@ try {
 An exception needs to be thrown in order for its stack trace to be populated. If the exception is created manually no stack trace data is collected. 
 
 ### Other examples
-For aditional examples on how to use the `RaygunClient` object refer to the [Raygun4Net.NetCore  documentation](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/)
+For additional examples on how to use the `RaygunClient` object refer to the [Raygun4Net.NetCore  documentation](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/)
 ## ILogger logging
 Raygun4Maui will automatically send any logger logs to Raygun.
 
 To make a log entry, obtain the reference to the ILogger services that your MAUI app maintains:
 
-``` c#
+``` csharp
 ILogger logger = Handler.MauiContext.Services.GetService<ILogger<MainPage>>();
 ```
 
-You may now invoke the various ILogger log methods from the logger object accordingly. This uses the same `RaygunClient` object accessible from `RaygunMauiClient.Current`
+You may now use the appropriate ILogger log method from the logger object. This uses the same `RaygunClient` object accessible from `RaygunMauiClient.Current`
 
-```c#
+```csharp
 logger.LogInformation("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogInformation", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
 logger.LogCritical("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogCritical", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
 ```
 
-With this functionality, you can also manually catch-and-log exceptions as follows:
+This functionality also allows you to manually catch and log exceptions as shown below:
 
-``` c#
+``` csharp
 try {
     // Code that throws exception
 } catch (Exception e) {
