@@ -76,7 +76,7 @@ builder
 
 Unhandled exceptions will be sent to Raygun automatically.
 
-Raygun4Maui stores an instance of a `RaygunClient` object, this can be accessed through the following code:
+Raygun4Maui stores an instance of a `RaygunMauiClient` object that is initialised by the Maui builder, this can be accessed through the following code:
 ``` csharp
 RaygunMauiClient.Current
 ```
@@ -101,7 +101,7 @@ try {
 An exception needs to be thrown in order for its stack trace to be populated. If the exception is created manually no stack trace data is collected. 
 
 ### Other examples
-For additional examples on how to use the `RaygunClient` object refer to the [Raygun4Net.NetCore  documentation](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/)
+For additional examples on how to use the `RaygunMauiClient` object refer to the [Raygun4Net.NetCore  documentation](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/)
 ## ILogger logging
 Raygun4Maui will automatically send any logger logs to Raygun.
 
@@ -111,7 +111,7 @@ To make a log entry, obtain the reference to the ILogger services that your MAUI
 ILogger logger = Handler.MauiContext.Services.GetService<ILogger<MainPage>>();
 ```
 
-You may now use the appropriate ILogger log method from the logger object. This uses the same `RaygunClient` object accessible from `RaygunMauiClient.Current`
+You may now use the appropriate ILogger log method from the logger object. This uses the same `RaygunMauiClient` object accessible from `RaygunMauiClient.Current`
 
 ```csharp
 logger.LogInformation("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogInformation", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
