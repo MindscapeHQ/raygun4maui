@@ -18,9 +18,9 @@ namespace Raygun4Maui
 {
     public class RaygunMauiClient : RaygunClient
     {
-        private static RaygunClient _instance;
-        public static RaygunClient Current => _instance;
-        internal static void Attach(RaygunClient client)
+        private static RaygunMauiClient _instance;
+        public static RaygunMauiClient Current => _instance;
+        internal static void Attach(RaygunMauiClient client)
         {
             if (_instance != null)
             {

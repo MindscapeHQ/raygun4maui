@@ -25,7 +25,18 @@
 		<PackageProjectUrl>https://raygun.com/platform/crash-reporting</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
 		<PackageTags>Raygun4Maui; Raygun; Crash Reporting; MAUI; .NET; dotnet</PackageTags>
-		<PackageReleaseNotes>Brought feature parity with the Raygun4net.core provider</PackageReleaseNotes>
+		<PackageReleaseNotes>Expanded the device information that is collected when a crash is sent to Raygun.
+The new information collected is as follows:
+- Available physical memory
+- Total physical memory
+- Processor count
+- Architecture
+- Device manugacture
+- Model
+- Current orientation
+- Resolution scale
+- WindowBoundsWidth
+- WindowBoundsHeight</PackageReleaseNotes>
 		<Title>Raygun4Maui</Title>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>

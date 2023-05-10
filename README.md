@@ -131,7 +131,17 @@ try {
 
 ---
 ## Platform specific information
-Raygun4Maui will automatically collect information specific to the environment the application is being run in. However, on iOS, Raygun4Maui cannot obtain the devices name. This is a privacy restriction put in place by Apple. If you would like this information to be collected and sent with crash reports you will have to [request for permission from apple](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_device-information_user-assigned-device-name?language=objc).
+Raygun4Maui will automatically collect information specific to the environment the application is being run in. However, there are inconsistency's between certain values across platforms.
+- on iOS, Raygun4Maui cannot obtain the devices name. This is a privacy restriction put in place by Apple. If you would like this information to be collected and sent with crash reports you will have to [request for permission from apple](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_device-information_user-assigned-device-name?language=objc).
+- The `Total physical memory` and `Available physical memory` properties mean different things across platforms. Below is a table explaining the differences for each platform.  
+|Platform| Total physical memory | Available physical memory |
+|-----|----|-------|
+| Mac  | Total installed ram | Total memory available for user-level processes  |
+| iOS | Total installed ram | Total memory available for user-level processes |
+| Windows |Total installed ram | Total amount of private memory used by the process at the time of the measurement. For a number of reasons this might not be the actual total memory usage |
+| Android |Total amount of memory that the JVM has allocated for the application | Total amount of free memory that the JVM has available for the application to use | 
+
+
 
 ---
 ## Development Instructions
