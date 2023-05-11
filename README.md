@@ -134,7 +134,7 @@ try {
 Raygun4Maui will automatically collect information specific to the environment the application is being run in. However, there are inconsistencies between certain values across platforms.
 - on iOS, Raygun4Maui cannot obtain the device's name. This is a privacy restriction put in place by Apple. If you would like this information to be collected and sent with crash reports you will have to [request for permission from apple](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_device-information_user-assigned-device-name?language=objc).
 - The `Total physical memory` and `Available physical memory` properties mean different things across platforms. Below is a table explaining the differences for each platform.  
-|Platform| Total physical memory | Available physical memory |
+| Platform | Total physical memory | Available physical memory |
 | ----- | ---- | ------- |
 | Mac  | `Total installed ram` | Total memory available for user-level processes  |
 | iOS | `Total installed ram` | Total memory available for user-level processes |
