@@ -6,7 +6,7 @@ Raygun's Crash Reporting provider for .NET MAUI
 
 ### Step 1 - Install Raygun4Maui
 
-#### Nuget Package manager
+#### NuGet Package manager
 The best way to install Raygun is to use the NuGet package manager. Right-click on your project and select "**Manage NuGet Packages....**". Navigate to the Browse tab, then use the search box to find **Raygun4Maui** and install it.
 
 #### .NET Cli
@@ -16,9 +16,9 @@ To install the latest version:
 dotnet add package Raygun4Maui
 ```
 
-Alternatively you can specify a version tag to install a specific version of the package, see [Raygun4Maui NuGet Gallery page](https://nuget.org/packages/Raygun4Maui) for information of versions. 
+Alternatively, you can specify a version tag to install a specific version of the package. See [Raygun4Maui NuGet Gallery page](https://nuget.org/packages/Raygun4Maui) for information on available versions.
 ```
-dotnet add package Raygun4Maui --version 1.0.0
+dotnet add package Raygun4Maui --version 1.2.1
 ```
 
 ### Step 2 - Add Raygun4Maui to your MauiApp builder
@@ -54,10 +54,10 @@ To use these additional configurations, create and initialize a new `RaygunMauiS
 ``` csharp
 Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
     ApiKey = "paste_your_api_key_here",
-    SendDefaultTags = true, // Default value
-    SendDefaultCustomData = true, // Default value
-    MinLogLevel = LogLevel.Debug, // Default value
-    MaxLogLevel = LogLevel.Critical // Default value
+    SendDefaultTags = true, // defaults to true
+    SendDefaultCustomData = true, // defaults to true
+    MinLogLevel = LogLevel.Debug, // defaults to true
+    MaxLogLevel = LogLevel.Critical // defaults to true
 };
 ```
 
@@ -76,17 +76,17 @@ builder
 
 Unhandled exceptions will be sent to Raygun automatically.
 
-Raygun4Maui stores an instance of a [Raygun4Net](https://github.com/MindscapeHQ/raygun4net/tree/master/Mindscape.Raygun4Net.NetCore). `RaygunClient` object, this can be accessed through the following code:
+Raygun4Maui stores an instance of a `RaygunMauiClient` object that is initialized by the Maui builder, this can be accessed through the following code:
 ``` csharp
 RaygunMauiClient.Current
 ```
 
-Any features supported by the Raygun4Net Client are accessible here
+This client extends the Raygun4Net.NetCore `RaygunClient`, as a result any features supported by the Raygun4Net.NetCore Client are supported here. 
 
 ---
 
 ### Manually sending exceptions
-Raygun4Maui automatically sends unhandled exceptions. For manual sending, use Send or SendInBackground methods, as shown below:
+Raygun4Maui automatically sends unhandled exceptions. For manual sending, use `Send` or `SendInBackground` methods, as shown below:
 
 ``` csharp
 try {   
@@ -101,26 +101,26 @@ try {
 An exception needs to be thrown in order for its stack trace to be populated. If the exception is created manually no stack trace data is collected. 
 
 ### Other examples
-For aditional examples on how to use the Raygun4Net client object refer to its deticated instructions [here](https://github.com/MindscapeHQ/raygun4net/tree/master/Mindscape.Raygun4Net.NetCore)
-
+For additional examples on how to use the `RaygunMauiClient` object refer to the [Raygun4Net.NetCore  documentation](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/)
 ## ILogger logging
+Raygun4Maui will automatically send any logger logs to Raygun.
 
-To make a log entry, acquire the reference to the ILogger services that your MAUI app maintains:
+To make a log entry, obtain the reference to the ILogger services that your MAUI app maintains:
 
-``` c#
+``` csharp
 ILogger logger = Handler.MauiContext.Services.GetService<ILogger<MainPage>>();
 ```
 
-You may now invoke the various ILogger log methods from the logger object accordingly. This uses the same `RaygunClient` object accessible from RaygunMauiClient.Current
+You may now use the appropriate ILogger log method from the logger object. This uses the same `RaygunMauiClient` object accessible from `RaygunMauiClient.Current`
 
-```c#
+```csharp
 logger.LogInformation("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogInformation", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
 logger.LogCritical("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogCritical", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
 ```
 
-With this functionality, you can also manually catch-and-log exceptions as follows:
+This functionality also allows you to manually catch and log exceptions as shown below:
 
-``` c#
+``` csharp
 try {
     // Code that throws exception
 } catch (Exception e) {
@@ -130,7 +130,20 @@ try {
 ```
 
 ---
+## Platform specific information
+Raygun4Maui will automatically collect information specific to the environment the application is being run in. However, there are inconsistencies between certain values across platforms.
+- on iOS, Raygun4Maui cannot obtain the device's name. This is a privacy restriction put in place by Apple. If you would like this information to be collected and sent with crash reports you will have to [request for permission from apple](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_device-information_user-assigned-device-name?language=objc).
+- The `Total physical memory` and `Available physical memory` properties mean different things across platforms. Below is a table explaining the differences for each platform.  
 
+| Platform | Total physical memory | Available physical memory |
+| ----- | ---- | ------- |
+| Mac  | Total installed ram | Total memory available for user-level processes  |
+| iOS | Total installed ram | Total memory available for user-level processes |
+| Windows |Total installed ram | Total amount of private memory used by the process at the time of the measurement. For a number of reasons this might not be the actual total memory usage |
+| Android |Total amount of memory that the JVM has allocated for the application | Total amount of free memory that the JVM has available for the application to use | 
+
+
+---
 ## Development Instructions
 
 ### To build a local nuget package

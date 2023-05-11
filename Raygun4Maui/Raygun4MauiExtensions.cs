@@ -10,7 +10,7 @@ namespace Raygun4Maui
             this MauiAppBuilder mauiAppBuilder,
             Raygun4MauiSettings raygunMauiSettings)
         {
-            RaygunMauiClient.Attach(new RaygunClient(raygunMauiSettings));
+            RaygunMauiClient.Attach(new RaygunMauiClient(raygunMauiSettings));
             return mauiAppBuilder
                 .AddRaygunUnhandledExceptionsListener(raygunMauiSettings)
                 .AddRaygunLogger(raygunMauiSettings);
