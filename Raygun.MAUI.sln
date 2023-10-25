@@ -3,11 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui", "Raygun4Maui.csproj", "{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui", "Raygun4Maui\Raygun4Maui.csproj", "{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui.SampleApp", "..\Raygun4Maui.SampleApp\Raygun4Maui.SampleApp.csproj", "{005156B2-833B-406B-B5FD-F50593C4D28B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui.SampleApp", "Raygun4Maui.SampleApp\Raygun4Maui.SampleApp.csproj", "{005156B2-833B-406B-B5FD-F50593C4D28B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui.Test", "..\Raygun4Maui.Test\Raygun4Maui.Test.csproj", "{C4364C88-B953-45E4-B25E-FAE8F2FEDD4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Maui.Test", "Raygun4Maui.Test\Raygun4Maui.Test.csproj", "{C4364C88-B953-45E4-B25E-FAE8F2FEDD4F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{F2F79946-9672-4EEE-ADEF-A3A5DB23A752}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+		CHANGE-LOG.md = CHANGE-LOG.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
