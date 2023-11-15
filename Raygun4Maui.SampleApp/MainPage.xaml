@@ -64,6 +64,13 @@
                 Clicked="OnILoggerErrorClicked"
                 HorizontalOptions="Center"/>
 
+            <Button
+                Text="Send using Serilog"
+                SemanticProperties.Hint="Test sending a message using Serilog"
+                Clicked="OnSerilogClicked"
+                HorizontalOptions="Center"
+                />
+
         </VerticalStackLayout>
     </ScrollView>
 
