@@ -1,25 +1,24 @@
-﻿namespace Raygun4Maui.SampleApp;
+﻿using Serilog;
+
+namespace Raygun4Maui.SampleApp;
 
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
-using Microsoft.Extensions.Options;
-using Raygun4Maui.SampleApp.TestingLogic;
+using TestingLogic;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+    int count = 0;
 
     private readonly String _apiKey;
 
     public MainPage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
 
         var configuration = new ConfigurationBuilder()
-               .AddUserSecrets<MainPage>()
-               .Build();
+            .AddUserSecrets<MainPage>()
+            .Build();
 
         _apiKey = configuration["apiKey"] ?? "";
 
@@ -29,24 +28,22 @@ public partial class MainPage : ContentPage
         }
         else
         {
-            ApiKeyLabel.Text += "Not set! Please set it Right-Click on the project solution and selecting Manage User Secrets";
+            ApiKeyLabel.Text +=
+                "Not set! Please set it Right-Click on the project solution and selecting Manage User Secrets";
         }
     }
 
-	private void OnCounterClicked(object sender, EventArgs e)
-	{
-		count++;
+    private void OnCounterClicked(object sender, EventArgs e)
+    {
+        count++;
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
+        CounterBtn.Text = $"Clicked {count} time{(count > 1 ? "s" : string.Empty)}";
 
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+        SemanticScreenReader.Announce(CounterBtn.Text);
+    }
 
-	private void OnManualExceptionClicked(object sender, EventArgs e)
-	{
+    private void OnManualExceptionClicked(object sender, EventArgs e)
+    {
         ManualExceptionButton.Text += ".";
 
         TestManualExceptionsSent testManualExceptionsSent = new(_apiKey);
@@ -65,10 +62,21 @@ public partial class MainPage : ContentPage
     {
         ILoggerButton.Text += ".";
 
-        ILogger logger = Handler.MauiContext.Services.GetService<ILogger<MainPage>>();
+        ILogger logger = Handler!.MauiContext!.Services.GetService<ILogger<MainPage>>();
 
         TestLoggerErrorsSent testLoggerErrorsSent = new(_apiKey, logger);
         testLoggerErrorsSent.RunAllTests();
     }
-}
 
+    private void OnSerilogClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            throw new ApplicationException("Captured by Serilog I hope...");
+        }
+        catch (Exception ex)
+        {
+            Log.Logger.Error(ex, "Serilog error");
+        }
+    }
+}

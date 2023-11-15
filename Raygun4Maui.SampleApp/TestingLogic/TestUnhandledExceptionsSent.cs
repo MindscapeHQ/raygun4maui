@@ -1,6 +1,4 @@
-﻿using Raygun4Maui;
-
-namespace Raygun4Maui.SampleApp.TestingLogic
+﻿namespace Raygun4Maui.SampleApp.TestingLogic
 {
     internal class TestUnhandledExceptionsSent
     {

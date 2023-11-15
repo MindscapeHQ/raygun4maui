@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Maui.Controls;
-using Raygun4Maui;
-
+﻿using Microsoft.Extensions.Logging;
 
 namespace Raygun4Maui.SampleApp.TestingLogic
 {
@@ -63,7 +59,6 @@ namespace Raygun4Maui.SampleApp.TestingLogic
             {
                 _logger.Log(LogLevel.Error, e, "TestLogException exception caught at {Timestamp}", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
             }
-
         }
 
         private static void TestLofExceptionInnerMethod()
