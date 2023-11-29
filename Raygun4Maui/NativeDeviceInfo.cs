@@ -170,7 +170,7 @@ namespace Raygun4Maui
         {
           return RuntimeInformation.ProcessArchitecture.ToString();
         }
-       
+
 #elif IOS
             return RuntimeInformation.ProcessArchitecture.ToString();
 #elif MACCATALYST

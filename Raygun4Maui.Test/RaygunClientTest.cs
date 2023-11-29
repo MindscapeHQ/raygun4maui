@@ -14,9 +14,9 @@ namespace Raygun4Maui.Test
             t.SendingMessage += (sender, e) =>
             {
                 e.Cancel = true;
-                message = e.Message;         
+                message = e.Message;
             };
-     
+
             t.Send(new Exception());
 
             Assert.NotNull(message.Details);

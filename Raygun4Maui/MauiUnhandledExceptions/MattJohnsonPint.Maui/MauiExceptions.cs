@@ -35,7 +35,7 @@ namespace Raygun4Maui.MattJohnsonPint.Maui
 
             // For iOS and Mac Catalyst
             // Exceptions will flow through AppDomain.CurrentDomain.UnhandledException,
-            // but we need to set UnwindNativeCode to get it to work correctly. 
+            // but we need to set UnwindNativeCode to get it to work correctly.
             // 
             // See: https://github.com/xamarin/xamarin-macios/issues/15252
 

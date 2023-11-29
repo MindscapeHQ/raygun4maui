@@ -21,15 +21,17 @@ namespace Raygun4Maui
             Version = Version,
             ClientUrl = ClientUrl
         };
+
         internal static void Attach(RaygunMauiClient client)
         {
             if (_instance != null)
             {
                 throw new Exception("You should only call 'AddRaygun4maui' once in your app.");
             }
-          
+
             _instance = client;
         }
+
         public RaygunMauiClient(string apiKey) : base(apiKey)
         {
 
@@ -39,12 +41,12 @@ namespace Raygun4Maui
         {
         }
 
-        
+
 
         protected override async Task<RaygunMessage> BuildMessage(Exception exception, IList<string> tags, IDictionary userCustomData, RaygunIdentifierMessage userInfo)
         {
             DateTime now = DateTime.Now;
-            var environment = new RaygunMauiEnvironmentMessage //Mostlikely should be static
+            var environment = new RaygunMauiEnvironmentMessage //Most likely should be static
             {
                 UtcOffset = TimeZoneInfo.Local.GetUtcOffset(now).TotalHours,
                 Locale = CultureInfo.CurrentCulture.DisplayName,
