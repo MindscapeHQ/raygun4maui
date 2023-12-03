@@ -79,4 +79,9 @@ public partial class MainPage : ContentPage
             Log.Logger.Error(ex, "Serilog error");
         }
     }
+    
+    private async void OnNavigateButtonClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new PageLoadTest());
+    }
 }

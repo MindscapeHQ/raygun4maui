@@ -3,13 +3,7 @@
  * It uses the MIT License
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Raygun4Maui.MattJohnsonPint.Maui
+namespace Raygun4Maui.MauiUnhandledExceptions.MattJohnsonPint.Maui
 {
     public static class MauiExceptions
     {

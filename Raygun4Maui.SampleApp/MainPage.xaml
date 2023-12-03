@@ -70,6 +70,13 @@
                 Clicked="OnSerilogClicked"
                 HorizontalOptions="Center"
                 />
+            
+            <Button
+                Text="Go to another page"
+                SemanticProperties.Hint="Test page load times"
+                Clicked="OnNavigateButtonClicked"
+                HorizontalOptions="Center"
+                />
 
         </VerticalStackLayout>
     </ScrollView>

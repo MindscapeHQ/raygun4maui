@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Mindscape.Raygun4Net;
 using Serilog;
 
 namespace Raygun4Maui.SampleApp;
@@ -20,14 +21,16 @@ public static class MauiProgram
             .MinimumLevel.Debug()
             .WriteTo.Raygun(apiKey)
             .CreateLogger();
-
+        
         builder
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            }).AddRaygun4Maui(apiKey);
+            }).AddRaygun4Maui(apiKey)
+            .EnableRaygunRum();
+        
         return builder.Build();
     }
 }
