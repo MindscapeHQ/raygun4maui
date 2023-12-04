@@ -17,7 +17,7 @@ public class RaygunRum
     
     private const string UnknownValue = "Unknown";
 
-    private Raygun4MauiSettings _settings;
+    private Raygun4MauiSettings _mauiSettings;
     
     public RaygunRum()
     {
@@ -29,7 +29,7 @@ public class RaygunRum
         
         Enabled = true;
         
-        _settings = settings;
+        _mauiSettings = settings;
         
         System.Diagnostics.Debug.WriteLine("SETTING UP VIEW TRACKER");
         
@@ -38,7 +38,7 @@ public class RaygunRum
         _sessionTracker = new RaygunSessionTracker();
         _raygunNetworkTracker = new RaygunNetworkTracker();
         
-        _requestHandler = new RaygunWebRequestHandler(_settings.ApiKey, _settings.RumApiEndpoint, 30_0000);
+        _requestHandler = new RaygunWebRequestHandler(_mauiSettings.RaygunSettings.ApiKey, _mauiSettings.RumApiEndpoint, 30_0000);
 
         _viewTracker.ViewLoaded += OnViewLoaded;
         _viewTracker.Init(settings);
@@ -102,7 +102,7 @@ public class RaygunRum
                     Timestamp = DateTime.UtcNow,
                     Type      = RaygunRumEventType.Timing,
                     User      = _sessionTracker.CurrentUser,
-                    Version   = _settings.ApplicationVersion ?? UnknownValue,
+                    Version   = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
                     Os        = NativeDeviceInfo.Platform(), // TODO: Investigate this
                     OsVersion = DeviceInfo.Current.VersionString,
                     Platform  = NativeDeviceInfo.Platform(),
@@ -169,7 +169,7 @@ public class RaygunRum
                     Timestamp = DateTime.UtcNow,
                     Type      = eventType,
                     User      = user,
-                    Version   = _settings.ApplicationVersion ?? UnknownValue,
+                    Version   = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
                     Os        = NativeDeviceInfo.Platform(), // TODO: Investigate this
                     OsVersion = DeviceInfo.Current.VersionString,
                     Platform  = NativeDeviceInfo.Platform(),

@@ -21,15 +21,14 @@ public static class MauiProgram
             .MinimumLevel.Debug()
             .WriteTo.Raygun(apiKey)
             .CreateLogger();
-        
+
         builder
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            }).AddRaygun4Maui(apiKey)
-            .EnableRaygunRum();
+            }).AddRaygun(new Raygun4MauiSettings(apiKey));
         
         return builder.Build();
     }

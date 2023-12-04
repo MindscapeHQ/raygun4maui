@@ -2,6 +2,7 @@ using System.Reflection;
 using Mindscape.Raygun4Net;
 using System.Globalization;
 using System.Collections;
+using Microsoft.Extensions.Options;
 using Raygun4Maui.DeviceIdProvider;
 using Raygun4Maui.MauiRUM;
 using Raygun4Maui.MauiRUM.EventTypes;
@@ -27,6 +28,7 @@ namespace Raygun4Maui
         private IDeviceIdProvider _deviceId;
 
         private static RaygunMauiClient _instance;
+        private Raygun4MauiSettings _mauiSettings;
         public static RaygunMauiClient Current => _instance;
 
         private readonly Lazy<RaygunMauiEnvironmentMessageBuilder> _lazyMessageBuilder =
@@ -58,27 +60,33 @@ namespace Raygun4Maui
             _instance = client;
         }
 
-        public RaygunMauiClient(string apiKey) : base(apiKey)
-        {
-            // TODO: Create rum?
-            // _rum = new RaygunRUM();
-        }
-
-        public RaygunMauiClient(Raygun4MauiSettings settings) : base(settings)
+        public RaygunMauiClient(IOptions<Raygun4MauiSettings> settings) : base(settings.Value.RaygunSettings)
         {
             _rum = new RaygunRum();
+            _mauiSettings = settings.Value;
+        }
+
+        public RaygunMauiClient(string apiKey) : base(apiKey)
+        {
+            _rum = new RaygunRum();
+        }
+
+        public RaygunMauiClient(Raygun4MauiSettings settings) : base(settings.RaygunSettings)
+        {
+            _rum = new RaygunRum();
+            _mauiSettings = settings;
         }
 
         public void EnableRealUserMonitoring(IDeviceIdProvider deviceId)
         {
             // TODO: Find a better way to inject deviceId
             _deviceId = deviceId;
-            
-            _userInfo = new RaygunIdentifierMessage(_deviceId.GetDeviceId()) {IsAnonymous = true};
-            
-            _rum.Enable(_settings as Raygun4MauiSettings, _userInfo);
+
+            _userInfo = new RaygunIdentifierMessage(_deviceId.GetDeviceId()) { IsAnonymous = true };
+
+            _rum.Enable(_mauiSettings, _userInfo);
         }
-        
+
         public void SendTimingEvent(RaygunRumEventTimingType type, string name, long milliseconds)
         {
             if (_rum.Enabled)

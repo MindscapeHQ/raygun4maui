@@ -20,17 +20,22 @@ namespace Raygun4Maui.MauiUnhandledExceptions
         {
             MauiExceptions.UnhandledException += (sender, args) =>
             {
-                try
-                {
+                try {
                     Exception e = (Exception)args.ExceptionObject;
                     List<string> tags = new List<string>() { "UnhandledException" };
 
-                    if (raygunMauiSettings.SendDefaultTags)
+                    if (raygunMauiSettings.RaygunSettings.SendDefaultTags)
                     {
-                        tags.Add(Raygun4NetBuildPlatforms.GetBuildPlatform());
+                        Exception e = (Exception)args.ExceptionObject;
+                        List<string> tags = new List<string>() { "UnhandledException" };
+
+                        if (raygunMauiSettings.SendDefaultTags)
+                        {
+                            tags.Add(Raygun4NetBuildPlatforms.GetBuildPlatform());
+                        }
+                        
+                        RaygunMauiClient.Current.SendInBackground(e, tags, null);
                     }
-                    
-                    RaygunMauiClient.Current.SendInBackground(e, tags, null);
                 }
                 catch (Exception e)
                 {

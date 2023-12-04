@@ -12,7 +12,7 @@
                 Padding="25,0"
                 VerticalOptions="Center">
                 <Button
-                    Text="{Binding LoadingText}"
+                    Text="Go Back"
                     SemanticProperties.Hint="Test page load times"
                     Clicked="OnNavigateButtonClicked"
                     HorizontalOptions="Center" />
