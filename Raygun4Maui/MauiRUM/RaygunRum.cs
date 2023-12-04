@@ -143,12 +143,12 @@ public class RaygunRum
         if (!Enabled) return;
         
         
-        // TODO: Add these?
-        // if (timingType == RaygunRumEventTimingType.ViewLoaded && _viewTracker.ShouldIgnore(name))
-        // {
-        //     return;
-        // }
+        if (timingType == RaygunRumEventTimingType.ViewLoaded && _viewTracker.ShouldIgnore(name))
+        {
+            return;
+        }
 
+        // TODO: Need to implement network tracker
         // if (timingType == RaygunRumEventTimingType.NetworkCall && _networkTracker.ShouldIgnore(name))
         // {
         //     return;

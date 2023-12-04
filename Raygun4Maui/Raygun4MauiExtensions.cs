@@ -52,10 +52,8 @@ namespace Raygun4Maui
 
         private static MauiAppBuilder AddRaygunRum(this MauiAppBuilder mauiAppBuilder)
         {
-            // Configured device id provider to have device based UUID for users
             mauiAppBuilder.AddDeviceIdProvider();
 
-            // TODO: Figure out how to actually get an instance instead of creating it here
             var deviceIdProvider = new DeviceIdProvider.DeviceIdProvider();
 
             RaygunMauiClient.Current.EnableRealUserMonitoring(deviceIdProvider);

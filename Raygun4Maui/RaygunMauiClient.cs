@@ -79,7 +79,6 @@ namespace Raygun4Maui
 
         public void EnableRealUserMonitoring(IDeviceIdProvider deviceId)
         {
-            // TODO: Find a better way to inject deviceId
             _deviceId = deviceId;
 
             _userInfo = new RaygunIdentifierMessage(_deviceId.GetDeviceId()) { IsAnonymous = true };

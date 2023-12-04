@@ -2,6 +2,14 @@
 
 namespace Raygun4Maui
 {
+    [Flags]
+    public enum RumFeatures
+    {
+        None = 0,
+        Network = 1 << 1,
+        Page = 1 << 2
+    }
+    
     public sealed class Raygun4MauiSettings
     {
         private static readonly Uri DefaultRumApiEndpoint = new Uri("https://api.raygun.com/events");
@@ -11,6 +19,8 @@ namespace Raygun4Maui
         public IList<string> IgnoredUrls { get; set; }
 
         public bool EnableRealUserMonitoring { get; set; } = true;
+        
+        public RumFeatures RumFeatureFlags { get; set; }
 
 
         public Raygun4MauiSettings(RaygunLoggerConfiguration raygunSettings)

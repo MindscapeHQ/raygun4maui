@@ -8,12 +8,11 @@ public class RaygunViewTracker
 {
     public event EventHandler<RaygunTimingEventArgs> ViewLoaded;
 
-    // TODO: Implement page load time tracking through the page times, also with the timers
     private readonly Dictionary<string, long> _timers;
     private DateTime _previousPageDisappearingTime;
 
     private Raygun4MauiSettings _settings;
-    
+
     public RaygunViewTracker()
     {
         _timers = new Dictionary<string, long>();
@@ -27,7 +26,10 @@ public class RaygunViewTracker
         RaygunAppEventPublisher.ListenFor(RaygunAppEventType.ViewTimingFinished, OnViewTimingFinished);
 
         // Set up page listeners when application is available
-        RaygunAppEventPublisher.ListenFor(RaygunAppEventType.AppStarted, SetupPageDelegates);
+        if (_settings.RumFeatureFlags.HasFlag(RumFeatures.Page))
+        {
+            RaygunAppEventPublisher.ListenFor(RaygunAppEventType.AppStarted, SetupPageDelegates);
+        }
     }
 
 
@@ -41,14 +43,14 @@ public class RaygunViewTracker
 
     private void OnViewTimingStarted(IRaygunAppEventArgs args)
     {
-        var viewEvent = (RaygunViewTimingEventArgs) args;
+        var viewEvent = (RaygunViewTimingEventArgs)args;
 
         _timers.TryAdd(viewEvent.Name, viewEvent.OccurredOn);
     }
 
     private void OnViewTimingFinished(IRaygunAppEventArgs args)
     {
-        var viewEvent = (RaygunViewTimingEventArgs) args;
+        var viewEvent = (RaygunViewTimingEventArgs)args;
 
         if (_timers.ContainsKey(viewEvent.Name))
         {
@@ -56,11 +58,11 @@ public class RaygunViewTracker
 
             _timers.Remove(viewEvent.Name);
 
-            // if (!ShouldIgnore(viewEvent.Name))
-            // {
-            System.Diagnostics.Debug.WriteLine("I AM HERE");
-            InvokeViewLoadedEvent(viewEvent.Name, GetDuration(start, viewEvent.OccurredOn));
-            // }
+            if (!ShouldIgnore(viewEvent.Name))
+            {
+                System.Diagnostics.Debug.WriteLine("I AM HERE");
+                InvokeViewLoadedEvent(viewEvent.Name, GetDuration(start, viewEvent.OccurredOn));
+            }
 
             SetPageLoadTimeStart();
         }
@@ -68,23 +70,26 @@ public class RaygunViewTracker
 
     private void OnPageDisappearing(object sender, Page page)
     {
-        System.Diagnostics.Debug.WriteLine("PAGE DISAPPEARING LOOK AT ME " + DateTime.UtcNow.Ticks + " " + page.GetType().Name);
+        System.Diagnostics.Debug.WriteLine("PAGE DISAPPEARING LOOK AT ME " + DateTime.UtcNow.Ticks + " " +
+                                           page.GetType().Name);
 
         if (page is NavigationPage)
         {
             return;
         }
+
         SetPageLoadTimeStart();
     }
 
 
     private void OnPageAppearing(object sender, Page page)
     {
-        System.Diagnostics.Debug.WriteLine("PAGE APPEARING LOOK AT ME " + DateTime.UtcNow.Ticks + " " + page.GetType().Name);
+        System.Diagnostics.Debug.WriteLine("PAGE APPEARING LOOK AT ME " + DateTime.UtcNow.Ticks + " " +
+                                           page.GetType().Name);
 
         var pageName = page.GetType().Name;
 
-        if (page is NavigationPage) // Todo: OR SHOULDIGNORE PAGE
+        if (page is NavigationPage || ShouldIgnore(pageName))
         {
             return;
         }
@@ -105,6 +110,11 @@ public class RaygunViewTracker
     private long GetDuration(long startTicks, long finishTicks)
     {
         return (long)TimeSpan.FromTicks(finishTicks - startTicks).TotalMilliseconds;
+    }
+
+    public bool ShouldIgnore(string viewName)
+    {
+        return _settings.IgnoredViews.Contains(viewName);
     }
 
     private void InvokeViewLoadedEvent(string name, long duration)
