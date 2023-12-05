@@ -86,7 +86,7 @@ public class RaygunRum
                 Name = name,
                 Timing = new RaygunRumTimingInfo
                 {
-                    Type     = timingType,
+                    Type     = TimingTypeToString(timingType),
                     Duration = duration
                 }
             }
@@ -100,7 +100,7 @@ public class RaygunRum
                 {
                     SessionId = _sessionTracker.SessionId,
                     Timestamp = DateTime.UtcNow,
-                    Type      = RaygunRumEventType.Timing,
+                    Type      = EventTypeToString(RaygunRumEventType.Timing),
                     User      = _sessionTracker.CurrentUser,
                     Version   = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
                     Os        = NativeDeviceInfo.Platform(), // TODO: Investigate this
@@ -167,7 +167,7 @@ public class RaygunRum
                 {
                     SessionId = sessionId,
                     Timestamp = DateTime.UtcNow,
-                    Type      = eventType,
+                    Type      = EventTypeToString(eventType),
                     User      = user,
                     Version   = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
                     Os        = NativeDeviceInfo.Platform(), // TODO: Investigate this
@@ -218,5 +218,27 @@ public class RaygunRum
             // RaygunLogger.Debug($"[RaygunRUM] Offline - not sending RUM event");
             System.Diagnostics.Debug.WriteLine($"[RaygunRUM] Offline - not sending RUM event");
         }
+    }
+    
+    private static string EventTypeToString(RaygunRumEventType eventType)
+    {
+        return eventType switch
+        {
+            RaygunRumEventType.SessionStart => "session_start",
+            RaygunRumEventType.Timing => "mobile_event_timing",
+            RaygunRumEventType.SessionEnd => "session_end",
+            _ => ""
+        };
+    }
+
+    private static string TimingTypeToString(RaygunRumEventTimingType timingType)
+    {
+        return timingType switch
+        {
+            RaygunRumEventTimingType.ViewLoaded => "p",
+            RaygunRumEventTimingType.NetworkCall => "n",
+            RaygunRumEventTimingType.CustomTiming => "t",
+            _ => throw new ArgumentOutOfRangeException(nameof(timingType), timingType, null)
+        };
     }
 }

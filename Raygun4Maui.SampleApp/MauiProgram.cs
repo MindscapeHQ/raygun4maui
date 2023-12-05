@@ -28,7 +28,10 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            }).AddRaygun(new Raygun4MauiSettings(apiKey) { RumFeatureFlags = RumFeatures.Page | RumFeatures.Network });
+            }).AddRaygun(new Raygun4MauiSettings(apiKey)
+            {
+                RumFeatureFlags = RumFeatures.Page | RumFeatures.Network
+            });
 
         return builder.Build();
     }

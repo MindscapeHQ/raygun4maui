@@ -114,7 +114,7 @@ public class RaygunViewTracker
 
     public bool ShouldIgnore(string viewName)
     {
-        return _settings.IgnoredViews.Contains(viewName);
+        return _settings.IgnoredViews != null && _settings.IgnoredViews.Contains(viewName);
     }
 
     private void InvokeViewLoadedEvent(string name, long duration)
