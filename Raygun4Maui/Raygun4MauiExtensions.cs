@@ -17,10 +17,10 @@ namespace Raygun4Maui
             Raygun4MauiSettings raygunMauiSettings)
         {
             var client = new RaygunMauiClient(raygunMauiSettings);
-            
+
             mauiAppBuilder.Services.AddSingleton<RaygunMauiClient>(client);
             RaygunMauiClient.Attach(client);
-            
+
             if (raygunMauiSettings.EnableRealUserMonitoring)
             {
                 mauiAppBuilder.AddRaygunRum();
@@ -31,18 +31,31 @@ namespace Raygun4Maui
                 .AddRaygunLogger(raygunMauiSettings.RaygunSettings);
         }
 
-        public static MauiAppBuilder AddRaygun(this MauiAppBuilder mauiAppBuilder, Action<Raygun4MauiSettings> options = null)
+        public static MauiAppBuilder AddRaygun(this MauiAppBuilder mauiAppBuilder,
+            Action<Raygun4MauiSettings> options = null)
         {
-            
             var settings = mauiAppBuilder.Configuration.GetSection("Raygun4MauiSettings").Get<Raygun4MauiSettings>();
-            
+
             options?.Invoke(settings);
 
             return mauiAppBuilder.AddRaygun(settings);
         }
 
-        [Obsolete("Method is deprecated, use alternate ")]
-        public static MauiAppBuilder AddRaygun(
+        [Obsolete("Method is deprecated, this will not enable RUM")]
+        public static MauiAppBuilder AddRaygun4Maui(
+            this MauiAppBuilder mauiAppBuilder,
+            Raygun4MauiSettings raygunMauiSettings)
+        {
+            RaygunMauiClient.Attach(new RaygunMauiClient(raygunMauiSettings));
+
+            return mauiAppBuilder
+                .AddRaygunUnhandledExceptionsListener(raygunMauiSettings)
+                .AddRaygunLogger(raygunMauiSettings.RaygunSettings);
+        }
+
+
+        [Obsolete("Method is deprecated, this will not enable RUM")]
+        public static MauiAppBuilder AddRaygun4Maui(
             this MauiAppBuilder mauiAppBuilder,
             string apiKey
         )
