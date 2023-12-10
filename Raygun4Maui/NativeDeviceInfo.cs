@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Diagnostics;
-#if WINDOWS
 
+#if WINDOWS
 #elif ANDROID
 using Android.OS;
 #elif IOS || MACCATALYST
@@ -15,7 +15,6 @@ namespace Raygun4Maui
 {
     internal static class NativeDeviceInfo
     {
-
 #if IOS || MACCATALYST
         private const string MEM_AVAILABLE_PROP_NAME = "hw.usermem";
         private const string MEM_TOTAL_PROP_NAME = "hw.physmem";
@@ -170,7 +169,7 @@ namespace Raygun4Maui
         {
           return RuntimeInformation.ProcessArchitecture.ToString();
         }
-       
+
 #elif IOS
             return RuntimeInformation.ProcessArchitecture.ToString();
 #elif MACCATALYST

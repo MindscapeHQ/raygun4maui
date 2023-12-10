@@ -11,14 +11,14 @@ public class RaygunRum
     private RaygunViewTracker _viewTracker;
     private RaygunSessionTracker _sessionTracker;
     private RaygunNetworkTracker _raygunNetworkTracker;
-    
+
     private IRaygunWebRequestHandler _requestHandler;
 
-    
+
     private const string UnknownValue = "Unknown";
 
     private Raygun4MauiSettings _mauiSettings;
-    
+
     public RaygunRum()
     {
     }
@@ -26,68 +26,63 @@ public class RaygunRum
     public void Enable(Raygun4MauiSettings settings, RaygunIdentifierMessage user)
     {
         if (Enabled) return;
-        
+
         Enabled = true;
-        
+
         _mauiSettings = settings;
-        
-        System.Diagnostics.Debug.WriteLine("SETTING UP VIEW TRACKER");
-        
-        
+
         _viewTracker = new RaygunViewTracker();
         _sessionTracker = new RaygunSessionTracker();
         _raygunNetworkTracker = new RaygunNetworkTracker();
-        
-        _requestHandler = new RaygunWebRequestHandler(_mauiSettings.RaygunSettings.ApiKey, _mauiSettings.RumApiEndpoint, 30_0000);
+
+        _requestHandler =
+            new RaygunWebRequestHandler(_mauiSettings.RaygunSettings.ApiKey, _mauiSettings.RumApiEndpoint, 30_0000);
 
         _viewTracker.ViewLoaded += OnViewLoaded;
         _viewTracker.Init(settings);
-        
+
         _sessionTracker.SessionStarted += OnSendSessionStartedEvent;
         _sessionTracker.SessionChanged += OnSendSessionChangedEvent;
         _sessionTracker.Init(user);
     }
-    
+
     public void UpdateUser(RaygunIdentifierMessage user)
     {
         _sessionTracker.CurrentUser = user;
     }
-    
+
     private void OnViewLoaded(object sender, RaygunTimingEventArgs args)
     {
-        System.Diagnostics.Debug.WriteLine("TIMINGS HAPPENED!!!!");
         _sessionTracker.EnsureSessionStarted();
 
         SendTimingEvent(args.Type, args.Key, args.Milliseconds);
 
         _sessionTracker.UpdateLastSeenTime();
     }
-    
+
     public void SendTimingEvent(RaygunRumEventTimingType timingType, string name, long duration)
     {
         if (!Enabled)
         {
-            // RaygunLogger.Info("Cannot send RUM event - RUM has not been enabled");
             return;
         }
 
         var message = BuildTimingEventMessage(timingType, name, duration);
 
-        System.Diagnostics.Debug.WriteLine(RaygunSerializer.Serialize(message));
         SendEvent(message);
     }
-    
+
     private RaygunRumMessage BuildTimingEventMessage(RaygunRumEventTimingType timingType, string name, long duration)
     {
         var data = new RaygunRumTimingData[1]
         {
             new RaygunRumTimingData
             {
-                Name = name,
-                Timing = new RaygunRumTimingInfo
+                name = name,
+                timing = new RaygunRumTimingInfo
                 {
-                    Type     = TimingTypeToString(timingType),
-                    Duration = duration
+                    type = TimingTypeToString(timingType),
+                    duration = duration
                 }
             }
         };
@@ -98,22 +93,24 @@ public class RaygunRum
             {
                 new RaygunRumEventInfo
                 {
-                    SessionId = _sessionTracker.SessionId,
-                    Timestamp = DateTime.UtcNow,
-                    Type      = EventTypeToString(RaygunRumEventType.Timing),
-                    User      = _sessionTracker.CurrentUser,
-                    Version   = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
-                    Os        = NativeDeviceInfo.Platform(), // TODO: Investigate this
-                    OsVersion = DeviceInfo.Current.VersionString,
-                    Platform  = NativeDeviceInfo.Platform(),
-                    Data      = RaygunSerializer.Serialize(data)
+                    sessionId = _sessionTracker.SessionId,
+                    timestamp = DateTime.UtcNow,
+                    type = EventTypeToString(RaygunRumEventType.Timing),
+                    user = _sessionTracker.CurrentUser,
+                    Version = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
+                    os = NativeDeviceInfo.Platform(), // Cannot get specific Windows version, e.g. Windows 10 vs 11 so we use general platform
+                    osVersion = DeviceInfo.Current.VersionString,
+                    platform = DeviceInfo.Model, // Xamarin uses device model, e.g. iPhone 15, Motherboard Version (windows)
+                    data = RaygunSerializer.Serialize(data)
                 }
             }
         };
+        
+        
 
         return message;
     }
-    
+
     private void OnSendSessionStartedEvent(object sender, RaygunSessionEventArgs args)
     {
         SendSessionEvent(RaygunRumEventType.SessionStart, args.SessionId, args.User);
@@ -121,28 +118,27 @@ public class RaygunRum
 
     private void OnSendSessionChangedEvent(object sender, RaygunSessionChangedEventArgs args)
     {
-        SendSessionEvent(RaygunRumEventType.SessionEnd,   args.OldSessionId, args.OldUser);
+        SendSessionEvent(RaygunRumEventType.SessionEnd, args.OldSessionId, args.OldUser);
         SendSessionEvent(RaygunRumEventType.SessionStart, args.NewSessionId, args.NewUser);
     }
-    
+
     private void SendSessionEvent(RaygunRumEventType eventType, string sessionId, RaygunIdentifierMessage user)
     {
         if (!Enabled)
         {
-            // RaygunLogger.Info("Cannot send RUM event - RUM has not been enabled");
             return;
         }
 
         var message = BuildSessionEventMessage(eventType, sessionId, user);
-        
+
         SendEvent(message);
     }
-    
+
     public void SendCustomTimingEvent(RaygunRumEventTimingType timingType, string name, long duration)
     {
         if (!Enabled) return;
-        
-        
+
+
         if (timingType == RaygunRumEventTimingType.ViewLoaded && _viewTracker.ShouldIgnore(name))
         {
             return;
@@ -157,7 +153,8 @@ public class RaygunRum
         SendTimingEvent(timingType, name, duration);
     }
 
-    private RaygunRumMessage BuildSessionEventMessage(RaygunRumEventType eventType, string sessionId, RaygunIdentifierMessage user)
+    private RaygunRumMessage BuildSessionEventMessage(RaygunRumEventType eventType, string sessionId,
+        RaygunIdentifierMessage user)
     {
         var message = new RaygunRumMessage
         {
@@ -165,21 +162,21 @@ public class RaygunRum
             {
                 new RaygunRumEventInfo
                 {
-                    SessionId = sessionId,
-                    Timestamp = DateTime.UtcNow,
-                    Type      = EventTypeToString(eventType),
-                    User      = user,
-                    Version   = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
-                    Os        = NativeDeviceInfo.Platform(), // TODO: Investigate this
-                    OsVersion = DeviceInfo.Current.VersionString,
-                    Platform  = NativeDeviceInfo.Platform(),
+                    sessionId = sessionId,
+                    timestamp = DateTime.UtcNow,
+                    type = EventTypeToString(eventType),
+                    user = user,
+                    Version = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
+                    os = NativeDeviceInfo.Platform(), // TODO: Investigate this
+                    osVersion = DeviceInfo.Current.VersionString,
+                    platform = NativeDeviceInfo.Platform(),
                 }
             }
         };
 
         return message;
     }
-    
+
     private void SendEvent(RaygunRumMessage message)
     {
         string payload = RaygunSerializer.Serialize(message);
@@ -193,33 +190,20 @@ public class RaygunRum
             Task.Run(async () =>
                 {
                     var responseStatusCode = await _requestHandler.PostAsync(payload);
-                    // RaygunLogger.LogResponseStatusCode(responseStatusCode);
-                    System.Diagnostics.Debug.WriteLine(responseStatusCode);
                 })
                 .ContinueWith(t =>
                 {
                     if (t.IsFaulted)
                     {
-                        // RaygunLogger.Error("Fault occurred when sending RUM event");
-                        System.Diagnostics.Debug.WriteLine("Fault occurred when sending RUM event");
                     }
 
                     // Consume all errors as we dont want them being sent.
-                    t.Exception?.Handle((e) =>
-                    {
-                        // RaygunLogger.Error("Error occurred while sending RUM event: " + e.Message);
-                        System.Diagnostics.Debug.WriteLine("Error occurred while sending RUM event: " + e.Message);
-                        return true; // Handled
-                    });
+                    t.Exception?.Handle((e) => true);
                 });
         }
-        else
-        {
-            // RaygunLogger.Debug($"[RaygunRUM] Offline - not sending RUM event");
-            System.Diagnostics.Debug.WriteLine($"[RaygunRUM] Offline - not sending RUM event");
-        }
+
     }
-    
+
     private static string EventTypeToString(RaygunRumEventType eventType)
     {
         return eventType switch
@@ -241,4 +225,5 @@ public class RaygunRum
             _ => throw new ArgumentOutOfRangeException(nameof(timingType), timingType, null)
         };
     }
+    
 }

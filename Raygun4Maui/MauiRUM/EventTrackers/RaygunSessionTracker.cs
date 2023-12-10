@@ -31,11 +31,11 @@ public class RaygunSessionTracker
       _currentUser = user;
 
       // Listen for events
-      RaygunAppEventPublisher.ListenFor(RaygunAppEventType.AppInitialised, OnAppInitialised);
-      RaygunAppEventPublisher.ListenFor(RaygunAppEventType.AppStarted,     OnAppStarted);
-      RaygunAppEventPublisher.ListenFor(RaygunAppEventType.AppResumed,     OnAppResumed);
-      RaygunAppEventPublisher.ListenFor(RaygunAppEventType.AppPaused,      OnAppPaused);
-      RaygunAppEventPublisher.ListenFor(RaygunAppEventType.AppStopped,     OnAppStopped);
+      RaygunAppEventPublisher.Subscribe<AppInitialised>(OnAppInitialised);
+      RaygunAppEventPublisher.Subscribe<AppStarted>(OnAppStarted);
+      RaygunAppEventPublisher.Subscribe<AppResumed>(OnAppResumed);
+      RaygunAppEventPublisher.Subscribe<AppPaused>(OnAppPaused);
+      RaygunAppEventPublisher.Subscribe<AppStopped>(OnAppStopped);
 
       EvaluateSession();
     }
@@ -82,31 +82,31 @@ public class RaygunSessionTracker
       App Lifecycle Event Callbacks
     */
 
-    private void OnAppInitialised(IRaygunAppEventArgs args)
+    private void OnAppInitialised(AppInitialised args)
     {
       // RaygunLogger.Debug("RaygunSessionTracker - OnAppInitialised");
       EvaluateSession();
     }
 
-    private void OnAppStarted(IRaygunAppEventArgs args)
+    private void OnAppStarted(AppStarted args)
     {
       // RaygunLogger.Debug("RaygunSessionTracker - OnAppStarted");
       EvaluateSession();
     }
 
-    private void OnAppResumed(IRaygunAppEventArgs args)
+    private void OnAppResumed(AppResumed args)
     {
       // RaygunLogger.Debug("RaygunSessionTracker - OnAppResumed");
       EvaluateSession();
     }
 
-    private void OnAppPaused(IRaygunAppEventArgs args)
+    private void OnAppPaused(AppPaused args)
     {
       // RaygunLogger.Debug("RaygunSessionTracker - OnAppPaused");
       UpdateLastSeenTime();
     }
 
-    private void OnAppStopped(IRaygunAppEventArgs args)
+    private void OnAppStopped(AppStopped args)
     {
       // RaygunLogger.Debug("RaygunSessionTracker - OnAppStopped");
       UpdateLastSeenTime();

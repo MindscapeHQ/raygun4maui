@@ -2,10 +2,10 @@
 using Microsoft.Maui.LifecycleEvents;
 using Raygun4Maui.AppEvents;
 #if WINDOWS
-    using Microsoft.UI.Xaml;
-    using Application = Microsoft.UI.Xaml.Application;
-    using Window = Microsoft.UI.Xaml.Window;
-    using WindowActivatedEventArgs = Microsoft.UI.Xaml.WindowActivatedEventArgs;
+using Microsoft.UI.Xaml;
+using Application = Microsoft.UI.Xaml.Application;
+using Window = Microsoft.UI.Xaml.Window;
+using WindowActivatedEventArgs = Microsoft.UI.Xaml.WindowActivatedEventArgs;
 #endif
 
 
@@ -16,83 +16,51 @@ public class WindowsAppLifecycleHandler
 #if WINDOWS
     public void OnLaunching(Application application, LaunchActivatedEventArgs eventArgs)
     {
-        RaygunAppEventPublisher.EventOccurred(RaygunAppEventType.AppInitialised);
-
-        RaygunAppEventPublisher.EventOccurred(RaygunAppEventType.ViewTimingStarted, new RaygunViewTimingEventArgs()
+        RaygunAppEventPublisher.Publish(new AppInitialised());
+        RaygunAppEventPublisher.Publish(new ViewTimingStarted()
         {
-            Type = RaygunAppEventType.ViewTimingStarted,
             Name = application.GetType().FullName,
             OccurredOn = DateTime.UtcNow.Ticks
         });
-        LogEventToConsole($" {DateTime.UtcNow.Millisecond}");
-        LogEventToConsole("Windows Application Launching! - INIT",
-            new Dictionary<String, String> { { "app", application.ToString() }, { "args", eventArgs.ToString() } });
     }
 
     public void OnLaunched(Application application, LaunchActivatedEventArgs eventArgs)
     {
-        RaygunAppEventPublisher.EventOccurred(RaygunAppEventType.AppStarted);
-        RaygunAppEventPublisher.EventOccurred(RaygunAppEventType.ViewTimingFinished, new RaygunViewTimingEventArgs()
+        RaygunAppEventPublisher.Publish(new AppStarted());
+        RaygunAppEventPublisher.Publish(new ViewTimingFinished()
         {
-            Type = RaygunAppEventType.ViewTimingFinished,
             Name = application.GetType().FullName,
             OccurredOn = DateTime.UtcNow.Ticks
         });
-        LogEventToConsole($" {DateTime.UtcNow.Millisecond}");
-        LogEventToConsole("Windows Application Launched! - START",
-            new Dictionary<String, String> { { "app", application.ToString() }, { "args", eventArgs.ToString() } });
     }
 
     public void OnResumed(Window window)
     {
-        RaygunAppEventPublisher.EventOccurred(RaygunAppEventType.AppResumed);
-
-        LogEventToConsole("Windows Application Resumed! - RESUME",
-            new Dictionary<String, String> { { "window", window.ToString() } });
+        RaygunAppEventPublisher.Publish(new AppResumed());
     }
 
     public void OnActivated(Window window, WindowActivatedEventArgs eventArgs)
     {
-        if(eventArgs.WindowActivationState == WindowActivationState.Deactivated) {
-              RaygunAppEventPublisher.EventOccurred(RaygunAppEventType.AppPaused);
+        if (eventArgs.WindowActivationState == WindowActivationState.Deactivated)
+        {
+            RaygunAppEventPublisher.Publish(new AppPaused());
         }
-
-        LogEventToConsole(eventArgs.WindowActivationState.ToString());
-        LogEventToConsole("Windows Application Activated! - ACTIVATED",
-            new Dictionary<String, String> { { "app", window.ToString() }, { "args", eventArgs.ToString() } });
     }
 
     public void OnVisibilityChanged(Window window, WindowVisibilityChangedEventArgs eventArgs)
     {
-        if(!eventArgs.Visible) {
-            RaygunAppEventPublisher.EventOccurred(RaygunAppEventType.AppStopped);
+        if (!eventArgs.Visible)
+        {
+            RaygunAppEventPublisher.Publish(new AppStopped());
         }
-
-        LogEventToConsole(eventArgs.Visible.ToString() + $" {DateTime.UtcNow.Millisecond}");
-        LogEventToConsole("Windows Application Visibility Changed!",
-            new Dictionary<String, String> { { "app", window.ToString() }, { "args", eventArgs.ToString() } });
     }
 
     public void OnClosed(Window window, WindowEventArgs eventArgs)
     {
-        // TODO: OnClosed occurs when a window is closed, this does not guarantee the application has closed. This is also an issue for other window based listeners
-        RaygunAppEventPublisher.EventOccurred(RaygunAppEventType.AppStopped);
-
-        LogEventToConsole("Windows Application Closed! - DESTROY",
-            new Dictionary<String, String> { { "app", window.ToString() }, { "args", eventArgs.ToString() } });
+        RaygunAppEventPublisher.Publish(new AppDestroyed());
     }
 
-    private void LogEventToConsole(string eventName, IDictionary<string, string> properties = null)
-    {
-        System.Diagnostics.Debug.WriteLine($"Event: {eventName}");
-        if (properties != null)
-        {
-            foreach (var prop in properties)
-            {
-                System.Diagnostics.Debug.WriteLine($"   {prop.Key}: {prop.Value}");
-            }
-        }
-    }
+   
 #endif
 }
 

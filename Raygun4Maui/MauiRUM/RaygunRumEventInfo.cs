@@ -9,21 +9,21 @@ public class RaygunRumEventInfo
     {
     }
 
-    public string SessionId { get; set; }
+    public string sessionId { get; set; }
 
-    public DateTime Timestamp { get; set; }
+    public DateTime timestamp { get; set; }
 
-    public string Type { get; set; }
+    public string type { get; set; }
 
-    public RaygunIdentifierMessage User { get; set; }
+    public RaygunIdentifierMessage user { get; set; }
 
     public string Version { get; set; }
 
-    public string Os { get; set; }
+    public string os { get; set; }
 
-    public string OsVersion { get; set; }
+    public string osVersion { get; set; }
 
-    public string Platform { get; set; }
+    public string platform { get; set; }
 
-    public string Data { get; set; }
+    public string data { get; set; }
 }

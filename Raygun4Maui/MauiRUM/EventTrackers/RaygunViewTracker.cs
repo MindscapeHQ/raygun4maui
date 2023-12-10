@@ -22,18 +22,19 @@ public class RaygunViewTracker
     {
         _settings = settings;
 
-        RaygunAppEventPublisher.ListenFor(RaygunAppEventType.ViewTimingStarted, OnViewTimingStarted);
-        RaygunAppEventPublisher.ListenFor(RaygunAppEventType.ViewTimingFinished, OnViewTimingFinished);
+        RaygunAppEventPublisher.Subscribe<ViewTimingStarted>(OnViewTimingStarted);
+        RaygunAppEventPublisher.Subscribe<ViewTimingFinished>(OnViewTimingFinished);
+
 
         // Set up page listeners when application is available
         if (_settings.RumFeatureFlags.HasFlag(RumFeatures.Page))
         {
-            RaygunAppEventPublisher.ListenFor(RaygunAppEventType.AppStarted, SetupPageDelegates);
+            RaygunAppEventPublisher.Subscribe<AppStarted>(SetupPageDelegates);
         }
     }
 
 
-    private void SetupPageDelegates(IRaygunAppEventArgs eventArgs)
+    private void SetupPageDelegates(AppStarted args)
     {
         if (Application.Current == null) return;
 
@@ -41,17 +42,13 @@ public class RaygunViewTracker
         Application.Current.PageDisappearing += OnPageDisappearing;
     }
 
-    private void OnViewTimingStarted(IRaygunAppEventArgs args)
+    private void OnViewTimingStarted(ViewTimingStarted viewEvent)
     {
-        var viewEvent = (RaygunViewTimingEventArgs)args;
-
         _timers.TryAdd(viewEvent.Name, viewEvent.OccurredOn);
     }
 
-    private void OnViewTimingFinished(IRaygunAppEventArgs args)
+    private void OnViewTimingFinished(ViewTimingFinished viewEvent)
     {
-        var viewEvent = (RaygunViewTimingEventArgs)args;
-
         if (_timers.ContainsKey(viewEvent.Name))
         {
             var start = _timers[viewEvent.Name];
@@ -60,7 +57,6 @@ public class RaygunViewTracker
 
             if (!ShouldIgnore(viewEvent.Name))
             {
-                System.Diagnostics.Debug.WriteLine("I AM HERE");
                 InvokeViewLoadedEvent(viewEvent.Name, GetDuration(start, viewEvent.OccurredOn));
             }
 
@@ -70,9 +66,6 @@ public class RaygunViewTracker
 
     private void OnPageDisappearing(object sender, Page page)
     {
-        System.Diagnostics.Debug.WriteLine("PAGE DISAPPEARING LOOK AT ME " + DateTime.UtcNow.Ticks + " " +
-                                           page.GetType().Name);
-
         if (page is NavigationPage)
         {
             return;
@@ -84,8 +77,6 @@ public class RaygunViewTracker
 
     private void OnPageAppearing(object sender, Page page)
     {
-        System.Diagnostics.Debug.WriteLine("PAGE APPEARING LOOK AT ME " + DateTime.UtcNow.Ticks + " " +
-                                           page.GetType().Name);
 
         var pageName = page.GetType().Name;
 
