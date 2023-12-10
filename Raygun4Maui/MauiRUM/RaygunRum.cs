@@ -167,9 +167,9 @@ public class RaygunRum
                     type = EventTypeToString(eventType),
                     user = user,
                     Version = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
-                    os = NativeDeviceInfo.Platform(), // TODO: Investigate this
+                    os = NativeDeviceInfo.Platform(),
                     osVersion = DeviceInfo.Current.VersionString,
-                    platform = NativeDeviceInfo.Platform(),
+                    platform = DeviceInfo.Model,
                 }
             }
         };
