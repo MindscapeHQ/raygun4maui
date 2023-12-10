@@ -17,7 +17,7 @@ public class RaygunRumEventInfo
 
     public RaygunIdentifierMessage user { get; set; }
 
-    public string Version { get; set; }
+    public string version { get; set; }
 
     public string os { get; set; }
 

@@ -97,7 +97,7 @@ public class RaygunRum
                     timestamp = DateTime.UtcNow,
                     type = EventTypeToString(RaygunRumEventType.Timing),
                     user = _sessionTracker.CurrentUser,
-                    Version = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
+                    version = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
                     os = NativeDeviceInfo.Platform(), // Cannot get specific Windows version, e.g. Windows 10 vs 11 so we use general platform
                     osVersion = DeviceInfo.Current.VersionString,
                     platform = DeviceInfo.Model, // Xamarin uses device model, e.g. iPhone 15, Motherboard Version (windows)
@@ -166,7 +166,7 @@ public class RaygunRum
                     timestamp = DateTime.UtcNow,
                     type = EventTypeToString(eventType),
                     user = user,
-                    Version = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
+                    version = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
                     os = NativeDeviceInfo.Platform(),
                     osVersion = DeviceInfo.Current.VersionString,
                     platform = DeviceInfo.Model,
