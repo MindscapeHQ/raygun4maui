@@ -29,35 +29,49 @@ Import the module by:
 using Raygun4Maui;
 ```
 
-To activate sending of unhandled exceptions and logs to Raygun, you must add Raygun4Maui to your MauiApp builder. To do so, open your main MauiProgram class (MauiProgram.cs) and change the `CreateMauiApp` method by adding the `AddRaygun4Maui` extension method:
+To activate sending of unhandled exceptions and logs to Raygun, you must add Raygun4Maui to your MauiApp builder. To do so, open your main MauiProgram class (MauiProgram.cs) and change the `CreateMauiApp` method by adding the `AddRaygun` extension method:
 
 ``` csharp
 var builder = MauiApp.CreateBuilder();
 builder
     .UseMauiApp<App>()
     ...
-    .AddRaygun4Maui("paste_your_api_key_here");
+    .AddRaygun();
 ```
+
+The default method uses the configuration service to pull in your configuration and create the Raygun client
 
 ## Additional configuration
 
-The `AddRaygun4Maui` extension method contains an overloaded method that takes a `RaygunMauiSettings` options object. This extends `RaygunSettings` from [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/).
+We provide an options lambda which you can use to make in-code changes to the configuration, e.g. 
+```csharp
+.AddRaygun(options => {...})
+```
 
-**RaygunMauiSettings supports the following configurations:**
+The `AddRaygun` extension method contains an overloaded method that takes a `Raygun4MauiSettings` options object which can be used instead of the configuration service. This contains a `RaygunSettings` from [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/).
+
+**Raygun4MauiSettings supports the following configurations:**
 - Any configuration available in the Raygun4Net `RaygunSettings`, such as `ApiKey`.
 - `SendDefaultTags` (defaulted to `true`) adds the Log Level (e.g., Severe, Warning, etc.) and the Build Platform (e.g., Windows, Android, iOS, etc.) to reports and logs sent to Raygun.
 - `SendDefaultCustomData` (defaulted to `true`) adds all available information in the uncaught exception as custom data on the crash report sent to Raygun.
 - `MinLogLevel` and `MaxLogLevel` that specify the range of logging levels to be sent to Raygun.
+- `EnableRealUserMonitoring` to enable RUM 
+- `RumFeatureFlags` a enum flag to enable specific RUM features, (e.g. RumFeatures.Page | RumFeatures.Network)
 
-To use these additional configurations, create and initialize a new `RaygunMauiSettings` object as follows:
+
+To use these additional configurations, create and initialize a new `RaygunLoggerConfiguration` object as follows:
 
 ``` csharp
 Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
-    ApiKey = "paste_your_api_key_here",
-    SendDefaultTags = true, // defaults to true
-    SendDefaultCustomData = true, // defaults to true
-    MinLogLevel = LogLevel.Debug, // defaults to true
-    MaxLogLevel = LogLevel.Critical // defaults to true
+    RaygunSettings = new RaygunLoggerConfiguration() {
+        ApiKey = "paste_your_api_key_here",
+        SendDefaultTags = true, // defaults to true
+        SendDefaultCustomData = true, // defaults to true
+        MinLogLevel = LogLevel.Debug, // defaults to true
+        MaxLogLevel = LogLevel.Critical // defaults to true
+    },
+    EnableRealUserMonitoring = true, // defaults to true
+    RumFeatureFlags = RumFeatures.Page | RumFeatures.Network // Enables Page and Network tracking
 };
 ```
 
