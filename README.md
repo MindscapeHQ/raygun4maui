@@ -75,15 +75,6 @@ Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
 };
 ```
 
-Then add Raygun4Maui to your MauiApp builder. This time, passing in the `RaygunMauiSettings` object instead of the API key directly:
-
-``` csharp
-builder
-    .UseMauiApp<App>()
-    ...
-    .AddRaygun4Maui(raygunMauiSettings);
-```
-
 ---
 
 ## Usage
