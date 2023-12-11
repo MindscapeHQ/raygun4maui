@@ -98,15 +98,20 @@ public class RaygunRum
                     type = EventTypeToString(RaygunRumEventType.Timing),
                     user = _sessionTracker.CurrentUser,
                     version = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
-                    os = NativeDeviceInfo.Platform(), // Cannot get specific Windows version, e.g. Windows 10 vs 11 so we use general platform
+                    os = NativeDeviceInfo
+                        .Platform(), // Cannot get specific Windows version, e.g. Windows 10 vs 11 so we use general platform
+#if WINDOWS
+                    osVersion = GetWindowsVersion(DeviceInfo.Current.VersionString),
+#else
                     osVersion = DeviceInfo.Current.VersionString,
-                    platform = DeviceInfo.Model, // Xamarin uses device model, e.g. iPhone 15, Motherboard Version (windows)
+#endif
+                    platform = DeviceInfo
+                        .Model, // Xamarin uses device model, e.g. iPhone 15, Motherboard Version (windows)
                     data = RaygunSerializer.Serialize(data)
                 }
             }
         };
-        
-        
+
 
         return message;
     }
@@ -168,7 +173,11 @@ public class RaygunRum
                     user = user,
                     version = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
                     os = NativeDeviceInfo.Platform(),
+#if WINDOWS
+                    osVersion = GetWindowsVersion(DeviceInfo.Current.VersionString),
+#else
                     osVersion = DeviceInfo.Current.VersionString,
+#endif
                     platform = DeviceInfo.Model,
                 }
             }
@@ -201,7 +210,6 @@ public class RaygunRum
                     t.Exception?.Handle((e) => true);
                 });
         }
-
     }
 
     private static string EventTypeToString(RaygunRumEventType eventType)
@@ -225,5 +233,22 @@ public class RaygunRum
             _ => throw new ArgumentOutOfRangeException(nameof(timingType), timingType, null)
         };
     }
-    
+
+    private static string GetWindowsVersion(string buildNumber)
+    {
+        // Extracting the build number (assuming it's in the format "10.0.xxxxx.xxxx")
+        var parts = buildNumber.Split('.');
+        if (parts.Length < 3)
+        {
+            return buildNumber;
+        }
+
+        if (!int.TryParse(parts[2], out var buildPart))
+        {
+            return buildNumber;
+        }
+
+        // Comparing the build number to determine the Windows version (Windows 10 will never be higher than 22000)
+        return buildPart < 22000 ? "10" : "11";
+    }
 }

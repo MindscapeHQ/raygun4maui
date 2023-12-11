@@ -31,11 +31,11 @@ public class RaygunSessionTracker
       _currentUser = user;
 
       // Listen for events
-      RaygunAppEventPublisher.Subscribe<AppInitialised>(OnAppInitialised);
-      RaygunAppEventPublisher.Subscribe<AppStarted>(OnAppStarted);
-      RaygunAppEventPublisher.Subscribe<AppResumed>(OnAppResumed);
-      RaygunAppEventPublisher.Subscribe<AppPaused>(OnAppPaused);
-      RaygunAppEventPublisher.Subscribe<AppStopped>(OnAppStopped);
+      RaygunAppEventPublisher.Instance.AppInitialised += OnAppInitialised;
+      RaygunAppEventPublisher.Instance.AppStarted += OnAppStarted;
+      RaygunAppEventPublisher.Instance.AppResumed += OnAppResumed;
+      RaygunAppEventPublisher.Instance.AppPaused += OnAppPaused;
+      RaygunAppEventPublisher.Instance.AppStopped += OnAppStopped;
 
       EvaluateSession();
     }

@@ -74,11 +74,11 @@ namespace Raygun4Maui
             mauiAppBuilder.ConfigureLifecycleEvents(builder =>
             {
 #if WINDOWS
-            builder.RegisterWindowsRaygunRumEventHandlers();
+                builder.RegisterWindowsRaygunRumEventHandlers();
+#elif ANDROID
+                builder.RegisterAndroidLifecycleHandler();
 #elif IOS || MACCATALYST
                 builder.AddiOS(ios => {});
-#elif ANDROID
-                builder.AddAndroid(android => {});
 
 #endif
             });

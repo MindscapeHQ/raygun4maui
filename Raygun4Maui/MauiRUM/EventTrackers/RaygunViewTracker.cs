@@ -22,14 +22,13 @@ public class RaygunViewTracker
     {
         _settings = settings;
 
-        RaygunAppEventPublisher.Subscribe<ViewTimingStarted>(OnViewTimingStarted);
-        RaygunAppEventPublisher.Subscribe<ViewTimingFinished>(OnViewTimingFinished);
-
+        RaygunAppEventPublisher.Instance.ViewTimingStarted += OnViewTimingStarted;
+        RaygunAppEventPublisher.Instance.ViewTimingFinished += OnViewTimingFinished;
 
         // Set up page listeners when application is available
         if (_settings.RumFeatureFlags.HasFlag(RumFeatures.Page))
         {
-            RaygunAppEventPublisher.Subscribe<AppStarted>(SetupPageDelegates);
+            RaygunAppEventPublisher.Instance.AppStarted += SetupPageDelegates;
         }
     }
 
@@ -37,7 +36,9 @@ public class RaygunViewTracker
     private void SetupPageDelegates(AppStarted args)
     {
         if (Application.Current == null) return;
-
+        
+        RaygunAppEventPublisher.Instance.AppStarted -= SetupPageDelegates;
+        
         Application.Current.PageAppearing += OnPageAppearing;
         Application.Current.PageDisappearing += OnPageDisappearing;
     }
@@ -77,7 +78,6 @@ public class RaygunViewTracker
 
     private void OnPageAppearing(object sender, Page page)
     {
-
         var pageName = page.GetType().Name;
 
         if (page is NavigationPage || ShouldIgnore(pageName))
