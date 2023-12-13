@@ -78,7 +78,7 @@ namespace Raygun4Maui
 #elif ANDROID
                 builder.RegisterAndroidLifecycleHandler();
 #elif IOS || MACCATALYST
-                builder.AddiOS(ios => {});
+                builder.RegisterAppleRaygunRumEventHandlers();
 
 #endif
             });
