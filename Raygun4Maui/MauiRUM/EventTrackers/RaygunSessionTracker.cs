@@ -11,8 +11,8 @@ public class RaygunSessionTracker
     private RaygunIdentifierMessage _currentUser;
     private DateTime _lastSeenTime;
 
-    public event EventHandler<RaygunSessionEventArgs>        SessionStarted;
-    public event EventHandler<RaygunSessionChangedEventArgs> SessionChanged;
+    public event Action<RaygunSessionEventArgs>        SessionStarted;
+    public event Action<RaygunSessionChangedEventArgs> SessionChanged;
 
     public string SessionId { get; private set; }
 
@@ -123,7 +123,7 @@ public class RaygunSessionTracker
       {
         // RaygunLogger.Debug("RaygunSessionTracker - Starting new session");
         SessionId = GenerateNewSessionId();
-        SessionStarted?.Invoke(this, new RaygunSessionEventArgs(SessionId, CurrentUser));
+        SessionStarted?.Invoke(new RaygunSessionEventArgs(SessionId, CurrentUser));
       }
       else if (ShouldRotateSession())
       {
@@ -144,7 +144,7 @@ public class RaygunSessionTracker
     {
       // RaygunLogger.Debug("RaygunSessionTracker - Rotating session");
       var newSessionId = GenerateNewSessionId();
-      SessionChanged?.Invoke(this, new RaygunSessionChangedEventArgs(SessionId, newSessionId, currentUser, newUser));
+      SessionChanged?.Invoke(new RaygunSessionChangedEventArgs(SessionId, newSessionId, currentUser, newUser));
       SessionId = newSessionId;
     }
 

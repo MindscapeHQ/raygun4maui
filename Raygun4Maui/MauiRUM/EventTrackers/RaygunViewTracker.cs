@@ -6,7 +6,7 @@ namespace Raygun4Maui.MauiRUM.EventTrackers;
 
 public class RaygunViewTracker
 {
-    public event EventHandler<RaygunTimingEventArgs> ViewLoaded;
+    public event Action<RaygunTimingEventArgs> ViewLoaded;
 
     private readonly Dictionary<string, long> _timers;
     private DateTime _previousPageDisappearingTime;
@@ -36,9 +36,9 @@ public class RaygunViewTracker
     private void SetupPageDelegates(AppStarted args)
     {
         if (Application.Current == null) return;
-        
+
         RaygunAppEventPublisher.Instance.AppStarted -= SetupPageDelegates;
-        
+
         Application.Current.PageAppearing += OnPageAppearing;
         Application.Current.PageDisappearing += OnPageDisappearing;
     }
@@ -110,7 +110,7 @@ public class RaygunViewTracker
 
     private void InvokeViewLoadedEvent(string name, long duration)
     {
-        ViewLoaded?.Invoke(this, new RaygunTimingEventArgs
+        ViewLoaded?.Invoke(new RaygunTimingEventArgs
         {
             Type = RaygunRumEventTimingType.ViewLoaded,
             Key = name,

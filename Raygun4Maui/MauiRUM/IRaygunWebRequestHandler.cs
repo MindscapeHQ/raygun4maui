@@ -2,7 +2,7 @@
 
 public interface IRaygunWebRequestHandler
 {
-    bool IsOnline();
+    Task<bool> IsOnline();
 
     int Post(string payload);
 

@@ -40,28 +40,28 @@ public class RaygunAppEventPublisher
         switch (eventInfo)
         {
             case AppInitialised info:
-                Instance.AppInitialised(info);
+                Instance.AppInitialised?.Invoke(info);
                 break;
             case AppStarted info:
-                Instance.AppStarted(info);
+                Instance.AppStarted?.Invoke(info);
                 break;
             case AppPaused info:
-                Instance.AppPaused(info);
+                Instance.AppPaused?.Invoke(info);
                 break;
             case AppResumed info:
-                Instance.AppResumed(info);
+                Instance.AppResumed?.Invoke(info);
                 break;
             case AppStopped info:
-                Instance.AppStopped(info);
+                Instance.AppStopped?.Invoke(info);
                 break;
             case AppDestroyed info:
-                Instance.AppDestroyed(info);
+                Instance.AppDestroyed?.Invoke(info);
                 break;
             case ViewTimingStarted info:
-                Instance.ViewTimingStarted(info);
+                Instance.ViewTimingStarted?.Invoke(info);
                 break;
             case ViewTimingFinished info:
-                Instance.ViewTimingFinished(info);
+                Instance.ViewTimingFinished?.Invoke(info);
                 break;
         }
     }

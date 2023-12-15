@@ -1,4 +1,5 @@
-﻿using Mindscape.Raygun4Net;
+﻿using System.Diagnostics;
+using Mindscape.Raygun4Net;
 using Raygun4Maui.MauiRUM.EventTrackers;
 using Raygun4Maui.MauiRUM.EventTypes;
 
@@ -10,7 +11,7 @@ public class RaygunRum
 
     private RaygunViewTracker _viewTracker;
     private RaygunSessionTracker _sessionTracker;
-    private RaygunNetworkTracker _raygunNetworkTracker;
+    private RaygunNetworkTracker _networkTracker;
 
     private IRaygunWebRequestHandler _requestHandler;
 
@@ -33,7 +34,8 @@ public class RaygunRum
 
         _viewTracker = new RaygunViewTracker();
         _sessionTracker = new RaygunSessionTracker();
-        _raygunNetworkTracker = new RaygunNetworkTracker();
+        _networkTracker = new RaygunNetworkTracker();
+        DiagnosticListener.AllListeners.Subscribe(_networkTracker);
 
         _requestHandler =
             new RaygunWebRequestHandler(_mauiSettings.RaygunSettings.ApiKey, _mauiSettings.RumApiEndpoint, 30_0000);
@@ -44,6 +46,9 @@ public class RaygunRum
         _sessionTracker.SessionStarted += OnSendSessionStartedEvent;
         _sessionTracker.SessionChanged += OnSendSessionChangedEvent;
         _sessionTracker.Init(user);
+
+        _networkTracker.NetworkRequestCompleted += OnNetworkRequestCompletedEvent;
+        _networkTracker.Init(settings);
     }
 
     public void UpdateUser(RaygunIdentifierMessage user)
@@ -51,7 +56,16 @@ public class RaygunRum
         _sessionTracker.CurrentUser = user;
     }
 
-    private void OnViewLoaded(object sender, RaygunTimingEventArgs args)
+    private void OnViewLoaded(RaygunTimingEventArgs args)
+    {
+        _sessionTracker.EnsureSessionStarted();
+
+        SendTimingEvent(args.Type, args.Key, args.Milliseconds);
+
+        _sessionTracker.UpdateLastSeenTime();
+    }
+
+    private void OnNetworkRequestCompletedEvent(RaygunTimingEventArgs args)
     {
         _sessionTracker.EnsureSessionStarted();
 
@@ -68,7 +82,7 @@ public class RaygunRum
         }
 
         var message = BuildTimingEventMessage(timingType, name, duration);
-
+        
         SendEvent(message);
     }
 
@@ -116,12 +130,12 @@ public class RaygunRum
         return message;
     }
 
-    private void OnSendSessionStartedEvent(object sender, RaygunSessionEventArgs args)
+    private void OnSendSessionStartedEvent(RaygunSessionEventArgs args)
     {
         SendSessionEvent(RaygunRumEventType.SessionStart, args.SessionId, args.User);
     }
 
-    private void OnSendSessionChangedEvent(object sender, RaygunSessionChangedEventArgs args)
+    private void OnSendSessionChangedEvent(RaygunSessionChangedEventArgs args)
     {
         SendSessionEvent(RaygunRumEventType.SessionEnd, args.OldSessionId, args.OldUser);
         SendSessionEvent(RaygunRumEventType.SessionStart, args.NewSessionId, args.NewUser);
@@ -149,11 +163,10 @@ public class RaygunRum
             return;
         }
 
-        // TODO: Need to implement network tracker
-        // if (timingType == RaygunRumEventTimingType.NetworkCall && _networkTracker.ShouldIgnore(name))
-        // {
-        //     return;
-        // }
+        if (timingType == RaygunRumEventTimingType.NetworkCall && _networkTracker.ShouldIgnore(name))
+        {
+            return;
+        }
 
         SendTimingEvent(timingType, name, duration);
     }
@@ -186,29 +199,18 @@ public class RaygunRum
         return message;
     }
 
-    private void SendEvent(RaygunRumMessage message)
+    private async void SendEvent(RaygunRumMessage message)
     {
-        string payload = RaygunSerializer.Serialize(message);
-
-        if (_requestHandler.IsOnline())
+        var payload = RaygunSerializer.Serialize(message);
+        
+        var isOnline = await _requestHandler.IsOnline();
+        if (isOnline)
         {
             // RaygunLogger.Verbose("Sending Payload --------------");
             // RaygunLogger.Verbose(payload);
             // RaygunLogger.Verbose("------------------------------");
 
-            Task.Run(async () =>
-                {
-                    var responseStatusCode = await _requestHandler.PostAsync(payload);
-                })
-                .ContinueWith(t =>
-                {
-                    if (t.IsFaulted)
-                    {
-                    }
-
-                    // Consume all errors as we dont want them being sent.
-                    t.Exception?.Handle((e) => true);
-                });
+            await _requestHandler.PostAsync(payload);
         }
     }
 
