@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Reflection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Maui.Controls.Hosting;
 using Mindscape.Raygun4Net;
+using Raygun4Maui.Raygun4Net.RaygunLogger;
 using Serilog;
 
 namespace Raygun4Maui.SampleApp;
@@ -8,19 +11,15 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
-        var configuration = new ConfigurationBuilder()
-            .AddUserSecrets<MainPage>()
-            .Build();
-
-        var apiKey = configuration["apiKey"] ?? "";
-
         var builder = MauiApp.CreateBuilder();
-        //builder.Configuration.AddUserSecrets<MainPage>();
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
             .WriteTo.Raygun(apiKey)
             .CreateLogger();
+
+
+        builder.Configuration.AddJsonFile("appsettings.json");
 
         builder
             .UseMauiApp<App>()
@@ -28,10 +27,8 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            }).AddRaygun(new Raygun4MauiSettings(apiKey)
-            {
-                RumFeatureFlags = RumFeatures.Page | RumFeatures.Network
-            });
+            })
+            .AddRaygun(RaygunOptions);
 
         return builder.Build();
     }

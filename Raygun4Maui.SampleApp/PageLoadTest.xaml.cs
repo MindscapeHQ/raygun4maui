@@ -21,7 +21,7 @@ public partial class PageLoadTest : ContentPage
 
     private async void OnNavigateButtonClicked(object sender, EventArgs e)
     {
-        await new HttpClient().GetAsync("https://www.google.com/");
+        var responseMessage = await new HttpClient().GetAsync("https://www.google.com/");
         await Navigation.PopAsync();
     }
 }

@@ -7,7 +7,8 @@ namespace Raygun4Maui
     {
         None = 0,
         Network = 1 << 1,
-        Page = 1 << 2
+        Page = 1 << 2,
+        AppleNativeTimings = 1 << 3
     }
     
     public sealed class Raygun4MauiSettings
@@ -32,5 +33,7 @@ namespace Raygun4Maui
         {
             RaygunSettings = new RaygunLoggerConfiguration() {ApiKey = apiKey};
         }
+        
+        public Raygun4MauiSettings() {}
     }
 }

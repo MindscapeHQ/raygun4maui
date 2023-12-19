@@ -1,5 +1,6 @@
 ﻿using Mindscape.Raygun4Net;
 using Raygun4Maui.AppEvents;
+using Raygun4Maui.MauiRUM.EventTrackers.Apple;
 using Raygun4Maui.MauiRUM.EventTypes;
 
 namespace Raygun4Maui.MauiRUM.EventTrackers;
@@ -11,6 +12,8 @@ public class RaygunViewTracker
     private readonly Dictionary<string, long> _timers;
     private DateTime _previousPageDisappearingTime;
 
+    private RaygunUiViewControllerObserver applRaygunUiViewControllerObserver;
+
     private Raygun4MauiSettings _settings;
 
     public RaygunViewTracker()
@@ -21,14 +24,22 @@ public class RaygunViewTracker
     public void Init(Raygun4MauiSettings settings)
     {
         _settings = settings;
-
-        RaygunAppEventPublisher.Instance.ViewTimingStarted += OnViewTimingStarted;
-        RaygunAppEventPublisher.Instance.ViewTimingFinished += OnViewTimingFinished;
-
+        
         // Set up page listeners when application is available
         if (_settings.RumFeatureFlags.HasFlag(RumFeatures.Page))
         {
+            RaygunAppEventPublisher.Instance.ViewTimingStarted += OnViewTimingStarted;
+            RaygunAppEventPublisher.Instance.ViewTimingFinished += OnViewTimingFinished;
+
             RaygunAppEventPublisher.Instance.AppStarted += SetupPageDelegates;
+        }
+
+        if (_settings.RumFeatureFlags.HasFlag(RumFeatures.AppleNativeTimings))
+        {
+#if IOS || MACCATALYST
+            applRaygunUiViewControllerObserver = new RaygunUiViewControllerObserver();
+            applRaygunUiViewControllerObserver.Register();
+#endif
         }
     }
 

@@ -41,12 +41,45 @@ builder
 
 The default method uses the configuration service to pull in your configuration and create the Raygun client
 
-## Additional configuration
+## Configuration
 
-We provide an options lambda which you can use to make in-code changes to the configuration, e.g. 
+### Appsettings 
+
+Addition of the configuration settings requires the use of an appsettings.json which can be added to the configuration as follows. If you do not provide one we create a default Raygun4MauiSettings object which you can change using a lambda to change the options. This must be added to the configuration before you call the `.AddRaygun()` method.
 ```csharp
-.AddRaygun(options => {...})
+builder.Configuration.AddJsonFile("appsettings.json");
 ```
+
+Below is an example appsettings.json file, two key notes are that you need to use Raygun4MauiSettings as the configuration will not pull it in otherwise. Additionally, the RumFeatureFlags are comma seperated so that they can be loaded in correctly as a bitwise feature flag.
+
+```json
+{
+  "Raygun4MauiSettings": {
+    "RaygunSettings": {
+      "ApiKey": "paste_your_api_key_here",
+      "ApplicationVersion": "1.0.0",
+      "Tags": ["tag1", "tag2"]
+    },
+    "IgnoredViews": ["LoginView", "SettingsView"],
+    "IgnoredUrls": ["https://example.com/ignore"],
+    "EnableRealUserMonitoring": true,
+    "RumFeatureFlags": "Network, Page, AppleNativeTimings"
+  }
+}
+```
+
+### Lambda Options
+
+Mentioned previously, we provide an options lambda which you can use to make in-code changes to the configuration, e.g. 
+```csharp
+.AddRaygun(options => {
+    options.RaygunSettings.ApiKey = "paste_your_api_key_here";
+    options.EnableRealUserMonitoring = true;
+    options.RumFeatureFlags = RumFeatures.Page | RumFeatures.Network | RumFeatures.AppleNativeTimings;
+})
+```
+
+### Raygun4MauiSettings overload
 
 The `AddRaygun` extension method contains an overloaded method that takes a `Raygun4MauiSettings` options object which can be used instead of the configuration service. This contains a `RaygunSettings` from [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/).
 
@@ -71,7 +104,7 @@ Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
         MaxLogLevel = LogLevel.Critical // defaults to true
     },
     EnableRealUserMonitoring = true, // defaults to true
-    RumFeatureFlags = RumFeatures.Page | RumFeatures.Network // Enables Page and Network tracking
+    RumFeatureFlags = RumFeatures.Page | RumFeatures.Network | RumFeatures.AppleNativeTimings // Enables Page, Network, and Native Apple Timings
 };
 ```
 

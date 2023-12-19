@@ -90,6 +90,12 @@
 
 	 <ItemGroup> 
 	   <ProjectReference Include="..\Raygun4Maui\Raygun4Maui.csproj" /> 
+	 </ItemGroup>
+
+	 <ItemGroup>
+	   <None Update="appsettings.json">
+	     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	   </None>
 	 </ItemGroup> 
 
 </Project>

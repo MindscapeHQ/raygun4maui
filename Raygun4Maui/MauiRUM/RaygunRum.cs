@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Mindscape.Raygun4Net;
 using Raygun4Maui.MauiRUM.EventTrackers;
+using Raygun4Maui.MauiRUM.EventTrackers.Apple;
 using Raygun4Maui.MauiRUM.EventTypes;
 
 namespace Raygun4Maui.MauiRUM;
@@ -19,7 +20,7 @@ public class RaygunRum
     private const string UnknownValue = "Unknown";
 
     private Raygun4MauiSettings _mauiSettings;
-
+    
     public RaygunRum()
     {
     }
@@ -35,20 +36,22 @@ public class RaygunRum
         _viewTracker = new RaygunViewTracker();
         _sessionTracker = new RaygunSessionTracker();
         _networkTracker = new RaygunNetworkTracker();
-        DiagnosticListener.AllListeners.Subscribe(_networkTracker);
+
+        // DiagnosticListener.AllListeners.Subscribe(_networkTracker);
 
         _requestHandler =
             new RaygunWebRequestHandler(_mauiSettings.RaygunSettings.ApiKey, _mauiSettings.RumApiEndpoint, 30_0000);
 
         _viewTracker.ViewLoaded += OnViewLoaded;
         _viewTracker.Init(settings);
+        
 
         _sessionTracker.SessionStarted += OnSendSessionStartedEvent;
         _sessionTracker.SessionChanged += OnSendSessionChangedEvent;
         _sessionTracker.Init(user);
 
-        _networkTracker.NetworkRequestCompleted += OnNetworkRequestCompletedEvent;
-        _networkTracker.Init(settings);
+        // _networkTracker.NetworkRequestCompleted += OnNetworkRequestCompletedEvent;
+        // _networkTracker.Init(settings);
     }
 
     public void UpdateUser(RaygunIdentifierMessage user)
@@ -82,7 +85,7 @@ public class RaygunRum
         }
 
         var message = BuildTimingEventMessage(timingType, name, duration);
-        
+
         SendEvent(message);
     }
 
@@ -202,7 +205,7 @@ public class RaygunRum
     private async void SendEvent(RaygunRumMessage message)
     {
         var payload = RaygunSerializer.Serialize(message);
-        
+
         var isOnline = await _requestHandler.IsOnline();
         if (isOnline)
         {
