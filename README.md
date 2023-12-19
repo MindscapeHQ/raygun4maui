@@ -45,7 +45,7 @@ The default method uses the configuration service to pull in your configuration 
 
 ### Appsettings 
 
-Addition of the configuration settings requires the use of an appsettings.json which can be added to the configuration as follows. To add this appsettings.json to the bundled app you should add it as an embedded resource (consult IDE specific instructions). If you do not provide one we create a default Raygun4MauiSettings object which you can change using a lambda to change the options. This must be added to the configuration before you call the `.AddRaygun()` method.
+Addition of the configuration settings can be done through the use of an appsettings.json which can be added to the configuration as follows. To add appsettings.json to the bundled app you should add it as an embedded resource (consult IDE specific instructions). If you do not provide one we create a default Raygun4MauiSettings object which you can change using a lambda to change the options. This must be added to the configuration before you call the `.AddRaygun()` method.
 ```csharp
  var a = Assembly.GetExecutingAssembly();
  using var stream = a.GetManifestResourceStream("Raygun4Maui.SampleApp.appsettings.json");
@@ -107,6 +107,9 @@ The `AddRaygun` extension method contains an overloaded method that takes a `Ray
   - `SendDefaultTags` (defaulted to `true`) adds the Log Level (e.g., Severe, Warning, etc.) and the Build Platform (e.g., Windows, Android, iOS, etc.) to reports and logs sent to Raygun.
   - `SendDefaultCustomData` (defaulted to `true`) adds all available information in the uncaught exception as custom data on the crash report sent to Raygun.
   - `MinLogLevel` and `MaxLogLevel` that specify the range of logging levels to be sent to Raygun.
+- `IgnoredViews` a list of views to ignore when tracking
+- `IgnoredUrls` a list of url's to ignore when tracking
+- `RumApiEndpoint` endpoint to where the RUM data is sent
 - `EnableRealUserMonitoring` to enable RUM 
 - `RumFeatureFlags` a enum flag to enable specific RUM features, (e.g. RumFeatures.Page | RumFeatures.Network)
 
