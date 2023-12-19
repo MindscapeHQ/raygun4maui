@@ -12,7 +12,7 @@ public class RaygunViewTracker
     private readonly Dictionary<string, long> _timers;
     private DateTime _previousPageDisappearingTime;
 
-    private RaygunUiViewControllerObserver appleRaygunUiViewControllerObserver;
+    private RaygunUiViewControllerObserver _appleRaygunUiViewControllerObserver;
 
     private Raygun4MauiSettings _settings;
 
@@ -37,8 +37,8 @@ public class RaygunViewTracker
         if (_settings.RumFeatureFlags.HasFlag(RumFeatures.AppleNativeTimings))
         {
 #if IOS || MACCATALYST
-            appleRaygunUiViewControllerObserver = new RaygunUiViewControllerObserver();
-            appleRaygunUiViewControllerObserver.Register();
+            _appleRaygunUiViewControllerObserver = new RaygunUiViewControllerObserver();
+            _appleRaygunUiViewControllerObserver.Register();
 #endif
         }
     }
