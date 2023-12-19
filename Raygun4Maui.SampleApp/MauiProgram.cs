@@ -12,14 +12,17 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
+        
+        var a = Assembly.GetExecutingAssembly();
+        using var stream = a.GetManifestResourceStream("Raygun4Maui.SampleApp.appsettings.json");
+        
+        builder.Configuration.AddJsonStream(stream!);
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
-            .WriteTo.Raygun(apiKey)
+            .WriteTo.Raygun(builder.Configuration["Raygun4MauiSettings:RaygunSettings:apiKey"])
             .CreateLogger();
-
-
-        builder.Configuration.AddJsonFile("appsettings.json");
+        
 
         builder
             .UseMauiApp<App>()
@@ -28,7 +31,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             })
-            .AddRaygun(RaygunOptions);
+            .AddRaygun();
 
         return builder.Build();
     }

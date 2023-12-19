@@ -29,10 +29,10 @@ namespace Raygun4Maui.MauiUnhandledExceptions
                         Exception e = (Exception)args.ExceptionObject;
                         List<string> tags = new List<string>() { "UnhandledException" };
 
-                        if (raygunMauiSettings.SendDefaultTags)
-                        {
-                            tags.Add(Raygun4NetBuildPlatforms.GetBuildPlatform());
-                        }
+                      if (raygunMauiSettings.RaygunLoggerConfiguration.SendDefaultTags)
+                    {
+                        tags.Add(Raygun4NetBuildPlatforms.GetBuildPlatform());
+                    }
                         
                         RaygunMauiClient.Current.SendInBackground(e, tags, null);
                     }
@@ -40,8 +40,7 @@ namespace Raygun4Maui.MauiUnhandledExceptions
                 catch (Exception e)
                 {
                     Trace.TraceError($"Unhandled exception handler had an error: {e.Message}");
-                }
-            };
+                };
         }
     }
 }

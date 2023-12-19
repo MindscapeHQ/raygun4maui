@@ -93,9 +93,10 @@
 	 </ItemGroup>
 
 	 <ItemGroup>
-	   <None Update="appsettings.json">
+	   <None Remove="appsettings.json" />
+	   <EmbeddedResource Include="appsettings.json">
 	     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	   </None>
+	   </EmbeddedResource>
 	 </ItemGroup> 
 
 </Project>

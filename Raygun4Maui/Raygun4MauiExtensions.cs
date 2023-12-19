@@ -25,10 +25,10 @@ namespace Raygun4Maui
             {
                 mauiAppBuilder.AddRaygunRum();
             }
-
+            
             return mauiAppBuilder
                 .AddRaygunUnhandledExceptionsListener(raygunMauiSettings)
-                .AddRaygunLogger(raygunMauiSettings.RaygunSettings);
+                .AddRaygunLogger(raygunMauiSettings.RaygunLoggerConfiguration);
         }
 
         /// <summary>
@@ -42,35 +42,13 @@ namespace Raygun4Maui
             Action<Raygun4MauiSettings> options = null)
         {
             var settings = mauiAppBuilder.Configuration.GetSection("Raygun4MauiSettings").Get<Raygun4MauiSettings>() ??
-                           new Raygun4MauiSettings(new RaygunLoggerConfiguration());
+                           new Raygun4MauiSettings();
 
             options?.Invoke(settings);
 
             return mauiAppBuilder.AddRaygun(settings);
         }
-
-        [Obsolete("Method is deprecated, this will not enable RUM")]
-        public static MauiAppBuilder AddRaygun4Maui(
-            this MauiAppBuilder mauiAppBuilder,
-            Raygun4MauiSettings raygunMauiSettings)
-        {
-            RaygunMauiClient.Attach(new RaygunMauiClient(raygunMauiSettings));
-
-            return mauiAppBuilder
-                .AddRaygunUnhandledExceptionsListener(raygunMauiSettings)
-                .AddRaygunLogger(raygunMauiSettings.RaygunSettings);
-        }
-
-
-        [Obsolete("Method is deprecated, this will not enable RUM")]
-        public static MauiAppBuilder AddRaygun4Maui(
-            this MauiAppBuilder mauiAppBuilder,
-            string apiKey
-        )
-        {
-            return mauiAppBuilder.AddRaygun(new Raygun4MauiSettings(apiKey));
-        }
-
+        
         private static MauiAppBuilder AddRaygunRum(this MauiAppBuilder mauiAppBuilder)
         {
             mauiAppBuilder.AddDeviceIdProvider();
