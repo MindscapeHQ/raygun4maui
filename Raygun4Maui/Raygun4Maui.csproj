@@ -1,113 +1,119 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFrameworks>net6.0;net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
-		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
-		<UseMaui>true</UseMaui>
-		<SingleProject>true</SingleProject>
-		<ImplicitUsings>enable</ImplicitUsings>
+    <PropertyGroup>
+        <TargetFrameworks>net6.0;net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
+        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
+        <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+        <!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
+        <UseMaui>true</UseMaui>
+        <SingleProject>true</SingleProject>
+        <ImplicitUsings>enable</ImplicitUsings>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>2.0.0-rc-2</Version>
-		<PackageVersion>2.0.0-rc-2</PackageVersion>
-		<Authors>Raygun</Authors>
-		<Company>Raygun</Company>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Description>Raygun's Crash Reporting Provider for MAUI .NET</Description>
-		<Copyright>Copyright (C) 2023 Raygun Limited</Copyright>
-		<PackageProjectUrl>https://raygun.com/platform/crash-reporting</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
-		<PackageTags>Raygun4Maui; Raygun; Crash Reporting; MAUI; .NET; dotnet</PackageTags>
-		<PackageReleaseNotes>Added support for real user monitoring (RUM) for Windows and Android
-		Implemented features:
-			- Page Tracking
-			- Page Load Times
-			- Session Tracking
-			- Custom Timings
-		</PackageReleaseNotes>
-		<Title>Raygun4Maui</Title>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-		<PackageIcon>Raygun-icon-128x128.png</PackageIcon>
-		<UserSecretsId>54661550-a31d-44d7-a748-7ac67fc82450</UserSecretsId>
-	</PropertyGroup>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Version>2.0.0-rc-3</Version>
+        <PackageVersion>2.0.0-rc-3</PackageVersion>
+        <Authors>Raygun</Authors>
+        <Company>Raygun</Company>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Description>Raygun's Crash Reporting Provider for MAUI .NET</Description>
+        <Copyright>Copyright (C) 2023 Raygun Limited</Copyright>
+        <PackageProjectUrl>https://raygun.com/platform/crash-reporting</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
+        <PackageTags>Raygun4Maui; Raygun; Crash Reporting; MAUI; .NET; dotnet</PackageTags>
+        <PackageReleaseNotes>Added support for real user monitoring (RUM) for Windows, Android, and iOS
+            Implemented features:
+            - Page Tracking
+            - Page Load Times
+            - Session Tracking
+            - Custom Timings
+            - Native iOS Timings
+            Fixes:
+			- Null pointer on application destroyed
+            - Configuration options bundling and updated README
+            
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
-	</PropertyGroup>
+        </PackageReleaseNotes>
+        <Title>Raygun4Maui</Title>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+        <PackageIcon>Raygun-icon-128x128.png</PackageIcon>
+        <UserSecretsId>54661550-a31d-44d7-a748-7ac67fc82450</UserSecretsId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-maccatalyst|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-maccatalyst|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-maccatalyst|AnyCPU'">
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows10.0.19041.0|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-maccatalyst|AnyCPU'">
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows10.0.19041.0|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-		<ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows10.0.19041.0|AnyCPU'">
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<None Include="..\README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-		<None Include="..\LICENSE">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-		<None Include="..\Raygun-icon-128x128.png">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows10.0.19041.0|AnyCPU'">
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-		<PackageReference Include="Mindscape.Raygun4Net.NetCore" Version="8.0.0" />
-	</ItemGroup>
+    <ItemGroup>
+        <None Include="..\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\LICENSE">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\Raygun-icon-128x128.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1"/>
+        <PackageReference Include="Mindscape.Raygun4Net.NetCore" Version="8.0.0"/>
+    </ItemGroup>
 
 </Project>

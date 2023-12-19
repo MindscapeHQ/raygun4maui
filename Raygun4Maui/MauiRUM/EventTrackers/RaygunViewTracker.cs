@@ -12,8 +12,10 @@ public class RaygunViewTracker
     private readonly Dictionary<string, long> _timers;
     private DateTime _previousPageDisappearingTime;
 
+#if IOS || MACCATALYST
     private RaygunUiViewControllerObserver _appleRaygunUiViewControllerObserver;
-
+#endif
+    
     private Raygun4MauiSettings _settings;
 
     public RaygunViewTracker()
@@ -24,7 +26,7 @@ public class RaygunViewTracker
     public void Init(Raygun4MauiSettings settings)
     {
         _settings = settings;
-        
+
         // Set up page listeners when application is available
         if (_settings.RumFeatureFlags.HasFlag(RumFeatures.Page))
         {

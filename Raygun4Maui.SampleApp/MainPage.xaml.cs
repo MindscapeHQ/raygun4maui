@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using System.Reflection;
+using Serilog;
 
 namespace Raygun4Maui.SampleApp;
 
@@ -15,12 +16,16 @@ public partial class MainPage : ContentPage
     public MainPage()
     {
         InitializeComponent();
+        
+        var a = Assembly.GetExecutingAssembly();
+        using var stream = a.GetManifestResourceStream("Raygun4Maui.SampleApp.appsettings.json");
 
         var configuration = new ConfigurationBuilder()
-            .AddUserSecrets<MainPage>()
+            .AddJsonStream(stream!)
             .Build();
 
-        _apiKey = configuration["apiKey"] ?? "";
+
+        _apiKey = configuration["Raygun4MauiSettings:RaygunSettings:apiKey"] ?? "";
 
         if (_apiKey != "")
         {
@@ -79,7 +84,7 @@ public partial class MainPage : ContentPage
             Log.Logger.Error(ex, "Serilog error");
         }
     }
-    
+
     private async void OnNavigateButtonClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new PageLoadTest());
