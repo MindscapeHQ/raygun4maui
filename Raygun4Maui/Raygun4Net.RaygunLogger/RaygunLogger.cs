@@ -2,6 +2,8 @@
 using Raygun4Net.BuildPlatforms;
 using Raygun4Maui;
 
+// Namespace is different, doesn't include Raygun4Maui because we may want to move this to Raygun4Net
+// ReSharper disable once CheckNamespace
 namespace Raygun4Net.RaygunLogger
 {
     public sealed class RaygunLogger : ILogger

@@ -16,8 +16,8 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>1.4.0</Version>
-		<PackageVersion>1.4.0</PackageVersion>
+		<Version>1.4.1</Version>
+		<PackageVersion>1.4.1</PackageVersion>
 		<Authors>Raygun</Authors>
 		<Company>Raygun</Company>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -26,18 +26,7 @@
 		<PackageProjectUrl>https://raygun.com/platform/crash-reporting</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
 		<PackageTags>Raygun4Maui; Raygun; Crash Reporting; MAUI; .NET; dotnet</PackageTags>
-		<PackageReleaseNotes>Expanded the device information that is collected when a crash is sent to Raygun.
-The new information collected is as follows:
-- Available physical memory
-- Total physical memory
-- Processor count
-- Architecture
-- Device manugacture
-- Model
-- Current orientation
-- Resolution scale
-- WindowBoundsWidth
-- WindowBoundsHeight</PackageReleaseNotes>
+		<PackageReleaseNotes>Fix issue with UI thread blocking on unhandled exceptions</PackageReleaseNotes>
 		<Title>Raygun4Maui</Title>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
