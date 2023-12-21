@@ -26,7 +26,7 @@
 		<PackageProjectUrl>https://raygun.com/platform/crash-reporting</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
 		<PackageTags>Raygun4Maui; Raygun; Crash Reporting; MAUI; .NET; dotnet</PackageTags>
-		<PackageReleaseNotes>Fix issue with UI thread blocking on unhandled exceptions</PackageReleaseNotes>
+		<PackageReleaseNotes>Fix issue with messages being sent too fast causing Android to crash</PackageReleaseNotes>
 		<Title>Raygun4Maui</Title>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
