@@ -10,7 +10,10 @@ namespace Raygun4Maui
         private static RaygunMauiClient _instance;
         public static RaygunMauiClient Current => _instance;
 
-        private static readonly object EnvironmentLock = new();
+        private readonly Lazy<RaygunMauiEnvironmentMessageBuilder> _lazyMessageBuilder =
+            new Lazy<RaygunMauiEnvironmentMessageBuilder>(RaygunMauiEnvironmentMessageBuilder.Init);
+
+        private RaygunMauiEnvironmentMessageBuilder EnvironmentMessageBuilder => _lazyMessageBuilder.Value;
 
         private static readonly string Name = Assembly.GetExecutingAssembly().GetName().Name;
 
@@ -44,38 +47,13 @@ namespace Raygun4Maui
 
         public RaygunMauiClient(RaygunSettings settings) : base(settings)
         {
-            System.Diagnostics.Debug.WriteLine("RAYGUN4MAUI CREATED");
         }
+
 
         protected override async Task<RaygunMessage> BuildMessage(Exception exception, IList<string> tags,
             IDictionary userCustomData, RaygunIdentifierMessage userInfo)
         {
-            RaygunMauiEnvironmentMessage environment;
-            lock (EnvironmentLock)
-            {
-                DateTime now = DateTime.Now;
-
-                environment = new RaygunMauiEnvironmentMessage //Mostlikely should be static
-                {
-                    // Combination of these cause the error, it may happen with the other ones too
-                    UtcOffset = TimeZoneInfo.Local.GetUtcOffset(now).TotalHours, // Not this,
-                    Locale = CultureInfo.CurrentCulture.DisplayName, // Not this,
-                    OSVersion = DeviceInfo.Current.VersionString, // Not This,
-                    Architecture = NativeDeviceInfo.Architecture(), // Not This,
-                    WindowBoundsWidth = DeviceDisplay.MainDisplayInfo.Width, // <------ THIS!!
-                    
-                    
-                    WindowBoundsHeight = DeviceDisplay.MainDisplayInfo.Height,
-                    DeviceManufacturer = DeviceInfo.Current.Manufacturer,
-                    Platform = NativeDeviceInfo.Platform(),
-                    Model = DeviceInfo.Current.Model,
-                    ProcessorCount = Environment.ProcessorCount, 
-                    ResolutionScale = DeviceDisplay.MainDisplayInfo.Density,
-                    TotalPhysicalMemory = NativeDeviceInfo.TotalPhysicalMemory(),
-                    AvailablePhysicalMemory = NativeDeviceInfo.AvailablePhysicalMemory(),
-                    CurrentOrientation = DeviceDisplay.MainDisplayInfo.Orientation.ToString(),
-                };
-            }
+            var environment = EnvironmentMessageBuilder.BuildEnvironmentMessage();
 
             var details = new RaygunMessageDetails
             {
