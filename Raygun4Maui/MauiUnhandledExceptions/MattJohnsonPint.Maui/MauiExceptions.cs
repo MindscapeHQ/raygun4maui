@@ -31,7 +31,7 @@ namespace Raygun4Maui.MattJohnsonPint.Maui
                 UnhandledException?.Invoke(sender, args);
             };
 
-             // Events fired by the TaskScheduler. That is calls like Task.Run(...)     
+            // Events fired by the TaskScheduler. That is calls like Task.Run(...)     
             TaskScheduler.UnobservedTaskException += (sender, args) => 
             {
                 UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(args.Exception, false));
