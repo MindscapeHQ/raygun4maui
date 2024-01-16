@@ -1,4 +1,6 @@
-﻿#if IOS || MACCATALYST
+﻿
+using System.Runtime.CompilerServices;
+#if IOS || MACCATALYST
 using System.Runtime.InteropServices;
 using Foundation;
 using ObjCRuntime;
@@ -51,7 +53,7 @@ public class RaygunUiViewControllerObserver
     //
     // Load View
     //
-
+    
     [MonoPInvokeCallback(typeof(CaptureDelegate))]
     private static void OnLoadViewCapture(IntPtr block, IntPtr self)
     {
@@ -63,15 +65,16 @@ public class RaygunUiViewControllerObserver
             OccurredOn = DateTime.UtcNow.Ticks
         });
 
-        var orig = (OriginalDelegate)Marshal.GetDelegateForFunctionPointer(_originalLoadViewImp,
-            typeof(OriginalDelegate));
+        var orig = Marshal.GetDelegateForFunctionPointer<OriginalDelegate>(_originalLoadViewImp);
+        // var orig = (OriginalDelegate)Marshal.GetDelegateForFunctionPointer(_originalLoadViewImp,
+        //     typeof(OriginalDelegate));
         orig(self);
     }
 
     //
     // View Did Load
     //
-
+    
     [MonoPInvokeCallback(typeof(CaptureDelegate))]
     private static void OnViewDidLoadCapture(IntPtr block, IntPtr self)
     {
@@ -83,8 +86,10 @@ public class RaygunUiViewControllerObserver
             OccurredOn = DateTime.UtcNow.Ticks
         });
 
-        var orig = (OriginalDelegate)Marshal.GetDelegateForFunctionPointer(_originalViewDidLoadImp,
-            typeof(OriginalDelegate));
+
+        var orig = Marshal.GetDelegateForFunctionPointer<OriginalDelegate>(_originalViewDidLoadImp);
+        // var orig = (OriginalDelegate)Marshal.GetDelegateForFunctionPointer(_originalViewDidLoadImp,
+        //     typeof(OriginalDelegate));
         orig(self);
     }
 
@@ -103,8 +108,10 @@ public class RaygunUiViewControllerObserver
             OccurredOn = DateTime.UtcNow.Ticks
         });
 
-        var orig = (OriginalBooleanDelegate)Marshal.GetDelegateForFunctionPointer(_originalViewWillAppearImp,
-            typeof(OriginalBooleanDelegate));
+        var orig = Marshal.GetDelegateForFunctionPointer<OriginalBooleanDelegate>(_originalViewWillAppearImp);
+
+        // var orig = (OriginalBooleanDelegate)Marshal.GetDelegateForFunctionPointer(_originalViewWillAppearImp,
+        //     typeof(OriginalBooleanDelegate));
         orig(self, animated);
     }
 
@@ -115,8 +122,10 @@ public class RaygunUiViewControllerObserver
     [MonoPInvokeCallback(typeof(CaptureBooleanDelegate))]
     private static void OnViewDidAppearCapture(IntPtr block, IntPtr self, bool animated)
     {
-        var orig = (OriginalBooleanDelegate)Marshal.GetDelegateForFunctionPointer(_originalViewDidAppearImp,
-            typeof(OriginalBooleanDelegate));
+        var orig = Marshal.GetDelegateForFunctionPointer<OriginalBooleanDelegate>(_originalViewDidAppearImp);
+
+        // var orig = (OriginalBooleanDelegate)Marshal.GetDelegateForFunctionPointer(_originalViewDidAppearImp,
+        //     typeof(OriginalBooleanDelegate));
         orig(self, animated);
 
         string name = GetName(Runtime.GetNSObject(self));

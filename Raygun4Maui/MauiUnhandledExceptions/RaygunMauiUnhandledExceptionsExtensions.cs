@@ -7,11 +7,10 @@ namespace Raygun4Maui.MauiUnhandledExceptions
     internal static class RaygunMauiUnhandledExceptionsExtensions
     {
         internal static MauiAppBuilder AddRaygunUnhandledExceptionsListener(
-            this MauiAppBuilder mauiAppBuilder,
-            Raygun4MauiSettings raygunMauiSettings
-        )
+            this MauiAppBuilder mauiAppBuilder
+            )
         {
-            AttachMauiExceptionHandler(raygunMauiSettings);
+            MauiExceptions.CaptureWindowsUnhandeledExceptions();
 
             return mauiAppBuilder;
         }

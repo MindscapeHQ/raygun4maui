@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics;
 using Mindscape.Raygun4Net;
 using Raygun4Maui.MauiRUM.EventTrackers;
+#if ANDROID
+using Raygun4Maui.MauiRUM.EventTrackers.Android;
+#endif
 using Raygun4Maui.MauiRUM.EventTrackers.Apple;
 using Raygun4Maui.MauiRUM.EventTypes;
 
@@ -20,7 +23,7 @@ public class RaygunRum
     private const string UnknownValue = "Unknown";
 
     private Raygun4MauiSettings _mauiSettings;
-    
+
     public RaygunRum()
     {
     }
@@ -44,14 +47,15 @@ public class RaygunRum
 
         _viewTracker.ViewLoaded += OnViewLoaded;
         _viewTracker.Init(settings);
-        
+
 
         _sessionTracker.SessionStarted += OnSendSessionStartedEvent;
         _sessionTracker.SessionChanged += OnSendSessionChangedEvent;
         _sessionTracker.Init(user);
 
-        // _networkTracker.NetworkRequestCompleted += OnNetworkRequestCompletedEvent;
-        // _networkTracker.Init(settings);
+        _networkTracker.NetworkRequestCompleted += OnNetworkRequestCompletedEvent;
+        _networkTracker.Init(settings);
+        Console.WriteLine("PLUH!!");
     }
 
     public void UpdateUser(RaygunIdentifierMessage user)
@@ -166,7 +170,9 @@ public class RaygunRum
             return;
         }
 
-        if (timingType == RaygunRumEventTimingType.NetworkCall && _networkTracker.ShouldIgnore(name))
+        if (timingType == RaygunRumEventTimingType.NetworkCall
+            // && _networkTracker.ShouldIgnore(name)
+           )
         {
             return;
         }

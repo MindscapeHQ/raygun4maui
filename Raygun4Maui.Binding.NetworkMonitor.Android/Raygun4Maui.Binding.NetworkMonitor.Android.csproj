@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0-android</TargetFramework>
+        <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <LibraryProjectZip Include="Jars\networkmonitorlibrary-release.aar" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <TransformFile Include="Transforms\Metadata.xml" />
+        <TransformFile Include="Transforms\EnumFields.xml" />
+        <TransformFile Include="Transforms\EnumMethods.xml" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Additions\AboutAdditions.txt" />
+    </ItemGroup>
+</Project>

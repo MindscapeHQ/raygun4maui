@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.LifecycleEvents;
 using Mindscape.Raygun4Net;
 using Raygun4Maui.DeviceIdProvider;
@@ -21,13 +22,14 @@ namespace Raygun4Maui
             mauiAppBuilder.Services.AddSingleton<RaygunMauiClient>(client);
             RaygunMauiClient.Attach(client);
 
+            Console.WriteLine($"Checking RUM enable {raygunMauiSettings.EnableRealUserMonitoring}");
             if (raygunMauiSettings.EnableRealUserMonitoring)
             {
                 mauiAppBuilder.AddRaygunRum();
             }
             
             return mauiAppBuilder
-                .AddRaygunUnhandledExceptionsListener(raygunMauiSettings)
+                .AddRaygunUnhandledExceptionsListener()
                 .AddRaygunLogger(raygunMauiSettings.RaygunLoggerConfiguration);
         }
 
@@ -41,8 +43,11 @@ namespace Raygun4Maui
         public static MauiAppBuilder AddRaygun(this MauiAppBuilder mauiAppBuilder,
             Action<Raygun4MauiSettings> options = null)
         {
+            Console.WriteLine("Adding Raygun");
             var settings = mauiAppBuilder.Configuration.GetSection("Raygun4MauiSettings").Get<Raygun4MauiSettings>() ??
                            new Raygun4MauiSettings();
+            
+            
 
             options?.Invoke(settings);
 
@@ -55,6 +60,7 @@ namespace Raygun4Maui
 
             var deviceIdProvider = new DeviceIdProvider.DeviceIdProvider();
 
+            Console.WriteLine("Enabling RUM");
             RaygunMauiClient.Current.EnableRealUserMonitoring(deviceIdProvider);
 
             mauiAppBuilder.ConfigureLifecycleEvents(builder =>

@@ -18,19 +18,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Raygun4Maui.Binding.NetworkMonitor.Android", "Raygun4Maui.Binding.NetworkMonitor.Android\Raygun4Maui.Binding.NetworkMonitor.Android.csproj", "{815DB4B5-DDE0-4627-8C44-DCCAE559133B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Raygun4Maui.Binding.NetworkMonitor.iOS", "Raygun4Maui.Binding.NetworkMonitor.iOS\Raygun4Maui.Binding.NetworkMonitor.iOS.csproj", "{D9810D84-129C-4DF4-97CC-41182A071CC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFFC7DE6-7DD6-4ADD-B727-7CF90DDC527C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{005156B2-833B-406B-B5FD-F50593C4D28B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{005156B2-833B-406B-B5FD-F50593C4D28B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{005156B2-833B-406B-B5FD-F50593C4D28B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{005156B2-833B-406B-B5FD-F50593C4D28B}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{005156B2-833B-406B-B5FD-F50593C4D28B}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{005156B2-833B-406B-B5FD-F50593C4D28B}.Debug|Any CPU.Deploy.0 = Release|Any CPU
 		{005156B2-833B-406B-B5FD-F50593C4D28B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{005156B2-833B-406B-B5FD-F50593C4D28B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{005156B2-833B-406B-B5FD-F50593C4D28B}.Release|Any CPU.Deploy.0 = Release|Any CPU
@@ -40,6 +44,14 @@ Global
 		{C4364C88-B953-45E4-B25E-FAE8F2FEDD4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4364C88-B953-45E4-B25E-FAE8F2FEDD4F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C4364C88-B953-45E4-B25E-FAE8F2FEDD4F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{815DB4B5-DDE0-4627-8C44-DCCAE559133B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{815DB4B5-DDE0-4627-8C44-DCCAE559133B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{815DB4B5-DDE0-4627-8C44-DCCAE559133B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{815DB4B5-DDE0-4627-8C44-DCCAE559133B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9810D84-129C-4DF4-97CC-41182A071CC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9810D84-129C-4DF4-97CC-41182A071CC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9810D84-129C-4DF4-97CC-41182A071CC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9810D84-129C-4DF4-97CC-41182A071CC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.Controls.Hosting;
 using Mindscape.Raygun4Net;
@@ -22,6 +23,8 @@ public static class MauiProgram
             .MinimumLevel.Debug()
             .WriteTo.Raygun(builder.Configuration["Raygun4MauiSettings:RaygunSettings:apiKey"])
             .CreateLogger();
+        
+        Console.WriteLine("SETTING UP APP");
         
 
         builder

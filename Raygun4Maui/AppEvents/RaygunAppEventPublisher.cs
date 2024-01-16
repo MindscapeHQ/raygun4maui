@@ -27,6 +27,8 @@ public class RaygunAppEventPublisher
     public event Action<AppDestroyed> AppDestroyed;
     public event Action<ViewTimingStarted> ViewTimingStarted;
     public event Action<ViewTimingFinished> ViewTimingFinished;
+    public event Action<NetworkRequestFinished> NetworkRequestFinished;
+
 
 
     private RaygunAppEventPublisher()
@@ -62,6 +64,9 @@ public class RaygunAppEventPublisher
                 break;
             case ViewTimingFinished info:
                 Instance.ViewTimingFinished?.Invoke(info);
+                break;
+            case NetworkRequestFinished info:
+                Instance.NetworkRequestFinished?.Invoke(info);
                 break;
         }
     }
