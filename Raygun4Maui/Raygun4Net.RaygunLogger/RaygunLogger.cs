@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using Raygun4Maui.Raygun4Net.BuildPlatforms;
+using Raygun4Maui;
+using Raygun4Net.BuildPlatforms;
 
 // Namespace is different, doesn't include Raygun4Maui because we may want to move this to Raygun4Net
 // ReSharper disable once CheckNamespace

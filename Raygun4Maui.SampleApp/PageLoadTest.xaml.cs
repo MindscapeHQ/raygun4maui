@@ -33,16 +33,17 @@ public partial class PageLoadTest : ContentPage
         {
             URL javaUrl = new URL("https://www.google.com/");
             urlConnection = (HttpURLConnection)javaUrl.OpenConnection();
-            using (var reader = new BufferedReader(new InputStreamReader(urlConnection.InputStream)))
-            {
-                StringBuilder total = new StringBuilder();
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    total.Append(line).Append('\n');
-                }
-                // Console.WriteLine(total.ToString());
-            }
+
+        // using (var reader = new BufferedReader(new InputStreamReader(urlConnection.InputStream)))
+        //     {
+        //         StringBuilder total = new StringBuilder();
+        //         string line;
+        //         while ((line = reader.ReadLine()) != null)
+        //         {
+        //             total.Append(line).Append('\n');
+        //         }
+        //         // Console.WriteLine(total.ToString());
+        //     }
         }
         catch (Java.IO.IOException ex)
         {
@@ -56,7 +57,7 @@ public partial class PageLoadTest : ContentPage
         }
         #endif
         
-        var responseMessage = await new HttpClient().GetAsync("https://www.google.com/");
+        // var responseMessage = await new HttpClient().GetAsync("https://www.google.com/");
         await Navigation.PopAsync();
     }
 

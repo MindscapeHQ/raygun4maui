@@ -3,7 +3,7 @@ using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.Controls.Hosting;
 using Mindscape.Raygun4Net;
-using Raygun4Maui.Raygun4Net.RaygunLogger;
+using Raygun4Net.RaygunLogger;
 using Serilog;
 
 namespace Raygun4Maui.SampleApp;

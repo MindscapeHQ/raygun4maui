@@ -3,9 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.LifecycleEvents;
 using Mindscape.Raygun4Net;
 using Raygun4Maui.DeviceIdProvider;
-using Raygun4Maui.MauiUnhandledExceptions;
 using Raygun4Maui.MauiRUM.AppLifecycleHandlers;
-using Raygun4Maui.Raygun4Net.RaygunLogger;
+using Raygun4Net.RaygunLogger;
 
 namespace Raygun4Maui
 {
@@ -29,7 +28,6 @@ namespace Raygun4Maui
             }
             
             return mauiAppBuilder
-                .AddRaygunUnhandledExceptionsListener()
                 .AddRaygunLogger(raygunMauiSettings.RaygunLoggerConfiguration);
         }
 

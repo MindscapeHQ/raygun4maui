@@ -209,7 +209,7 @@ public class RaygunRum
     private async void SendEvent(RaygunRumMessage message)
     {
         var payload = RaygunSerializer.Serialize(message);
-
+        
         var isOnline = await _requestHandler.IsOnline();
         if (isOnline)
         {

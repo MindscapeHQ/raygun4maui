@@ -1,5 +1,5 @@
 ﻿using Mindscape.Raygun4Net;
-using Raygun4Maui.Raygun4Net.RaygunLogger;
+using Raygun4Net.RaygunLogger;
 
 namespace Raygun4Maui
 {

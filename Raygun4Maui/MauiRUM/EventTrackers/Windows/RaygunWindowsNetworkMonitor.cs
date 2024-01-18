@@ -28,7 +28,7 @@ public class RaygunWindowsNetworkMonitor : IObserver<DiagnosticListener>, IObser
     
     public void OnNext(KeyValuePair<string, object> value)
     {
-        // Trace.WriteLine($"New HTTP Event: {value.Key} \n {value.Value}");
+        Trace.WriteLine($"New HTTP Event: {value.Key} \n {value.Value}");
         
     
         switch (value.Key)

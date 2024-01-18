@@ -34,7 +34,7 @@ internal class RaygunMauiEnvironmentMessageBuilder
                 Architecture = Architecture,
                 WindowBoundsWidth = DeviceDisplay.MainDisplayInfo.Width,
                 WindowBoundsHeight = DeviceDisplay.MainDisplayInfo.Height,
-                DeviceManufacturer = DeviceInfo.Current.Manufacturer,
+                DeviceManufacturer = DeviceManufacturer,
                 Platform = Platform,
                 Model = Model,
                 ProcessorCount = ProcessorCount,

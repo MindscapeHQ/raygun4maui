@@ -118,7 +118,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1"/>
-        <PackageReference Include="Mindscape.Raygun4Net.NetCore" Version="8.1.0-pre3" />
+        <PackageReference Include="Mindscape.Raygun4Net.NetCore" Version="8.2.0" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">

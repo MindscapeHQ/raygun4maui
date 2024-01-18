@@ -33,11 +33,6 @@
         <UserSecretsId>46887693-43d2-4e85-ae30-a9d0e20f7148</UserSecretsId>
     </PropertyGroup>
 
-    <!-- Required for the iOS networking library as it is compiled for x64 and not arm64 -->
-    <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-ios'">
-        <RuntimeIdentifiers>iossimulator-x64</RuntimeIdentifiers>
-    </PropertyGroup>
-
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     </PropertyGroup>
@@ -104,9 +99,6 @@
         <ProjectReference Include="..\Raygun4Maui\Raygun4Maui.csproj"/>
     </ItemGroup>
 
-    <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
-        <MtouchInterpreter>-all</MtouchInterpreter>
-    </PropertyGroup>
 
     <ItemGroup>
         <None Remove="appsettings.json"/>
