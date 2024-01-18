@@ -39,9 +39,7 @@ public class RaygunRum
         _viewTracker = new RaygunViewTracker();
         _sessionTracker = new RaygunSessionTracker();
         _networkTracker = new RaygunNetworkTracker();
-
-        // DiagnosticListener.AllListeners.Subscribe(_networkTracker);
-
+        
         _requestHandler =
             new RaygunWebRequestHandler(_mauiSettings.RaygunSettings.ApiKey, _mauiSettings.RumApiEndpoint, 30_0000);
 

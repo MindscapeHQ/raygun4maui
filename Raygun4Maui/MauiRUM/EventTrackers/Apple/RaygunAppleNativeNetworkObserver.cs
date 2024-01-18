@@ -1,5 +1,4 @@
-﻿#if IOS || MACCATALYST
-using UIKit;
+﻿#if IOS
 using Foundation;
 using Raygun4Maui.AppEvents;
 
