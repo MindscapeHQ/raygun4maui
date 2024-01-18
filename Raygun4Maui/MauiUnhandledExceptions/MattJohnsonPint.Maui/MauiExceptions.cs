@@ -52,6 +52,7 @@ namespace Raygun4Maui.MattJohnsonPint.Maui
 
             Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
             {
+                args.Handled = true;
                 UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(args.Exception, true));
             };
 
