@@ -17,15 +17,13 @@ namespace Raygun4Maui.MauiRUM.EventTrackers;
 
 public class RaygunNetworkTracker
 {
-    private const string NETWORK_TIMING_INTENT_ACTION = "com.raygun.networkmonitorlibrary.NetworkRequestTiming";
-
-    // private readonly Dictionary<string, DateTime>
-    //     _requestStartTimes =
-    //         new Dictionary<string, DateTime>(); // TODO: Possible memory leak if there is no RequestEnd event
-    //
     private Raygun4MauiSettings _settings;
 
     private static RaygunNetworkTracker _instance;
+
+    private List<string> _defaultIgnoredUrls;
+
+    private const string NetworkTimingIntentAction = "com.raygun.networkmonitorlibrary.NetworkRequestTiming";
 
     public static RaygunNetworkTracker Instance
     {
@@ -39,8 +37,7 @@ public class RaygunNetworkTracker
             return _instance;
         }
     }
-
-    //
+    
     public event Action<RaygunTimingEventArgs> NetworkRequestCompleted;
 
 #if WINDOWS
@@ -55,7 +52,7 @@ public class RaygunNetworkTracker
 
     public RaygunNetworkTracker()
     {
-        // RaygunAppEventPublisher.Instance.AppStarted += OnAppStarted;
+        RaygunAppEventPublisher.Instance.AppStarted += OnAppStarted;
     }
 
     private void OnAppStarted(AppStarted obj)
@@ -63,37 +60,31 @@ public class RaygunNetworkTracker
 #if ANDROID
         var activity = Platform.CurrentActivity;
         
-        Console.WriteLine($"Setting up Broadcast Receiver, Activity: {activity != null}");
-        
         _androidNetworkReceiver = new RaygunAndroidNetworkReceiver();
-        IntentFilter filter = new IntentFilter(NETWORK_TIMING_INTENT_ACTION);
+        var filter = new IntentFilter(NetworkTimingIntentAction);
 
-        // activity?.RegisterReceiver(androidReciever, filter);
         
         activity?.ApplicationContext?.RegisterReceiver(_androidNetworkReceiver, filter);
-        // LocalBroadcastManager.GetInstance(activity?.ApplicationContext)?.RegisterReceiver(androidReciever, new IntentFilter(NETWORK_TIMING_INTENT_ACTION));
+
         try
         {
             RaygunNetworkMonitor.SetContext(activity?.ApplicationContext);
-            Com.Raygun.Networkmonitorlibrary.Test.RaygunNetworkRequestTest.PerformHttpGetRequest();
         }
         catch (Exception e)
         {
             Console.WriteLine($"Failed to pass the context to the network monitor due to: {e.Message}");
         }        
-        Console.WriteLine("Receiver registered");
 #endif
     }
-
-    //
-    //
-    // private const string Request = "Request";
-    // private const string RequestStart = "System.Net.Http.HttpRequestOut.Start";
-    // private const string RequestEnd = "System.Net.Http.HttpRequestOut.Stop";
-    // private const string RaygunId = "X-Raygun-Request-ID";
-    //
+    
     public void Init(Raygun4MauiSettings settings)
     {
+        _defaultIgnoredUrls =
+        [
+            settings.RumApiEndpoint.Host,
+            settings.RaygunSettings.ApiEndpoint.Host
+        ];
+
         Trace.WriteLine("Initialized Network Tracker");
         _settings = settings;
 
@@ -103,7 +94,6 @@ public class RaygunNetworkTracker
         if (settings.RumFeatureFlags.HasFlag(RumFeatures.Network))
         {
 #if WINDOWS
-            Trace.WriteLine("PLuh!!!!");
             _windowsNetworkMonitor = new RaygunWindowsNetworkMonitor();
             DiagnosticListener.AllListeners.Subscribe(_windowsNetworkMonitor);
 #elif ANDROID
@@ -121,15 +111,29 @@ public class RaygunNetworkTracker
 
     public bool ShouldIgnore(string url)
     {
-        return _settings.IgnoredUrls != null && _settings.IgnoredUrls.Contains(url);
+        if (string.IsNullOrEmpty(url))
+        {
+            return false;
+        }
+
+        var isUrlInSettingsIgnored = _settings?.IgnoredUrls?.Contains(url) ?? false;
+        var isUrlInDefaultIgnored = _defaultIgnoredUrls?.Contains(url) ?? false;
+
+        return isUrlInSettingsIgnored || isUrlInDefaultIgnored;
     }
+
 
     private void OnNetworkRequestFinishedEvent(NetworkRequestFinished networkEvent)
     {
+        if (ShouldIgnore(networkEvent.Url))
+        {
+            return;
+        }
+
         NetworkRequestCompleted?.Invoke(new RaygunTimingEventArgs
         {
             Type = RaygunRumEventTimingType.NetworkCall,
-            Key = networkEvent.Url,
+            Key = $"{networkEvent.Method} {networkEvent.Url}",
             Milliseconds = networkEvent.Duration
         });
     }

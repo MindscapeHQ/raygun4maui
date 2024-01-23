@@ -39,7 +39,7 @@ public class RaygunRum
         _viewTracker = new RaygunViewTracker();
         _sessionTracker = new RaygunSessionTracker();
         _networkTracker = new RaygunNetworkTracker();
-        
+
         _requestHandler =
             new RaygunWebRequestHandler(_mauiSettings.RaygunSettings.ApiKey, _mauiSettings.RumApiEndpoint, 30_0000);
 
@@ -160,7 +160,10 @@ public class RaygunRum
 
     public void SendCustomTimingEvent(RaygunRumEventTimingType timingType, string name, long duration)
     {
-        if (!Enabled) return;
+        if (!Enabled)
+        {
+            return;
+        }
 
 
         if (timingType == RaygunRumEventTimingType.ViewLoaded && _viewTracker.ShouldIgnore(name))
@@ -168,8 +171,7 @@ public class RaygunRum
             return;
         }
 
-        if (timingType == RaygunRumEventTimingType.NetworkCall
-            // && _networkTracker.ShouldIgnore(name)
+        if (timingType == RaygunRumEventTimingType.NetworkCall && _networkTracker.ShouldIgnore(name)
            )
         {
             return;
@@ -209,7 +211,7 @@ public class RaygunRum
     private async void SendEvent(RaygunRumMessage message)
     {
         var payload = RaygunSerializer.Serialize(message);
-        
+
         var isOnline = await _requestHandler.IsOnline();
         if (isOnline)
         {

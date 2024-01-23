@@ -19,7 +19,6 @@ public class RaygunWindowsNetworkMonitor : IObserver<DiagnosticListener>, IObser
     
     public void OnNext(DiagnosticListener listener)
     {
-        // Trace.WriteLine($"Subscribing to handler {listener.Name}");
         if (listener.Name == "HttpHandlerDiagnosticListener")
         {
             listener.Subscribe(this);
@@ -28,9 +27,6 @@ public class RaygunWindowsNetworkMonitor : IObserver<DiagnosticListener>, IObser
     
     public void OnNext(KeyValuePair<string, object> value)
     {
-        Trace.WriteLine($"New HTTP Event: {value.Key} \n {value.Value}");
-        
-    
         switch (value.Key)
         {
             case RequestStart:
@@ -40,16 +36,9 @@ public class RaygunWindowsNetworkMonitor : IObserver<DiagnosticListener>, IObser
                 {
                     return;
                 }
-    
-                // TODO: Make this a function to check proxy and raygun
-                if (request.RequestUri?.Host.Contains("api.raygun.com") ??
-                    true) // Raygun4Net can set proxy, also do a test case for the RaygunId
-                {
-                    return;
-                }
-    
+                
                 // Check if X-Request-ID already exists
-                if (!request.Headers.Contains(RaygunId)) // Constant (Raygun)
+                if (!request.Headers.Contains(RaygunId))
                 {
                     var trackingId = Guid.NewGuid().ToString();
                     request.Headers.Add(RaygunId, trackingId);
@@ -76,12 +65,6 @@ public class RaygunWindowsNetworkMonitor : IObserver<DiagnosticListener>, IObser
                     return;
                 }
     
-                // TODO: Fix ordering
-                if (request.RequestUri?.Host.Contains("api.raygun.com") ?? true)
-                {
-                    return;
-                }
-    
                 if (!request.Headers.TryGetValues(RaygunId, out var values))
                 {
                     return;
@@ -102,7 +85,7 @@ public class RaygunWindowsNetworkMonitor : IObserver<DiagnosticListener>, IObser
                 
                 RaygunAppEventPublisher.Publish(new NetworkRequestFinished()
                 {
-                    Url = request.RequestUri.Host,
+                    Url = request.RequestUri?.Host ?? "Unknown",
                     Method = request.Method.Method,
                     Duration = duration.Milliseconds,
                 });
