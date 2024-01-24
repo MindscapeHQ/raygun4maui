@@ -18,21 +18,17 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		sZucDfBaLhlFRt0l5DUPyD4phM0=
+		H9pW8c1oAqw4IInOaiPNdw/gIq4=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		JhSUKCDr21wd68puBUVJj2MCWAQ=
+		FURVwR2lIcSMicHS0hXS85z3NQc=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
 		<key>Headers/NetworkMonitor_iOS.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			DWuerbp87G2MdTuRXgAcYOxlT10=
-			</data>
 			<key>hash2</key>
 			<data>
 			9kbiYcac12btN7+tIjhKytkSGuFcdptJmhzlfDExIqU=
@@ -40,10 +36,6 @@
 		</dict>
 		<key>Headers/RaygunDefines.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			rFsXjiJo7YHC9H/YtINfhmO4lYg=
-			</data>
 			<key>hash2</key>
 			<data>
 			fWbWb79g86LDvaSR+kKzkN33KADg6DuImY9urfqNTvw=
@@ -51,10 +43,6 @@
 		</dict>
 		<key>Headers/RaygunNetworkMonitor.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			FEKg8x/HLpE6V2oWu9DlrGe3itA=
-			</data>
 			<key>hash2</key>
 			<data>
 			yjjoYR1niGrv5UqBFTkkg286Q2R5IloGjHKKfuJqpis=
@@ -62,13 +50,9 @@
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			JhSUKCDr21wd68puBUVJj2MCWAQ=
-			</data>
 			<key>hash2</key>
 			<data>
-			Vre/p+gFAhPxrlmdxhqhBxj+dhm4tkDyKw7D+YN7U3M=
+			BTQJMVI1A31YR7sPwk2x5MCQh2tIKSUz/posCZkERCE=
 			</data>
 		</dict>
 	</dict>
