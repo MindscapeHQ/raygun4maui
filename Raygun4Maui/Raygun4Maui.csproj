@@ -26,19 +26,7 @@
         <PackageProjectUrl>https://raygun.com/platform/crash-reporting</PackageProjectUrl>
         <RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
         <PackageTags>Raygun4Maui; Raygun; Crash Reporting; MAUI; .NET; dotnet</PackageTags>
-        <PackageReleaseNotes>Added support for real user monitoring (RUM) for Windows, Android, and iOS
-            Implemented features:
-            - Page Tracking
-            - Page Load Times
-            - Session Tracking
-            - Custom Timings
-            - Native iOS Timings
-            Fixes:
-			- Null pointer on application destroyed
-            - Configuration options bundling and updated README
-            
-
-        </PackageReleaseNotes>
+        <PackageReleaseNotes>https://github.com/MindscapeHQ/raygun4maui/blob/master/CHANGE-LOG.md</PackageReleaseNotes>
         <Title>Raygun4Maui</Title>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
