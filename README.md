@@ -206,6 +206,15 @@ Raygun4Maui will automatically collect information specific to the environment t
 | Android |Total amount of memory that the JVM has allocated for the application | Total amount of free memory that the JVM has available for the application to use | 
 
 
+### Networking
+
+| Platform | Networking support | Conditions                                        |
+| ----- |--------------------|---------------------------------------------------|
+| Mac  | No                 | Coming soon                                       |
+| iOS | Yes                | HttpClient, NSURLSession, and NSURLConnection     |
+| Windows | Yes                | HttpClient                                        |
+| Android | Yes                | HttpURLConnection (see SampleApp) | 
+
 ---
 ## Development Instructions
 

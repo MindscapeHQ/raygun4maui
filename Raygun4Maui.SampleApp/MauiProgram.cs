@@ -23,9 +23,6 @@ public static class MauiProgram
             .MinimumLevel.Debug()
             .WriteTo.Raygun(builder.Configuration["Raygun4MauiSettings:RaygunSettings:apiKey"])
             .CreateLogger();
-        
-        Console.WriteLine("SETTING UP APP");
-        
 
         builder
             .UseMauiApp<App>()

@@ -19,11 +19,11 @@ public partial class PageLoadTest : ContentPage
 
     private async void OnNavigateButtonClicked(object sender, EventArgs e)
     {
-        // Android networking library only works for non HttpClient conenctions as they do not call .disconnect on the HttpURLConnection
+        // Android networking library only works for non HttpClient connections as they do not call .disconnect on the HttpURLConnection
 #if ANDROID
         HttpURLConnection urlConnection = null;
         
-        // Must be in a seperate thread as we will get a NetworkOnMainThreadException otherwise
+        // Must be in a separate thread as we will get a NetworkOnMainThreadException otherwise
         await Task.Run(() =>
         {
             try
@@ -37,6 +37,7 @@ public partial class PageLoadTest : ContentPage
             }
             finally
             {
+                // Required to for network monitoring to complete the request timing
                 urlConnection?.Disconnect();
             }
         });

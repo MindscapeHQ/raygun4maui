@@ -53,7 +53,6 @@ public class RaygunRum
 
         _networkTracker.NetworkRequestCompleted += OnNetworkRequestCompletedEvent;
         _networkTracker.Init(settings);
-        Console.WriteLine("PLUH!!");
     }
 
     public void UpdateUser(RaygunIdentifierMessage user)

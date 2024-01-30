@@ -79,16 +79,10 @@ public class RaygunNetworkTracker
     
     public void Init(Raygun4MauiSettings settings)
     {
-        _defaultIgnoredUrls =
-        [
-            settings.RumApiEndpoint.Host,
-            settings.RaygunSettings.ApiEndpoint.Host
-        ];
+        _defaultIgnoredUrls = new List<string>() { settings.RumApiEndpoint.Host, settings.RaygunSettings.ApiEndpoint.Host };
 
-        Trace.WriteLine("Initialized Network Tracker");
         _settings = settings;
 
-        Trace.WriteLine("Right here :)");
         RaygunAppEventPublisher.Instance.NetworkRequestFinished += OnNetworkRequestFinishedEvent;
 
         if (settings.RumFeatureFlags.HasFlag(RumFeatures.Network))

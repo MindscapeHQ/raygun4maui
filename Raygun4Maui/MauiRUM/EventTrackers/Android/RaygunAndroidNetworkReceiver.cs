@@ -13,7 +13,6 @@ public class RaygunAndroidNetworkReceiver : BroadcastReceiver
         string method = intent.GetStringExtra("method");
         long duration = intent.GetLongExtra("duration", 0);
 
-        Console.WriteLine($"URL: {url}; Method: {method}; Duration: {duration}");
         if (url != null && duration > 0 && !url.Contains("raygun"))
         {
             RaygunAppEventPublisher.Publish(new NetworkRequestFinished()
