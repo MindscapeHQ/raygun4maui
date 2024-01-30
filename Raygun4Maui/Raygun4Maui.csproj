@@ -109,11 +109,11 @@
         <PackageReference Include="Mindscape.Raygun4Net.NetCore" Version="8.2.0" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-android'">
         <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.Android\Raygun4Maui.Binding.NetworkMonitor.Android.csproj" />
     </ItemGroup>
 <!--    Or '$(TargetFramework)' == 'net8.0-maccatalyst' - add this when the network monitor supports MacCatalyst -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-ios' ">
+    <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios' ">
         <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.iOS\Raygun4Maui.Binding.NetworkMonitor.iOS.csproj" />
     </ItemGroup>
 
