@@ -26,7 +26,20 @@
         <PackageProjectUrl>https://raygun.com/platform/crash-reporting</PackageProjectUrl>
         <RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
         <PackageTags>Raygun4Maui; Raygun; Crash Reporting; MAUI; .NET; dotnet</PackageTags>
-        <PackageReleaseNotes>https://github.com/MindscapeHQ/raygun4maui/blob/master/CHANGE-LOG.md</PackageReleaseNotes>
+        <PackageReleaseNotes>Added support for real user monitoring (RUM) for Windows, Android, iOS, and MacCatalyst
+            Implemented features:
+            - Page Tracking
+            - Page Load Times
+            - Session Tracking
+            - Custom Timings
+            - Native iOS Timings
+            - Network Timings
+            RC-4:
+            - Windows, iOS, and Android network timings (see README)
+            - Fixed Android enviroment locking issue causing app to crash (1.4.1)
+            - Bumped Raygun4Net version to 8.2.0, moves responsibility of unhandled exceptions
+            RC-5
+            - MacCatalyst network timings</PackageReleaseNotes>
         <Title>Raygun4Maui</Title>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>

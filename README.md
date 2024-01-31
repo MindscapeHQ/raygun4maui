@@ -208,11 +208,11 @@ Raygun4Maui will automatically collect information specific to the environment t
 
 ### Networking
 
-| Platform | Networking support | Conditions                                        |
-| ----- |--------------------|---------------------------------------------------|
-| Mac  | No                 | Coming soon                                       |
-| iOS | Yes                | HttpClient, NSURLSession, and NSURLConnection     |
-| Windows | Yes                | HttpClient                                        |
+| Platform | Networking support | Conditions                                       |
+| ----- |--------------------|--------------------------------------------------|
+| Mac  | Yes                | HttpClient, NSURLSession, and NSURLConnection                                      |
+| iOS | Yes                | HttpClient, NSURLSession, and NSURLConnection    |
+| Windows | Yes                | HttpClient                                       |
 | Android | Yes                | HttpURLConnection (see SampleApp) | 
 
 ---
