@@ -1,4 +1,4 @@
-﻿#if IOS
+﻿#if IOS || MACCATALYST
 using Raygun4Maui.Binding.NetworkMonitor.iOS;
 
 namespace Raygun4Maui.MauiRUM.EventTrackers.Apple;

@@ -112,8 +112,7 @@
     <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-android'">
         <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.Android\Raygun4Maui.Binding.NetworkMonitor.Android.csproj" />
     </ItemGroup>
-<!--    Or '$(TargetFramework)' == 'net8.0-maccatalyst' - add this when the network monitor supports MacCatalyst -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios' ">
+    <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios' Or '$(TargetFramework)' == 'net6.0-maccatalyst'">
         <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.iOS\Raygun4Maui.Binding.NetworkMonitor.iOS.csproj" />
     </ItemGroup>
 

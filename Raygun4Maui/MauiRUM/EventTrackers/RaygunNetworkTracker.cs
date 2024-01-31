@@ -45,7 +45,7 @@ public class RaygunNetworkTracker
 #elif ANDROID
     private RaygunAndroidNativeNetworkTracker _androidNetworkMonitor;
     private RaygunAndroidNetworkReceiver _androidNetworkReceiver;
-#elif IOS
+#elif IOS || MACCATALYST
     private RaygunAppleNativeNetworkMonitor _appleNetworkMonitor;
     private RaygunAppleNativeNetworkObserver _appleNetworkObserver;
 #endif
@@ -93,7 +93,7 @@ public class RaygunNetworkTracker
 #elif ANDROID
             _androidNetworkMonitor = new RaygunAndroidNativeNetworkTracker();
             _androidNetworkMonitor.Enable();
-#elif IOS
+#elif IOS || MACCATALYST
             _appleNetworkMonitor = new RaygunAppleNativeNetworkMonitor();
             _appleNetworkMonitor.Enable();
 
