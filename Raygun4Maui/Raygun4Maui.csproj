@@ -17,7 +17,7 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Version>2.0.0</Version>
-        <PackageVersion>2.0.0-rc-4</PackageVersion>
+        <PackageVersion>2.0.0-rc-5</PackageVersion>
         <Authors>Raygun</Authors>
         <Company>Raygun</Company>
         <PackageReadmeFile>README.md</PackageReadmeFile>
