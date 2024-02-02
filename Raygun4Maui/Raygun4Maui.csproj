@@ -17,7 +17,7 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Version>2.0.0</Version>
-        <PackageVersion>2.0.0-rc-5</PackageVersion>
+        <PackageVersion>2.0.0-rc-6</PackageVersion>
         <Authors>Raygun</Authors>
         <Company>Raygun</Company>
         <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -39,7 +39,9 @@
             - Fixed Android enviroment locking issue causing app to crash (1.4.1)
             - Bumped Raygun4Net version to 8.2.0, moves responsibility of unhandled exceptions
             RC-5
-            - MacCatalyst network timings</PackageReleaseNotes>
+            - MacCatalyst network timings
+            RC-6
+            - Fixes native binding inclusion in NuGet package</PackageReleaseNotes>
         <Title>Raygun4Maui</Title>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>

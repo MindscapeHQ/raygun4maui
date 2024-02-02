@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>Raygun4Maui</id>
+    <version>2.0.0-rc</version>
+    <title>Raygun4Maui</title>
+    <authors>Raygun</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">LICENSE</license>
+    <icon>Raygun-icon-128x128.png</icon>
+    <readme>README.md</readme>
+    <projectUrl>https://raygun.com/platform/crash-reporting</projectUrl>
+    <description>Raygun's Crash Reporting Provider for MAUI .NET</description>
+    <releaseNotes>Added support for real user monitoring (RUM) for Windows, Android, iOS, and MacCatalyst
+      Implemented features:
+      - Page Tracking
+      - Page Load Times
+      - Session Tracking
+      - Custom Timings
+      - Native iOS Timings
+      - Network Timings
+      RC-4:
+      - Windows, iOS, and Android network timings (see README)
+      - Fixed Android enviroment locking issue causing app to crash (1.4.1)
+      - Bumped Raygun4Net version to 8.2.0, moves responsibility of unhandled exceptions
+      RC-5
+      - MacCatalyst network timings
+      RC-6
+      - Fixes native binding inclusion in NuGet package</releaseNotes>
+    <copyright>Copyright (C) 2023 Raygun Limited</copyright>
+    <tags>Raygun4Maui Raygun Crash Reporting MAUI .NET dotnet</tags>
+    
+    <dependencies>
+      <group targetFramework="net6.0">
+        <dependency id="Microsoft.Extensions.Hosting" version="7.0.1" exclude="Build,Analyzers" />
+        <dependency id="Mindscape.Raygun4Net.NetCore" version="8.2.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-android31.0">
+        <dependency id="Raygun4Maui.Binding.NetworkMonitor.Android" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Hosting" version="7.0.1" exclude="Build,Analyzers" />
+        <dependency id="Mindscape.Raygun4Net.NetCore" version="8.2.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-ios16.1">
+        <dependency id="Raygun4Maui.Binding.NetworkMonitor.iOS" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Hosting" version="7.0.1" exclude="Build,Analyzers" />
+        <dependency id="Mindscape.Raygun4Net.NetCore" version="8.2.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.InteropServices.NFloat.Internal" version="6.0.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-maccatalyst16.1">
+        <dependency id="Raygun4Maui.Binding.NetworkMonitor.iOS" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Hosting" version="7.0.1" exclude="Build,Analyzers" />
+        <dependency id="Mindscape.Raygun4Net.NetCore" version="8.2.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.InteropServices.NFloat.Internal" version="6.0.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+
+  <files>
+    <file src="READEME.md" target="\" />
+    <file src="Raygun-icon-128x128.png" target="" />
+    <file src="LICENSE" target="\" />
+    
+    
+    <!-- Raygun4Maui -->
+    <file src="Raygun4Maui/bin/Release/net6.0/Raygun4Maui.dll" target="lib\net6.0"/>
+    <file src="Raygun4Maui/bin/Release/net6.0/Raygun4Maui.pdb" target="lib\net6.0"/>
+    
+    <file src="Raygun4Maui/bin/Release/net6.0-android/Raygun4Maui.dll" target="lib\net6.0-android31"/>
+    <file src="Raygun4Maui/bin/Release/net6.0-android/Raygun4Maui.pdb" target="lib\net6.0-android31"/>
+    
+    <file src="Raygun4Maui/bin/Release/net6.0-ios/Raygun4Maui.dll" target="lib\net6.0-ios16.1"/>
+    <file src="Raygun4Maui/bin/Release/net6.0-ios/Raygun4Maui.pdb" target="lib\net6.0-ios16.1"/>
+    
+    <file src="Raygun4Maui/bin/Release/net6.0-maccatalyst/Raygun4Maui.dll" target="lib\net6.0-maccatalyst16.1"/>
+    <file src="Raygun4Maui/bin/Release/net6.0-maccatalyst/Raygun4Maui.pdb" target="lib\net6.0-maccatalyst16.1"/>
+    
+    <file src="Raygun4Maui/bin/Release/net6.0-windows10.0.19041.0/Raygun4Maui.dll" target="lib\net6.0-windows10.0.19041"/>
+    <file src="Raygun4Maui/bin/Release/net6.0-windows10.0.19041.0/Raygun4Maui.pdb" target="lib\net6.0-windows10.0.19041"/>
+    
+    <!-- iOS/MacCatalyst Network Bindings -->
+    <file src="Raygun4Maui.Binding.NetworkMonitor.iOS\bin\Release\net6.0-ios\Raygun4Maui.Binding.NetworkMonitor.iOS.dll" target="lib\net6.0-ios16.1"/>
+    <file src="Raygun4Maui.Binding.NetworkMonitor.iOS\bin\Release\net6.0-ios\Raygun4Maui.Binding.NetworkMonitor.iOS.pdb" target="lib\net6.0-ios16.1"/>
+
+    <file src="Raygun4Maui.Binding.NetworkMonitor.iOS\bin\Release\net6.0-ios\Raygun4Maui.Binding.NetworkMonitor.iOS.dll" target="lib\net6.0-maccatalyst16.1"/>
+    <file src="Raygun4Maui.Binding.NetworkMonitor.iOS\bin\Release\net6.0-ios\Raygun4Maui.Binding.NetworkMonitor.iOS.pdb" target="lib\net6.0-maccatalyst16.1"/>
+
+    <!-- Android Network Bindings -->
+    <file src="Raygun4Maui.Binding.NetworkMonitor.Android\bin\Release\net6.0-android\Raygun4Maui.Binding.NetworkMonitor.Android.dll" target="lib\net6.0-android31"/>
+    <file src="Raygun4Maui.Binding.NetworkMonitor.Android\bin\Release\net6.0-android\Raygun4Maui.Binding.NetworkMonitor.Android.pdb" target="lib\net6.0-android31"/>
+    
+    
+  </files>
+</package>
