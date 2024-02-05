@@ -43,7 +43,7 @@
             RC-6
             - Fixes native binding inclusion in NuGet package</PackageReleaseNotes>
         <Title>Raygun4Maui</Title>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageIcon>Raygun-icon-128x128.png</PackageIcon>
         <UserSecretsId>54661550-a31d-44d7-a748-7ac67fc82450</UserSecretsId>
@@ -109,7 +109,7 @@
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
-        <None Include="..\LICENSE">
+        <None Include="..\LICENSE.txt">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
@@ -124,11 +124,8 @@
         <PackageReference Include="Mindscape.Raygun4Net.NetCore" Version="8.2.0" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
-        <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.Android\Raygun4Maui.Binding.NetworkMonitor.Android.csproj" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios' Or '$(TargetFramework)' == 'net7.0-maccatalyst'">
-        <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.iOS\Raygun4Maui.Binding.NetworkMonitor.iOS.csproj" />
+    <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android' Or '$(TargetFramework)' == 'net7.0-ios' Or '$(TargetFramework)' == 'net7.0-maccatalyst'">
+        <PackageReference Include="Raygun4Maui.Platform" Version="1.0.0" />
     </ItemGroup>
 
 </Project>

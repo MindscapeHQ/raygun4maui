@@ -58,7 +58,7 @@ public class RaygunNetworkTracker
     private void OnAppStarted(AppStarted obj)
     {
 #if ANDROID
-        var activity = Platform.CurrentActivity;
+        var activity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
         
         _androidNetworkReceiver = new RaygunAndroidNetworkReceiver();
         var filter = new IntentFilter(NetworkTimingIntentAction);

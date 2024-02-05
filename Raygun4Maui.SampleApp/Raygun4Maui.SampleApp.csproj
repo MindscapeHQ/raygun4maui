@@ -95,9 +95,10 @@
         <PackageReference Include="Serilog.Sinks.Raygun" Version="7.3.0"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Raygun4Maui\Raygun4Maui.csproj"/>
-    </ItemGroup>
+<!--    <ItemGroup>-->
+<!--        <ProjectReference Include="..\Raygun4Maui\Raygun4Maui.csproj"/>-->
+<!--    </ItemGroup>-->
+    
 
 
     <ItemGroup>

@@ -1,0 +1,70 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+
+        <RootNamespace>Raygun4Maui.Platform</RootNamespace>
+        <UseMaui>true</UseMaui>
+        <SingleProject>true</SingleProject>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
+
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Version>1.0.0</Version>
+        <PackageVersion>1.0.0</PackageVersion>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Authors>Raygun</Authors>
+        <Company>Raygun</Company>
+        <Description>Raygun's Crash Reporting and Real User Monitoring Provider for MAUI .NET</Description>
+        <Copyright>Copyright (C) 2023 Raygun Limited</Copyright>
+        <PackageProjectUrl>https://raygun.com/platform/real-user-monitoring</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
+        <PackageTags>Raygun4Maui; Raygun; RUM; MAUI; .NET; dotnet; Networking</PackageTags>
+        <PackageReleaseNotes>Adds Android and iOS/MacOS networking libraries, this library is not standalone - you should instead install Raygun4Maui</PackageReleaseNotes>
+        <Title>Raygun4Maui.Platform</Title>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+        <PackageIcon>Raygun-icon-128x128.png</PackageIcon>
+        
+        <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
+        <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.Android\Raygun4Maui.Binding.NetworkMonitor.Android.csproj">
+            <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+            <IncludeAssets>Raygun4Maui.Binding.NetworkMonitor.Android.dll</IncludeAssets>
+        </ProjectReference>
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios' Or '$(TargetFramework)' == 'net7.0-maccatalyst'">
+        <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.iOS\Raygun4Maui.Binding.NetworkMonitor.iOS.csproj">
+            <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+            <IncludeAssets>Raygun4Maui.Binding.NetworkMonitor.iOS.dll</IncludeAssets>
+        </ProjectReference>
+    </ItemGroup>
+
+    <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+        <ItemGroup>
+            <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+        </ItemGroup>
+    </Target>
+
+    <ItemGroup>
+        <None Include="..\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\LICENSE.txt">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\Raygun-icon-128x128.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
+</Project>

@@ -1,6 +1,6 @@
 # Raygun4Maui
 
-Raygun's Crash Reporting provider for .NET MAUI
+Raygun's Crash Reporting and Real User Monitoring provider for .NET MAUI
 
 ## Installation
 
@@ -61,10 +61,6 @@ Below is an example appsettings.json file, two key notes are that you need to us
     "RaygunSettings": {
       "ApiKey": "paste_your_api_key_here",
       "ApplicationVersion": "1.0.0",
-      "Tags": [
-        "tag1",
-        "tag2"
-      ]
     },
     "RaygunLoggerConfiguration": {
       "SendDefaultTags": true, 
