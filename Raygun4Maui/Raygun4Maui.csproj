@@ -41,7 +41,8 @@
             RC-5
             - MacCatalyst network timings
             RC-6
-            - Fixes native binding inclusion in NuGet package</PackageReleaseNotes>
+            - Fixes native binding inclusion in NuGet package
+            - Increases minimum .NET version to .NET 7 as .NET 6 is now unsupported</PackageReleaseNotes>
         <Title>Raygun4Maui</Title>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
