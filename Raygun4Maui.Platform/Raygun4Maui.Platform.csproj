@@ -14,8 +14,8 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
 
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <Version>1.0.0</Version>
-        <PackageVersion>1.0.0</PackageVersion>
+        <Version>1.0.1</Version>
+        <PackageVersion>1.0.1</PackageVersion>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Authors>Raygun</Authors>
         <Company>Raygun</Company>
@@ -31,6 +31,10 @@
         <PackageIcon>Raygun-icon-128x128.png</PackageIcon>
         
         <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>
+            $(AllowedOutputExtensionsInPackageBuildOutputFolder);.zip
+            $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
+        </AllowedOutputExtensionsInPackageBuildOutputFolder>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
@@ -44,6 +48,8 @@
             <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
             <IncludeAssets>Raygun4Maui.Binding.NetworkMonitor.iOS.dll</IncludeAssets>
         </ProjectReference>
+        
+        <None Include="..\Raygun4Maui.Binding.NetworkMonitor.iOS\bin\$(TargetFramework)\Raygun4Maui.Binding.NetworkMonitor.iOS.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\" />
     </ItemGroup>
 
     <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
