@@ -19,7 +19,7 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Authors>Raygun</Authors>
         <Company>Raygun</Company>
-        <Description>Raygun's Crash Reporting and Real User Monitoring Provider for MAUI .NET</Description>
+        <Description>This is a supporting library only and you should not be installing this. This provides native binding libraries for Raygun4Maui; Raygun's Crash Reporting and Real User Monitoring Provider for MAUI .NET</Description>
         <Copyright>Copyright (C) 2023 Raygun Limited</Copyright>
         <PackageProjectUrl>https://raygun.com/platform/real-user-monitoring</PackageProjectUrl>
         <RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
