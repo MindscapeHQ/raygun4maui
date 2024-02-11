@@ -14,8 +14,8 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
 
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <Version>1.0.1</Version>
-        <PackageVersion>1.0.1</PackageVersion>
+        <Version>1.0.2</Version>
+        <PackageVersion>1.0.2</PackageVersion>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Authors>Raygun</Authors>
         <Company>Raygun</Company>
@@ -34,6 +34,7 @@
         <AllowedOutputExtensionsInPackageBuildOutputFolder>
             $(AllowedOutputExtensionsInPackageBuildOutputFolder);.zip
             $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
+            $(AllowedOutputExtensionsInPackageBuildOutputFolder);.aar
         </AllowedOutputExtensionsInPackageBuildOutputFolder>
     </PropertyGroup>
 
@@ -42,7 +43,10 @@
             <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
             <IncludeAssets>Raygun4Maui.Binding.NetworkMonitor.Android.dll</IncludeAssets>
         </ProjectReference>
+        
+        <None Include="..\Raygun4Maui.Binding.NetworkMonitor.Android\Jars\networkmonitorlibrary.aar" />
     </ItemGroup>
+    
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios' Or '$(TargetFramework)' == 'net7.0-maccatalyst'">
         <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.iOS\Raygun4Maui.Binding.NetworkMonitor.iOS.csproj">
             <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
@@ -55,6 +59,7 @@
     <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
         <ItemGroup>
             <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+            <BuildOutputInPackage  Condition="'$(TargetFramework)' == 'net7.0-android'" Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')->Replace('Raygun4Maui.Binding.NetworkMonitor.Android.dll', 'networkmonitorlibrary.aar'))" />
         </ItemGroup>
     </Target>
 

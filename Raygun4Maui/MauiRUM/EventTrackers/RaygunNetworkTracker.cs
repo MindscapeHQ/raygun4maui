@@ -7,6 +7,8 @@ using Raygun4Maui.MauiRUM.EventTrackers.Windows;
 
 #if ANDROID
 using Android.Content;
+using Android.OS;
+using AndroidX.Core.Content;
 using Com.Raygun.Networkmonitorlibrary;
 using Raygun4Maui.MauiRUM.EventTrackers.Android;
 #endif
@@ -63,9 +65,10 @@ public class RaygunNetworkTracker
         _androidNetworkReceiver = new RaygunAndroidNetworkReceiver();
         var filter = new IntentFilter(NetworkTimingIntentAction);
 
-        
-        activity?.ApplicationContext?.RegisterReceiver(_androidNetworkReceiver, filter);
 
+        ContextCompat.RegisterReceiver(activity?.ApplicationContext!, _androidNetworkReceiver, filter,
+            ContextCompat.ReceiverExported);
+        
         try
         {
             RaygunNetworkMonitor.SetContext(activity?.ApplicationContext);
