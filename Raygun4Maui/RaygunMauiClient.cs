@@ -3,6 +3,7 @@ using Mindscape.Raygun4Net;
 using System.Globalization;
 using System.Collections;
 using Microsoft.Extensions.Options;
+using Mindscape.Raygun4Net.Breadcrumbs;
 using Raygun4Maui.DeviceIdProvider;
 using Raygun4Maui.MauiRUM;
 using Raygun4Maui.MauiRUM.EventTypes;
@@ -109,7 +110,8 @@ namespace Raygun4Maui
                 Version = ApplicationVersion,
                 User = userInfo ??
                        UserInfo ?? (!String.IsNullOrEmpty(User) ? new RaygunIdentifierMessage(User) : null),
-                Environment = environment
+                Environment = environment,
+                Breadcrumbs = RaygunBreadcrumbs.Dump().Count > 0 ? RaygunBreadcrumbs.Dump() : null
             };
 
             var message = new RaygunMessage
