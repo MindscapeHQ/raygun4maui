@@ -115,7 +115,7 @@ public class RaygunRum
                     timestamp = DateTime.UtcNow,
                     type = EventTypeToString(RaygunRumEventType.Timing),
                     user = _sessionTracker.CurrentUser,
-                    version = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
+                    version = GetVersion(),
                     os = NativeDeviceInfo
                         .Platform(), // Cannot get specific Windows version, e.g. Windows 10 vs 11 so we use general platform
 #if WINDOWS
@@ -132,6 +132,17 @@ public class RaygunRum
 
 
         return message;
+    }
+    
+    private String GetVersion()
+    {
+        if (!string.IsNullOrEmpty(_mauiSettings.RaygunSettings.ApplicationVersion))
+        {
+            return _mauiSettings.RaygunSettings.ApplicationVersion;
+        }
+
+        var entryAssembly = System.Reflection.Assembly.GetEntryAssembly();
+        return entryAssembly?.GetName().Version?.ToString() ?? UnknownValue;
     }
 
     private void OnSendSessionStartedEvent(RaygunSessionEventArgs args)
