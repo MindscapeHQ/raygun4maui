@@ -23,7 +23,6 @@ public partial class PageLoadTest : ContentPage
     private async void OnNavigateButtonClicked(object sender, EventArgs e)
     {
         RaygunBreadcrumbs.Record("Breadcrumbs!!");
-        System.Diagnostics.Trace.WriteLine("Recorded breadcrumb");
         
         await RaygunMauiClient.Current.SendInBackground(new Exception(),new List<string> { "CSharp", "Programming", "DotNet", "Development", "Coding" });
         
