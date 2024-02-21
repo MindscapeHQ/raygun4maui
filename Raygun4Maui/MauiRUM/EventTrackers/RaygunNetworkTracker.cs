@@ -20,25 +20,10 @@ namespace Raygun4Maui.MauiRUM.EventTrackers;
 public class RaygunNetworkTracker
 {
     private Raygun4MauiSettings _settings;
-
-    private static RaygunNetworkTracker _instance;
-
+    
     private List<string> _defaultIgnoredUrls;
 
     private const string NetworkTimingIntentAction = "com.raygun.networkmonitorlibrary.NetworkRequestTiming";
-
-    public static RaygunNetworkTracker Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new RaygunNetworkTracker();
-            }
-
-            return _instance;
-        }
-    }
     
     public event Action<RaygunTimingEventArgs> NetworkRequestCompleted;
 
@@ -60,15 +45,17 @@ public class RaygunNetworkTracker
     private void OnAppStarted(AppStarted obj)
     {
 #if ANDROID
-        var activity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
+        if (!_settings.RumFeatureFlags.HasFlag(RumFeatures.Network)) return;
         
+        var activity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
+
         _androidNetworkReceiver = new RaygunAndroidNetworkReceiver();
         var filter = new IntentFilter(NetworkTimingIntentAction);
 
 
         ContextCompat.RegisterReceiver(activity?.ApplicationContext!, _androidNetworkReceiver, filter,
             ContextCompat.ReceiverExported);
-        
+
         try
         {
             RaygunNetworkMonitor.SetContext(activity?.ApplicationContext);
@@ -76,7 +63,7 @@ public class RaygunNetworkTracker
         catch (Exception e)
         {
             Console.WriteLine($"Failed to pass the context to the network monitor due to: {e.Message}");
-        }        
+        }
 #endif
     }
     

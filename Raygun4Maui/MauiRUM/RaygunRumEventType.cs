@@ -6,6 +6,7 @@ public enum RaygunRumEventType
 {
     None = 0,
 
+    // SimpleJson does not use EnumMember Value's for serialization, these are instead kept for future reference
     [EnumMember(Value = "session_start")]
     SessionStart,
 

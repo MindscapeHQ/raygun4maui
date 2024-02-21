@@ -116,15 +116,13 @@ public class RaygunRum
                     type = EventTypeToString(RaygunRumEventType.Timing),
                     user = _sessionTracker.CurrentUser,
                     version = GetVersion(),
-                    os = NativeDeviceInfo
-                        .Platform(), // Cannot get specific Windows version, e.g. Windows 10 vs 11 so we use general platform
+                    os = NativeDeviceInfo.Platform(), // Cannot get specific Windows version, e.g. Windows 10 vs 11 so we use general platform
 #if WINDOWS
                     osVersion = GetWindowsVersion(DeviceInfo.Current.VersionString),
 #else
                     osVersion = DeviceInfo.Current.VersionString,
 #endif
-                    platform = DeviceInfo
-                        .Model, // Xamarin uses device model, e.g. iPhone 15, Motherboard Version (windows)
+                    platform = DeviceInfo.Model, // Xamarin uses device model, e.g. iPhone 15, Motherboard Version (windows)
                     data = RaygunSerializer.Serialize(data)
                 }
             }

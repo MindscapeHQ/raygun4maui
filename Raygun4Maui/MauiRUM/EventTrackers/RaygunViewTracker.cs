@@ -9,7 +9,7 @@ public class RaygunViewTracker
 {
     public event Action<RaygunTimingEventArgs> ViewLoaded;
 
-    private readonly Dictionary<string, long> _timers;
+    private readonly Dictionary<string, long> _timers = new();
     private DateTime _previousPageDisappearingTime;
 
 #if IOS || MACCATALYST
@@ -17,11 +17,6 @@ public class RaygunViewTracker
 #endif
     
     private Raygun4MauiSettings _settings;
-
-    public RaygunViewTracker()
-    {
-        _timers = new Dictionary<string, long>();
-    }
 
     public void Init(Raygun4MauiSettings settings)
     {
