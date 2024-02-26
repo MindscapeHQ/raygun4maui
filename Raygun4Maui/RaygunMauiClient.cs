@@ -3,7 +3,7 @@ using Mindscape.Raygun4Net;
 using System.Globalization;
 using System.Collections;
 using Microsoft.Extensions.Options;
-using Mindscape.Raygun4Net.Breadcrumbs;
+// using Mindscape.Raygun4Net.Breadcrumbs;
 using Raygun4Maui.DeviceIdProvider;
 using Raygun4Maui.MauiRUM;
 using Raygun4Maui.MauiRUM.EventTypes;
@@ -14,7 +14,7 @@ namespace Raygun4Maui
     {
         private RaygunRum _rum;
 
-        public override RaygunIdentifierMessage UserInfo
+        public override RaygunIdentifierMessage UserInfo // Need to make sure this is set correctly with RUM still
         {
             get => _userInfo;
             set
@@ -61,18 +61,15 @@ namespace Raygun4Maui
             _instance = client;
         }
 
-        public RaygunMauiClient(IOptions<Raygun4MauiSettings> settings) : base(settings.Value.RaygunSettings)
+        // TODO: Will this actually be used, and how does it work with IRaygunUserProvider
+        public RaygunMauiClient(IOptions<Raygun4MauiSettings> settings) : base(settings.Value.RaygunSettings, null)
         {
             _rum = new RaygunRum();
             _mauiSettings = settings.Value;
         }
 
-        public RaygunMauiClient(string apiKey) : base(apiKey)
-        {
-            _rum = new RaygunRum();
-        }
-
-        public RaygunMauiClient(Raygun4MauiSettings settings) : base(settings.RaygunSettings)
+        public RaygunMauiClient(Raygun4MauiSettings settings, IRaygunUserProvider userProvider) : base(
+            settings.RaygunSettings, userProvider)
         {
             _rum = new RaygunRum();
             _mauiSettings = settings;
@@ -80,6 +77,8 @@ namespace Raygun4Maui
 
         public void EnableRealUserMonitoring(IDeviceIdProvider deviceId)
         {
+            if (!_mauiSettings.EnableRealUserMonitoring) return;
+            
             _deviceId = deviceId;
 
             _userInfo = new RaygunIdentifierMessage(_deviceId.GetDeviceId()) { IsAnonymous = true };
@@ -95,39 +94,49 @@ namespace Raygun4Maui
             }
         }
 
-        protected override async Task<RaygunMessage> BuildMessage(Exception exception, IList<string> tags,
-            IDictionary userCustomData, RaygunIdentifierMessage userInfo)
+        protected override async Task StripAndSend(Exception exception, IList<string> tags, IDictionary userCustomData,
+            RaygunIdentifierMessage userInfo)
         {
-            var environment = EnvironmentMessageBuilder.BuildEnvironmentMessage();
-
-            var details = new RaygunMessageDetails
+            foreach (var e in StripWrapperExceptions(exception))
             {
-                MachineName = DeviceInfo.Current.Name,
-                Client = ClientMessage,
-                Error = RaygunErrorMessageBuilder.Build(exception),
-                UserCustomData = userCustomData,
-                Tags = tags,
-                Version = ApplicationVersion,
-                User = userInfo ??
-                       UserInfo ?? (!String.IsNullOrEmpty(User) ? new RaygunIdentifierMessage(User) : null),
-                Environment = environment,
-                Breadcrumbs = RaygunBreadcrumbs.Dump().Count > 0 ? RaygunBreadcrumbs.Dump() : null
-            };
+                var msg = await BuildMessage(e, tags, userCustomData, userInfo, customiseMessage: raygunMessage =>
+                {
+                    raygunMessage.Details.MachineName = DeviceInfo.Current.Name;
+                    raygunMessage.Details.Environment = EnvironmentMessageBuilder.BuildEnvironmentMessage();
+                    raygunMessage.Details.Client = ClientMessage;
+                }).ConfigureAwait(false);
 
-            var message = new RaygunMessage
-            {
-                OccurredOn = DateTime.UtcNow,
-                Details = details
-            };
-
-            var customGroupingKey = await OnCustomGroupingKey(exception, message).ConfigureAwait(false);
-
-            if (string.IsNullOrEmpty(customGroupingKey) == false)
-            {
-                message.Details.GroupingKey = customGroupingKey;
+                await Send(msg).ConfigureAwait(false);
             }
+        }
 
-            return message;
+        public override async Task SendInBackground(Exception exception, IList<string> tags = null,
+            IDictionary userCustomData = null, RaygunIdentifierMessage userInfo = null)
+        {
+            if (CanSend(exception))
+            {
+                var exceptions = StripWrapperExceptions(exception);
+
+
+                foreach (Exception ex in exceptions)
+                {
+                    var msg = await BuildMessage(ex, tags, userCustomData, userInfo, customiseMessage: raygunMessage =>
+                    {
+                        raygunMessage.Details.MachineName = DeviceInfo.Current.Name;
+                        raygunMessage.Details.Environment = EnvironmentMessageBuilder.BuildEnvironmentMessage();
+                        raygunMessage.Details.Client = ClientMessage;
+                    });
+
+
+                    if (!Enqueue(msg))
+                    {
+                        System.Diagnostics.Debug.WriteLine(
+                            "Could not add message to background queue. Dropping exception: {0}", ex);
+                    }
+                }
+
+                FlagAsSent(exception);
+            }
         }
     }
 }

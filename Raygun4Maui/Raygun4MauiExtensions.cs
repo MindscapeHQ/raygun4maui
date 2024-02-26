@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.LifecycleEvents;
+using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.Breadcrumbs;
 using Raygun4Maui.DeviceIdProvider;
 using Raygun4Maui.MauiRUM.AppLifecycleHandlers;
@@ -15,13 +16,10 @@ namespace Raygun4Maui
             this MauiAppBuilder mauiAppBuilder,
             Raygun4MauiSettings raygunMauiSettings)
         {
-            RaygunBreadcrumbs.Storage = new InMemoryBreadcrumbStorage();
+            mauiAppBuilder.Services.AddSingleton<IMauiInitializeService, RaygunClientInitializeService>();
+
+            mauiAppBuilder.Services.AddSingleton(services => new RaygunMauiClient(raygunMauiSettings, services.GetService<IRaygunUserProvider>()));
             
-            var client = new RaygunMauiClient(raygunMauiSettings);
-
-            mauiAppBuilder.Services.AddSingleton<RaygunMauiClient>(client);
-            RaygunMauiClient.Attach(client);
-
             if (raygunMauiSettings.EnableRealUserMonitoring)
             {
                 mauiAppBuilder.AddRaygunRum();
@@ -44,8 +42,6 @@ namespace Raygun4Maui
             var settings = mauiAppBuilder.Configuration.GetSection("Raygun4MauiSettings").Get<Raygun4MauiSettings>() ??
                            new Raygun4MauiSettings();
             
-            
-
             options?.Invoke(settings);
 
             return mauiAppBuilder.AddRaygun(settings);
@@ -54,10 +50,6 @@ namespace Raygun4Maui
         private static MauiAppBuilder AddRaygunRum(this MauiAppBuilder mauiAppBuilder)
         {
             mauiAppBuilder.AddDeviceIdProvider();
-
-            var deviceIdProvider = new DeviceIdProvider.DeviceIdProvider();
-
-            RaygunMauiClient.Current.EnableRealUserMonitoring(deviceIdProvider);
 
             mauiAppBuilder.ConfigureLifecycleEvents(builder =>
             {

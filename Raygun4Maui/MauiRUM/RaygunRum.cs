@@ -116,7 +116,7 @@ public class RaygunRum
                     type = EventTypeToString(RaygunRumEventType.Timing),
                     user = _sessionTracker.CurrentUser,
                     version = GetVersion(),
-                    os = NativeDeviceInfo.Platform(), // Cannot get specific Windows version, e.g. Windows 10 vs 11 so we use general platform
+                    os = NativeDeviceInfo.Platform(),
 #if WINDOWS
                     osVersion = GetWindowsVersion(DeviceInfo.Current.VersionString),
 #else
