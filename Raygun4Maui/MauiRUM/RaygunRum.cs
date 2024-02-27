@@ -9,76 +9,64 @@ using Raygun4Maui.MauiRUM.EventTypes;
 
 namespace Raygun4Maui.MauiRUM;
 
-public class RaygunRum
+public static class RaygunRum
 {
-    public bool Enabled { get; private set; }
-
-    private RaygunViewTracker _viewTracker;
-    private RaygunSessionTracker _sessionTracker;
-    private RaygunNetworkTracker _networkTracker;
-
-    private IRaygunWebRequestHandler _requestHandler;
-
+    public static bool Enabled { get; private set; } = false;
+    
+    private static IRaygunWebRequestHandler _requestHandler;
 
     private const string UnknownValue = "Unknown";
 
-    private Raygun4MauiSettings _mauiSettings;
+    private static Raygun4MauiSettings _mauiSettings;
 
-    public RaygunRum()
-    {
-    }
-
-    public void Enable(Raygun4MauiSettings settings, RaygunIdentifierMessage user)
+    public static void Enable(Raygun4MauiSettings settings, RaygunIdentifierMessage user)
     {
         if (Enabled) return;
-
+        
         Enabled = true;
-
+        
+        // DI Container for this should be set up by this point
         _mauiSettings = settings;
-
-        _viewTracker = new RaygunViewTracker();
-        _sessionTracker = new RaygunSessionTracker();
-        _networkTracker = new RaygunNetworkTracker();
-
+        
         _requestHandler =
-            new RaygunWebRequestHandler(_mauiSettings.RaygunSettings.ApiKey, _mauiSettings.RumApiEndpoint, 30_0000);
+            new RaygunWebRequestHandler(_mauiSettings?.RaygunSettings.ApiKey, _mauiSettings?.RumApiEndpoint, 30_0000);
 
-        _viewTracker.ViewLoaded += OnViewLoaded;
-        _viewTracker.Init(settings);
+        RaygunViewTracker.ViewLoaded += OnViewLoaded;
+        RaygunViewTracker.Init(settings);
 
 
-        _sessionTracker.SessionStarted += OnSendSessionStartedEvent;
-        _sessionTracker.SessionChanged += OnSendSessionChangedEvent;
-        _sessionTracker.Init(user);
+        RaygunSessionTracker.SessionStarted += OnSendSessionStartedEvent;
+        RaygunSessionTracker.SessionChanged += OnSendSessionChangedEvent;
+        RaygunSessionTracker.Init(user); // Find a nicer way to inject user
 
-        _networkTracker.NetworkRequestCompleted += OnNetworkRequestCompletedEvent;
-        _networkTracker.Init(settings);
+        RaygunNetworkTracker.NetworkRequestCompleted += OnNetworkRequestCompletedEvent;
+        RaygunNetworkTracker.Init(settings);
     }
 
-    public void UpdateUser(RaygunIdentifierMessage user)
+    public static void UpdateUser(RaygunIdentifierMessage user)
     {
-        _sessionTracker.CurrentUser = user;
+        RaygunSessionTracker.CurrentUser = user;
     }
 
-    private void OnViewLoaded(RaygunTimingEventArgs args)
+    private static void OnViewLoaded(RaygunTimingEventArgs args)
     {
-        _sessionTracker.EnsureSessionStarted();
+        RaygunSessionTracker.EnsureSessionStarted();
 
         SendTimingEvent(args.Type, args.Key, args.Milliseconds);
 
-        _sessionTracker.UpdateLastSeenTime();
+        RaygunSessionTracker.UpdateLastSeenTime();
     }
 
-    private void OnNetworkRequestCompletedEvent(RaygunTimingEventArgs args)
+    private static void OnNetworkRequestCompletedEvent(RaygunTimingEventArgs args)
     {
-        _sessionTracker.EnsureSessionStarted();
+        RaygunSessionTracker.EnsureSessionStarted();
 
         SendTimingEvent(args.Type, args.Key, args.Milliseconds);
 
-        _sessionTracker.UpdateLastSeenTime();
+        RaygunSessionTracker.UpdateLastSeenTime();
     }
 
-    public void SendTimingEvent(RaygunRumEventTimingType timingType, string name, long duration)
+    public static void SendTimingEvent(RaygunRumEventTimingType timingType, string name, long duration)
     {
         if (!Enabled)
         {
@@ -90,7 +78,7 @@ public class RaygunRum
         SendEvent(message);
     }
 
-    private RaygunRumMessage BuildTimingEventMessage(RaygunRumEventTimingType timingType, string name, long duration)
+    private static RaygunRumMessage BuildTimingEventMessage(RaygunRumEventTimingType timingType, string name, long duration)
     {
         var data = new RaygunRumTimingData[1]
         {
@@ -111,10 +99,10 @@ public class RaygunRum
             {
                 new RaygunRumEventInfo
                 {
-                    sessionId = _sessionTracker.SessionId,
+                    sessionId = RaygunSessionTracker.SessionId,
                     timestamp = DateTime.UtcNow,
                     type = EventTypeToString(RaygunRumEventType.Timing),
-                    user = _sessionTracker.CurrentUser,
+                    user = RaygunSessionTracker.CurrentUser, // Need to look at changing this, IRaygunUserProvider
                     version = GetVersion(),
                     os = NativeDeviceInfo.Platform(),
 #if WINDOWS
@@ -132,7 +120,7 @@ public class RaygunRum
         return message;
     }
     
-    private String GetVersion()
+    private static String GetVersion()
     {
         if (!string.IsNullOrEmpty(_mauiSettings.RaygunSettings.ApplicationVersion))
         {
@@ -143,18 +131,18 @@ public class RaygunRum
         return entryAssembly?.GetName().Version?.ToString() ?? UnknownValue;
     }
 
-    private void OnSendSessionStartedEvent(RaygunSessionEventArgs args)
+    private static void OnSendSessionStartedEvent(RaygunSessionEventArgs args)
     {
         SendSessionEvent(RaygunRumEventType.SessionStart, args.SessionId, args.User);
     }
 
-    private void OnSendSessionChangedEvent(RaygunSessionChangedEventArgs args)
+    private static void OnSendSessionChangedEvent(RaygunSessionChangedEventArgs args)
     {
         SendSessionEvent(RaygunRumEventType.SessionEnd, args.OldSessionId, args.OldUser);
         SendSessionEvent(RaygunRumEventType.SessionStart, args.NewSessionId, args.NewUser);
     }
 
-    private void SendSessionEvent(RaygunRumEventType eventType, string sessionId, RaygunIdentifierMessage user)
+    private static void SendSessionEvent(RaygunRumEventType eventType, string sessionId, RaygunIdentifierMessage user)
     {
         if (!Enabled)
         {
@@ -166,7 +154,7 @@ public class RaygunRum
         SendEvent(message);
     }
 
-    public void SendCustomTimingEvent(RaygunRumEventTimingType timingType, string name, long duration)
+    public static void SendCustomTimingEvent(RaygunRumEventTimingType timingType, string name, long duration)
     {
         if (!Enabled)
         {
@@ -174,12 +162,12 @@ public class RaygunRum
         }
 
 
-        if (timingType == RaygunRumEventTimingType.ViewLoaded && _viewTracker.ShouldIgnore(name))
+        if (timingType == RaygunRumEventTimingType.ViewLoaded && RaygunViewTracker.ShouldIgnore(name))
         {
             return;
         }
 
-        if (timingType == RaygunRumEventTimingType.NetworkCall && _networkTracker.ShouldIgnore(name)
+        if (timingType == RaygunRumEventTimingType.NetworkCall && RaygunNetworkTracker.ShouldIgnore(name)
            )
         {
             return;
@@ -188,7 +176,7 @@ public class RaygunRum
         SendTimingEvent(timingType, name, duration);
     }
 
-    private RaygunRumMessage BuildSessionEventMessage(RaygunRumEventType eventType, string sessionId,
+    private static RaygunRumMessage BuildSessionEventMessage(RaygunRumEventType eventType, string sessionId,
         RaygunIdentifierMessage user)
     {
         var message = new RaygunRumMessage
@@ -201,7 +189,7 @@ public class RaygunRum
                     timestamp = DateTime.UtcNow,
                     type = EventTypeToString(eventType),
                     user = user,
-                    version = _mauiSettings.RaygunSettings.ApplicationVersion ?? UnknownValue,
+                    version = GetVersion(),
                     os = NativeDeviceInfo.Platform(),
 #if WINDOWS
                     osVersion = GetWindowsVersion(DeviceInfo.Current.VersionString),
@@ -216,7 +204,7 @@ public class RaygunRum
         return message;
     }
 
-    private async void SendEvent(RaygunRumMessage message)
+    private static async void SendEvent(RaygunRumMessage message)
     {
         var payload = RaygunSerializer.Serialize(message);
 

@@ -12,33 +12,31 @@ namespace Raygun4Maui
 {
     public class RaygunMauiClient : RaygunClient
     {
-        private RaygunRum _rum;
-
         public override RaygunIdentifierMessage UserInfo // Need to make sure this is set correctly with RUM still
         {
             get => _userInfo;
             set
             {
                 _userInfo = value;
-                _rum?.UpdateUser(value);
+                RaygunRum.UpdateUser(value);
             }
         }
 
         private RaygunIdentifierMessage _userInfo;
 
-        private IDeviceIdProvider _deviceId;
+        private IDeviceIdProvider _deviceIdProvider;
 
-        private static RaygunMauiClient _instance;
-        private Raygun4MauiSettings _mauiSettings;
-        public static RaygunMauiClient Current => _instance;
+        private readonly Raygun4MauiSettings _mauiSettings;
+        
+        public static RaygunMauiClient Current { get; private set; }
 
         private readonly Lazy<RaygunMauiEnvironmentMessageBuilder> _lazyMessageBuilder =
-            new Lazy<RaygunMauiEnvironmentMessageBuilder>(RaygunMauiEnvironmentMessageBuilder.Init);
+            new(RaygunMauiEnvironmentMessageBuilder.Init);
 
         private RaygunMauiEnvironmentMessageBuilder EnvironmentMessageBuilder => _lazyMessageBuilder.Value;
 
         private static readonly string Name = Assembly.GetExecutingAssembly().GetName().Name;
-        private static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        private static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
 
         private static readonly string
             ClientUrl =
@@ -53,46 +51,56 @@ namespace Raygun4Maui
 
         internal static void Attach(RaygunMauiClient client)
         {
-            if (_instance != null)
+            if (Current != null)
             {
                 throw new Exception("You should only call 'AddRaygun4maui' once in your app.");
             }
 
-            _instance = client;
+            Current = client;
         }
 
         // TODO: Will this actually be used, and how does it work with IRaygunUserProvider
         public RaygunMauiClient(IOptions<Raygun4MauiSettings> settings) : base(settings.Value.RaygunSettings, null)
         {
-            _rum = new RaygunRum();
             _mauiSettings = settings.Value;
         }
 
         public RaygunMauiClient(Raygun4MauiSettings settings, IRaygunUserProvider userProvider) : base(
             settings.RaygunSettings, userProvider)
         {
-            _rum = new RaygunRum();
             _mauiSettings = settings;
+
+            SendingMessage += (_, e) =>
+            {
+                e.Message.Details.Tags ??= new List<string>();
+                
+                foreach (var tag in BuildTags())
+                {
+                    e.Message.Details.Tags.Add(tag);
+                }
+            };
         }
 
-        public void EnableRealUserMonitoring(IDeviceIdProvider deviceId)
+        internal IEnumerable<string> BuildTags()
+        {
+            yield return $"Tag: 1";
+            yield return $"Tag: {DeviceInfo.DeviceType}";
+            yield return "Tag: 2 - CSharp";
+        }
+
+        // Should this really be a RaygunClient feature?
+        public void EnableRealUserMonitoring(IDeviceIdProvider deviceIdProvider)
         {
             if (!_mauiSettings.EnableRealUserMonitoring) return;
             
-            _deviceId = deviceId;
+            _deviceIdProvider = deviceIdProvider;
 
-            _userInfo = new RaygunIdentifierMessage(_deviceId.GetDeviceId()) { IsAnonymous = true };
+            // Still need to arrange how this should be dealt with
+            _userInfo = new RaygunIdentifierMessage(_deviceIdProvider.GetDeviceId()) { IsAnonymous = true };
 
-            _rum.Enable(_mauiSettings, _userInfo);
+            RaygunRum.Enable(_mauiSettings, _userInfo);
         }
-
-        public void SendTimingEvent(RaygunRumEventTimingType type, string name, long milliseconds)
-        {
-            if (_rum.Enabled)
-            {
-                _rum.SendCustomTimingEvent(type, name, milliseconds);
-            }
-        }
+        
 
         protected override async Task StripAndSend(Exception exception, IList<string> tags, IDictionary userCustomData,
             RaygunIdentifierMessage userInfo)

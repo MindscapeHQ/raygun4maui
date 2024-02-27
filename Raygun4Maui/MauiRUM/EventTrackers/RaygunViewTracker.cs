@@ -5,75 +5,75 @@ using Raygun4Maui.MauiRUM.EventTypes;
 
 namespace Raygun4Maui.MauiRUM.EventTrackers;
 
-public class RaygunViewTracker
+public static class RaygunViewTracker
 {
-    public event Action<RaygunTimingEventArgs> ViewLoaded;
+    public static event Action<RaygunTimingEventArgs> ViewLoaded;
 
-    private readonly Dictionary<string, long> _timers = new();
-    private DateTime _previousPageDisappearingTime;
+    private static readonly Dictionary<string, long> Timers = new();
+    private static DateTime _previousPageDisappearingTime;
 
 #if IOS || MACCATALYST
-    private RaygunUiViewControllerObserver _appleRaygunUiViewControllerObserver;
+    private static RaygunUiViewControllerObserver _appleRaygunUiViewControllerObserver;
 #endif
     
-    private Raygun4MauiSettings _settings;
+    private static Raygun4MauiSettings _settings;
 
-    public void Init(Raygun4MauiSettings settings)
+    public static void Init(Raygun4MauiSettings settings)
     {
         _settings = settings;
 
+        if (!_settings.RumFeatureFlags.HasFlag(RumFeatures.Page))
+        {
+            return;
+        }
+        
+        RaygunAppEventPublisher.ViewTimingStarted += OnViewTimingStarted;
+        RaygunAppEventPublisher.ViewTimingFinished += OnViewTimingFinished;
+
         // Set up page listeners when application is available
-        if (_settings.RumFeatureFlags.HasFlag(RumFeatures.Page))
-        {
-            RaygunAppEventPublisher.Instance.ViewTimingStarted += OnViewTimingStarted;
-            RaygunAppEventPublisher.Instance.ViewTimingFinished += OnViewTimingFinished;
+        RaygunAppEventPublisher.AppStarted += SetupPageDelegates;
 
-            RaygunAppEventPublisher.Instance.AppStarted += SetupPageDelegates;
-        }
-
-        if (_settings.RumFeatureFlags.HasFlag(RumFeatures.AppleNativeTimings))
-        {
 #if IOS || MACCATALYST
-            _appleRaygunUiViewControllerObserver = new RaygunUiViewControllerObserver();
-            _appleRaygunUiViewControllerObserver.Register();
-#endif
+        // Native timings only make sense if you have page timings as well, so we early return if there are no page timings
+        if (!_settings.RumFeatureFlags.HasFlag(RumFeatures.AppleNativeTimings))
+        {
+            return;
         }
+        
+        _appleRaygunUiViewControllerObserver = new RaygunUiViewControllerObserver();
+        _appleRaygunUiViewControllerObserver.Register();
+#endif
     }
 
 
-    private void SetupPageDelegates(AppStarted args)
+    private static void SetupPageDelegates(AppStarted args)
     {
         if (Application.Current == null) return;
 
-        RaygunAppEventPublisher.Instance.AppStarted -= SetupPageDelegates;
+        RaygunAppEventPublisher.AppStarted -= SetupPageDelegates;
 
         Application.Current.PageAppearing += OnPageAppearing;
         Application.Current.PageDisappearing += OnPageDisappearing;
     }
 
-    private void OnViewTimingStarted(ViewTimingStarted viewEvent)
+    private static void OnViewTimingStarted(ViewTimingStarted viewEvent)
     {
-        _timers.TryAdd(viewEvent.Name, viewEvent.OccurredOn);
+        Timers.TryAdd(viewEvent.Name, viewEvent.OccurredOn);
     }
 
-    private void OnViewTimingFinished(ViewTimingFinished viewEvent)
+    private static void OnViewTimingFinished(ViewTimingFinished viewEvent)
     {
-        if (_timers.ContainsKey(viewEvent.Name))
+        if (!Timers.Remove(viewEvent.Name, out var value)) return;
+
+        if (!ShouldIgnore(viewEvent.Name))
         {
-            var start = _timers[viewEvent.Name];
-
-            _timers.Remove(viewEvent.Name);
-
-            if (!ShouldIgnore(viewEvent.Name))
-            {
-                InvokeViewLoadedEvent(viewEvent.Name, GetDuration(start, viewEvent.OccurredOn));
-            }
-
-            SetPageLoadTimeStart();
+            InvokeViewLoadedEvent(viewEvent.Name, GetDuration(value, viewEvent.OccurredOn));
         }
+
+        SetPageLoadTimeStart();
     }
 
-    private void OnPageDisappearing(object sender, Page page)
+    private static void OnPageDisappearing(object sender, Page page)
     {
         if (page is NavigationPage)
         {
@@ -84,7 +84,7 @@ public class RaygunViewTracker
     }
 
 
-    private void OnPageAppearing(object sender, Page page)
+    private static void OnPageAppearing(object sender, Page page)
     {
         var pageName = page.GetType().Name;
 
@@ -100,23 +100,23 @@ public class RaygunViewTracker
     }
 
 
-    private void SetPageLoadTimeStart()
+    private static void SetPageLoadTimeStart()
     {
         _previousPageDisappearingTime = DateTime.UtcNow;
     }
 
 
-    private long GetDuration(long startTicks, long finishTicks)
+    private static long GetDuration(long startTicks, long finishTicks)
     {
         return (long)TimeSpan.FromTicks(finishTicks - startTicks).TotalMilliseconds;
     }
 
-    public bool ShouldIgnore(string viewName)
+    public static bool ShouldIgnore(string viewName)
     {
         return _settings.IgnoredViews != null && _settings.IgnoredViews.Contains(viewName);
     }
 
-    private void InvokeViewLoadedEvent(string name, long duration)
+    private static void InvokeViewLoadedEvent(string name, long duration)
     {
         ViewLoaded?.Invoke(new RaygunTimingEventArgs
         {

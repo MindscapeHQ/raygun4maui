@@ -4,53 +4,49 @@ using Raygun4Maui.MauiRUM.EventTypes;
 
 namespace Raygun4Maui.MauiRUM.EventTrackers;
 
-public class RaygunSessionTracker
+public static class RaygunSessionTracker
   {
-    private readonly TimeSpan _maxSessionLength = TimeSpan.FromMinutes(30);
+    private static readonly TimeSpan MaxSessionLength = TimeSpan.FromMinutes(30);
 
-    private RaygunIdentifierMessage _currentUser;
-    private DateTime _lastSeenTime;
+    private static RaygunIdentifierMessage _currentUser;
+    private static DateTime _lastSeenTime;
 
-    public event Action<RaygunSessionEventArgs>        SessionStarted;
-    public event Action<RaygunSessionChangedEventArgs> SessionChanged;
+    public static event Action<RaygunSessionEventArgs>        SessionStarted;
+    public static event Action<RaygunSessionChangedEventArgs> SessionChanged;
 
-    public string SessionId { get; private set; }
+    public static string SessionId { get; private set; }
 
-    public RaygunIdentifierMessage CurrentUser
+    public static RaygunIdentifierMessage CurrentUser
     {
       get => _currentUser;
       set => SetUser(value);
     }
 
-    public RaygunSessionTracker()
-    {
-    }
-
-    public void Init(RaygunIdentifierMessage user)
+    public static void Init(RaygunIdentifierMessage user)
     {
       _currentUser = user;
 
       // Listen for events
-      RaygunAppEventPublisher.Instance.AppInitialised += OnAppInitialised;
-      RaygunAppEventPublisher.Instance.AppStarted += OnAppStarted;
-      RaygunAppEventPublisher.Instance.AppResumed += OnAppResumed;
-      RaygunAppEventPublisher.Instance.AppPaused += OnAppPaused;
-      RaygunAppEventPublisher.Instance.AppStopped += OnAppStopped;
+      RaygunAppEventPublisher.AppInitialised += OnAppInitialised;
+      RaygunAppEventPublisher.AppStarted += OnAppStarted;
+      RaygunAppEventPublisher.AppResumed += OnAppResumed;
+      RaygunAppEventPublisher.AppPaused += OnAppPaused;
+      RaygunAppEventPublisher.AppStopped += OnAppStopped;
 
       EvaluateSession();
     }
 
-    public void EnsureSessionStarted()
+    public static void EnsureSessionStarted()
     {
       EvaluateSession();
     }
 
-    public void UpdateLastSeenTime()
+    public static void UpdateLastSeenTime()
     {
       _lastSeenTime = DateTime.UtcNow;
     }
 
-    private void SetUser(RaygunIdentifierMessage newUser)
+    private static void SetUser(RaygunIdentifierMessage newUser)
     {
       // Going from an anonymous user to a known user does NOT warrant a change in session.
       // Instead the user associated with the current session will be updated.
@@ -82,31 +78,31 @@ public class RaygunSessionTracker
       App Lifecycle Event Callbacks
     */
 
-    private void OnAppInitialised(AppInitialised args)
+    private static void OnAppInitialised(AppInitialised args)
     {
       // RaygunLogger.Debug("RaygunSessionTracker - OnAppInitialised");
       EvaluateSession();
     }
 
-    private void OnAppStarted(AppStarted args)
+    private static void OnAppStarted(AppStarted args)
     {
       // RaygunLogger.Debug("RaygunSessionTracker - OnAppStarted");
       EvaluateSession();
     }
 
-    private void OnAppResumed(AppResumed args)
+    private static void OnAppResumed(AppResumed args)
     {
       // RaygunLogger.Debug("RaygunSessionTracker - OnAppResumed");
       EvaluateSession();
     }
 
-    private void OnAppPaused(AppPaused args)
+    private static void OnAppPaused(AppPaused args)
     {
       // RaygunLogger.Debug("RaygunSessionTracker - OnAppPaused");
       UpdateLastSeenTime();
     }
 
-    private void OnAppStopped(AppStopped args)
+    private static void OnAppStopped(AppStopped args)
     {
       // RaygunLogger.Debug("RaygunSessionTracker - OnAppStopped");
       UpdateLastSeenTime();
@@ -117,7 +113,7 @@ public class RaygunSessionTracker
     /// If there is no session, one will be started.
     /// If the current session has had no interaction for the last 30 minutes, the session is stopped and a new one is started.
     /// </summary>
-    private void EvaluateSession()
+    private static void EvaluateSession()
     {
       if (string.IsNullOrEmpty(SessionId))
       {
@@ -133,14 +129,14 @@ public class RaygunSessionTracker
       UpdateLastSeenTime();
     }
 
-    private bool ShouldRotateSession()
+    private static bool ShouldRotateSession()
     {
       return !string.IsNullOrEmpty(SessionId) &&
              _lastSeenTime != DateTime.MinValue &&
-             DateTime.UtcNow - _lastSeenTime > _maxSessionLength;
+             DateTime.UtcNow - _lastSeenTime > MaxSessionLength;
     }
 
-    private void RotateSession(RaygunIdentifierMessage currentUser, RaygunIdentifierMessage newUser)
+    private static void RotateSession(RaygunIdentifierMessage currentUser, RaygunIdentifierMessage newUser)
     {
       // RaygunLogger.Debug("RaygunSessionTracker - Rotating session");
       var newSessionId = GenerateNewSessionId();

@@ -17,35 +17,33 @@ using Raygun4Maui.MauiRUM.EventTypes;
 
 namespace Raygun4Maui.MauiRUM.EventTrackers;
 
-public class RaygunNetworkTracker
+public static class RaygunNetworkTracker
 {
-    private Raygun4MauiSettings _settings;
-    
-    private List<string> _defaultIgnoredUrls;
+    private static Raygun4MauiSettings _settings;
+
+    private static List<string> _defaultIgnoredUrls;
 
     private const string NetworkTimingIntentAction = "com.raygun.networkmonitorlibrary.NetworkRequestTiming";
-    
-    public event Action<RaygunTimingEventArgs> NetworkRequestCompleted;
+
+    public static event Action<RaygunTimingEventArgs> NetworkRequestCompleted;
 
 #if WINDOWS
-    private RaygunWindowsNetworkMonitor _windowsNetworkMonitor;
+    private static RaygunWindowsNetworkMonitor _windowsNetworkMonitor;
 #elif ANDROID
-    private RaygunAndroidNativeNetworkTracker _androidNetworkMonitor;
-    private RaygunAndroidNetworkReceiver _androidNetworkReceiver;
+    private static RaygunAndroidNativeNetworkTracker _androidNetworkMonitor;
+    private static RaygunAndroidNetworkReceiver _androidNetworkReceiver;
 #elif IOS || MACCATALYST
-    private RaygunAppleNativeNetworkMonitor _appleNetworkMonitor;
-    private RaygunAppleNativeNetworkObserver _appleNetworkObserver;
+    private static RaygunAppleNativeNetworkMonitor _appleNetworkMonitor;
+    private static RaygunAppleNativeNetworkObserver _appleNetworkObserver;
 #endif
 
-    public RaygunNetworkTracker()
-    {
-        RaygunAppEventPublisher.Instance.AppStarted += OnAppStarted;
-    }
-
-    private void OnAppStarted(AppStarted obj)
+    private static void OnAppStarted(AppStarted obj)
     {
 #if ANDROID
-        if (!_settings.RumFeatureFlags.HasFlag(RumFeatures.Network)) return;
+        if (!_settings.RumFeatureFlags.HasFlag(RumFeatures.Network))
+        {
+            return;
+        }
         
         var activity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
 
@@ -66,34 +64,40 @@ public class RaygunNetworkTracker
         }
 #endif
     }
-    
-    public void Init(Raygun4MauiSettings settings)
+
+    public static void Init(Raygun4MauiSettings settings)
     {
-        _defaultIgnoredUrls = new List<string>() { settings.RumApiEndpoint.Host, settings.RaygunSettings.ApiEndpoint.Host };
+        RaygunAppEventPublisher.AppStarted += OnAppStarted;
 
         _settings = settings;
+        
+        _defaultIgnoredUrls = new List<string>()
+            { _settings.RumApiEndpoint.Host, _settings.RaygunSettings.ApiEndpoint.Host };
 
-        RaygunAppEventPublisher.Instance.NetworkRequestFinished += OnNetworkRequestFinishedEvent;
 
-        if (settings.RumFeatureFlags.HasFlag(RumFeatures.Network))
+        if (!_settings.RumFeatureFlags.HasFlag(RumFeatures.Network))
         {
-#if WINDOWS
-            _windowsNetworkMonitor = new RaygunWindowsNetworkMonitor();
-            DiagnosticListener.AllListeners.Subscribe(_windowsNetworkMonitor);
-#elif ANDROID
-            _androidNetworkMonitor = new RaygunAndroidNativeNetworkTracker();
-            _androidNetworkMonitor.Enable();
-#elif IOS || MACCATALYST
-            _appleNetworkMonitor = new RaygunAppleNativeNetworkMonitor();
-            _appleNetworkMonitor.Enable();
-
-            _appleNetworkObserver = new RaygunAppleNativeNetworkObserver();
-            _appleNetworkObserver.Register();
-#endif
+            return;
         }
+        
+        RaygunAppEventPublisher.NetworkRequestFinished += OnNetworkRequestFinishedEvent;
+
+#if WINDOWS
+        _windowsNetworkMonitor = new RaygunWindowsNetworkMonitor();
+        DiagnosticListener.AllListeners.Subscribe(_windowsNetworkMonitor);
+#elif ANDROID
+        _androidNetworkMonitor = new RaygunAndroidNativeNetworkTracker();
+        _androidNetworkMonitor.Enable();
+#elif IOS || MACCATALYST
+        _appleNetworkMonitor = new RaygunAppleNativeNetworkMonitor();
+        _appleNetworkMonitor.Enable();
+
+        _appleNetworkObserver = new RaygunAppleNativeNetworkObserver();
+        _appleNetworkObserver.Register();
+#endif
     }
 
-    public bool ShouldIgnore(string url)
+    public static bool ShouldIgnore(string url)
     {
         if (string.IsNullOrEmpty(url))
         {
@@ -107,7 +111,7 @@ public class RaygunNetworkTracker
     }
 
 
-    private void OnNetworkRequestFinishedEvent(NetworkRequestFinished networkEvent)
+    private static void OnNetworkRequestFinishedEvent(NetworkRequestFinished networkEvent)
     {
         if (ShouldIgnore(networkEvent.Url))
         {
