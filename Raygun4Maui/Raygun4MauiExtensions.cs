@@ -55,10 +55,10 @@ namespace Raygun4Maui
             return mauiAppBuilder.AddRaygun(settings);
         }
 
-        public static MauiAppBuilder AddRaygunUserProvider<T>(this MauiAppBuilder builder) where T : RaygunMauiUserProvider
+        public static MauiAppBuilder AddRaygunUserProvider<T>(this MauiAppBuilder mauiAppBuilder) where T : RaygunMauiUserProvider
         {
-            builder.Services.AddSingleton<IRaygunUserProvider, T>();
-            return builder;
+            mauiAppBuilder.Services.AddSingleton<IRaygunUserProvider, T>();
+            return mauiAppBuilder;
         }
         
         private static MauiAppBuilder AddRaygunRum(this MauiAppBuilder mauiAppBuilder)
@@ -80,14 +80,14 @@ namespace Raygun4Maui
             return mauiAppBuilder;
         }
 
-        private static MauiAppBuilder AddDeviceIdProvider(this MauiAppBuilder builder)
+        private static MauiAppBuilder AddDeviceIdProvider(this MauiAppBuilder mauiAppBuilder)
         {
-            builder.Services.AddSingleton<IDeviceIdProvider, DeviceIdProvider.DeviceIdProvider>();
+            mauiAppBuilder.Services.AddSingleton<IDeviceIdProvider, DeviceIdProvider.DeviceIdProvider>();
 
             if (Preferences.Get(DeviceIdKey, null) == null)
                 Preferences.Set(DeviceIdKey, Guid.NewGuid().ToString());
 
-            return builder;
+            return mauiAppBuilder;
         }
     }
 }

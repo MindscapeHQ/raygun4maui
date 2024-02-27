@@ -129,6 +129,58 @@ Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
 };
 ```
 
+### User Management
+As part of Raygun4Net.NetCore v10.0.0, we are moving away from the use of UserInfo and User. 
+These are now marked as obsolete, but we still support these for now.
+
+We now have introduced the `IRaygunUserProvider`, which offers a `GetUser` function that our crash reporting can use to get the current user.
+Only having GetUser makes sense for NetCore, but since MAUI supports RUM we need a way of notifying the RUM implementation that a user has changed.
+
+We therefore, provide a `RaygunMauiUserProvider` abstract class which adds an additional `HandleUserChange` which updates the session tracker. 
+This can also be overridden so you can use `HandleUserChange` function to be used to update any of your managed code.
+
+Note: Whenever you change user while using the `RaygunMauiUserProvider` you must call `HandleUserChange` so that the session is updated correctly.
+This is similar to setting UserInfo, but with an explicit function call.
+
+Here is an example of how you could implement the RaygunMauiUserProvider
+```csharp
+public class DynamicRaygunMauiUserProvider : RaygunMauiUserProvider
+{
+    private RaygunIdentifierMessage _currentUser;
+
+    public DynamicRaygunMauiUserProvider()
+    {
+        // Initialize with default anonymous user
+        _currentUser = new RaygunIdentifierMessage("anonymous") { IsAnonymous = true };
+    }
+
+    // Call this method to update the user details whenever the user changes
+    public void UpdateUser(string userId, string fullName = null, string email = null, bool isAnonymous = false)
+    {
+        _currentUser = new RaygunIdentifierMessage(userId)
+        {
+            FullName = fullName,
+            Email = email,
+            IsAnonymous = isAnonymous
+        };
+
+        // Notify Raygun of the user change
+        HandleUserChange();
+    }
+
+    public override RaygunIdentifierMessage GetUser()
+    {
+        return _currentUser;
+    }
+}
+```
+
+We obtain this user provider by using dependency injection, so to add your instance of the user provider to the DI container you should do as show below
+
+```csharp
+builder.AddRaygunUserProvider<DynamicRaygunMauiUserProvider>();
+```
+
 ---
 
 ## Usage
