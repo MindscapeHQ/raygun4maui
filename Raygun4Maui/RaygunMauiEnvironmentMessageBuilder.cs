@@ -1,11 +1,12 @@
 ﻿using System.Globalization;
+using Mindscape.Raygun4Net;
 
 namespace Raygun4Maui;
 
 internal class RaygunMauiEnvironmentMessageBuilder
 {
-    private static readonly object EnvironmentLock = new();
-
+    private readonly SemaphoreSlim _environmentLock = new(1, 1);
+    
     public string OSVersion { get; init; } = DeviceInfo.Current.VersionString; 
     public string Architecture { get; init; } = NativeDeviceInfo.Architecture(); 
 
@@ -20,29 +21,43 @@ internal class RaygunMauiEnvironmentMessageBuilder
     
     internal RaygunMauiEnvironmentMessage BuildEnvironmentMessage()
     {
-        // We create a lock so that during async tasks we do not access device information at the same time
-        // this has caused issues in Android
-        lock (EnvironmentLock)
+        // Android has a JNI dereference causing a native crash when many environment messages are built
+        // at the same time, so we limit it to one message at a time. Using the InvokeOnMainThread
+        // may solve this as well, but we want to be sure that this does not happen
+        _environmentLock.Wait(); 
+        
+        try
         {
-            DateTime now = DateTime.Now;
-
-            return new RaygunMauiEnvironmentMessage
+            // Cannot get some device specific information on iOS unless you are on the UI thread
+            // so we invoke the construction on the main thread
+            var environmentMessage = MainThread.InvokeOnMainThreadAsync(() => 
             {
-                UtcOffset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).TotalHours,
-                Locale = CultureInfo.CurrentCulture.DisplayName,
-                OSVersion = OSVersion,
-                Architecture = Architecture,
-                WindowBoundsWidth = DeviceDisplay.MainDisplayInfo.Width,
-                WindowBoundsHeight = DeviceDisplay.MainDisplayInfo.Height,
-                DeviceManufacturer = DeviceInfo.Current.Manufacturer,
-                Platform = Platform,
-                Model = Model,
-                ProcessorCount = ProcessorCount,
-                ResolutionScale = DeviceDisplay.MainDisplayInfo.Density,
-                TotalPhysicalMemory = TotalPhysicalMemory,
-                AvailablePhysicalMemory = NativeDeviceInfo.AvailablePhysicalMemory(),
-                CurrentOrientation = DeviceDisplay.MainDisplayInfo.Orientation.ToString(),
-            };
+                DateTime now = DateTime.Now;
+
+                return new RaygunMauiEnvironmentMessage
+                {
+                    UtcOffset = TimeZoneInfo.Local.GetUtcOffset(now).TotalHours,
+                    Locale = CultureInfo.CurrentCulture.DisplayName,
+                    OSVersion = OSVersion, 
+                    Architecture = Architecture,
+                    WindowBoundsWidth = DeviceDisplay.MainDisplayInfo.Width,
+                    WindowBoundsHeight = DeviceDisplay.MainDisplayInfo.Height,
+                    DeviceManufacturer = DeviceManufacturer,
+                    Platform = Platform,
+                    Model = Model,
+                    ProcessorCount = ProcessorCount,
+                    ResolutionScale = DeviceDisplay.MainDisplayInfo.Density,
+                    TotalPhysicalMemory = TotalPhysicalMemory,
+                    AvailablePhysicalMemory = NativeDeviceInfo.AvailablePhysicalMemory(),
+                    CurrentOrientation = DeviceDisplay.MainDisplayInfo.Orientation.ToString(),
+                };
+            }).GetAwaiter().GetResult();
+
+            return environmentMessage;
+        }
+        finally
+        {
+            _environmentLock.Release(); // Always release the semaphore
         }
     }
 
