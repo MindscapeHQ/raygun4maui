@@ -30,6 +30,14 @@ internal class RaygunMauiEnvironmentMessageBuilder
 
     private string CurrentOrientation = null;
 
+    public RaygunMauiEnvironmentMessageBuilder()
+    {
+        DeviceDisplay.MainDisplayInfoChanged += UpdateDisplayInfo;
+
+        // Ensure that we do have assigned values to the display fields by manually sending an update with the current information
+        MainThread.InvokeOnMainThreadAsync(() => UpdateDisplayInfo(this, new DisplayInfoChangedEventArgs(DeviceDisplay.MainDisplayInfo)));
+    }
+    
     internal RaygunMauiEnvironmentMessage BuildEnvironmentMessage()
     {
         return new RaygunMauiEnvironmentMessage
@@ -60,13 +68,5 @@ internal class RaygunMauiEnvironmentMessageBuilder
         WindowBoundsHeight = args.DisplayInfo.Height;
         ResolutionScale = args.DisplayInfo.Density;
         CurrentOrientation = args.DisplayInfo.Orientation.ToString();
-    }
-
-    public RaygunMauiEnvironmentMessageBuilder()
-    {
-        DeviceDisplay.MainDisplayInfoChanged += UpdateDisplayInfo;
-
-        // Instantiated here as RaygunMauiEnvironmentMessageBuilder is lazily initialised so we can be sure the DeviceDisplay has an instance
-        MainThread.InvokeOnMainThreadAsync(() => UpdateDisplayInfo(this, new DisplayInfoChangedEventArgs(DeviceDisplay.MainDisplayInfo)));
     }
 }
