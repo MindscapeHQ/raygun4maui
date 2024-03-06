@@ -85,13 +85,11 @@
 	  <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
 	  <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
-	  <PackageReference Include="Raygun4Maui" Version="1.4.2-pre-1" />
 	  <PackageReference Include="Serilog.Sinks.Raygun" Version="7.3.0" />
-		
 	</ItemGroup>
 
-<!--	 <ItemGroup> -->
-<!--	   <ProjectReference Include="..\Raygun4Maui\Raygun4Maui.csproj" /> -->
-<!--	 </ItemGroup> -->
+	 <ItemGroup> 
+	   <ProjectReference Include="..\Raygun4Maui\Raygun4Maui.csproj" /> 
+	 </ItemGroup> 
 
 </Project>

@@ -30,7 +30,7 @@ namespace Raygun4Maui.MauiUnhandledExceptions
                         tags.Add(Raygun4NetBuildPlatforms.GetBuildPlatform());
                     }
                     
-                    RaygunMauiClient.Current.SendInBackground(e, tags, null);
+                    RaygunMauiClient.Current.Send(e, tags, null);
                 }
                 catch (Exception e)
                 {
