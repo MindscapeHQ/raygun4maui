@@ -10,11 +10,8 @@ namespace Raygun4Maui
         private static RaygunMauiClient _instance;
         public static RaygunMauiClient Current => _instance;
 
-        private readonly Lazy<RaygunMauiEnvironmentMessageBuilder> _lazyMessageBuilder =
-            new Lazy<RaygunMauiEnvironmentMessageBuilder>(RaygunMauiEnvironmentMessageBuilder.Init);
-
-        private RaygunMauiEnvironmentMessageBuilder EnvironmentMessageBuilder => _lazyMessageBuilder.Value;
-
+        private readonly RaygunMauiEnvironmentMessageBuilder _environmentMessageBuilder = new();
+        
         private static readonly string Name = Assembly.GetExecutingAssembly().GetName().Name;
 
         private static readonly string Version =
@@ -53,7 +50,7 @@ namespace Raygun4Maui
         protected override async Task<RaygunMessage> BuildMessage(Exception exception, IList<string> tags,
             IDictionary userCustomData, RaygunIdentifierMessage userInfo)
         {
-            var environment = EnvironmentMessageBuilder.BuildEnvironmentMessage();
+            var environment = _environmentMessageBuilder.BuildEnvironmentMessage();
 
             var details = new RaygunMessageDetails
             {
