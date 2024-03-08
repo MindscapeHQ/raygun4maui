@@ -121,13 +121,16 @@ Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
     RaygunLoggerConfiguration = new RaygunLoggerConfiguration {
         SendDefaultTags = true, // defaults to true
         SendDefaultCustomData = true, // defaults to true
-        MinLogLevel = LogLevel.Debug, // defaults to true
-        MaxLogLevel = LogLevel.Critical // defaults to true
+        MinLogLevel = LogLevel.Debug, // defaults to Debug
+        MaxLogLevel = LogLevel.Critical // defaults to Critical
     }
     EnableRealUserMonitoring = true, // defaults to true
     RumFeatureFlags = RumFeatures.Page | RumFeatures.Network | RumFeatures.AppleNativeTimings // Enables Page, Network, and Native Apple Timings
 };
 ```
+
+The Raygun4MauiSettings are added to the service provider so that any DI dependant service can pull in the Raygun4MauiSettings and make changes. For example the application version may be obtained from an endpoint, so this can be assigned later rather than at instantiation.
+
 
 ### User Management
 As part of Raygun4Net.NetCore v10.0.0, we are moving away from the use of UserInfo and User. 
@@ -164,7 +167,7 @@ public class DynamicRaygunMauiUserProvider : RaygunMauiUserProvider
             IsAnonymous = isAnonymous
         };
 
-        // Notify Raygun of the user change
+        // Notify Raygun of the user change (only used for RUM)
         HandleUserChange();
     }
 
