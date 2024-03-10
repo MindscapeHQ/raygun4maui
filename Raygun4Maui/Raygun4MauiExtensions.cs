@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.LifecycleEvents;
 using Mindscape.Raygun4Net;
+using Mindscape.Raygun4Net.Breadcrumbs;
 // using Mindscape.Raygun4Net.Breadcrumbs;
 using Raygun4Maui.DeviceIdProvider;
 using Raygun4Maui.MauiRUM;
@@ -25,11 +26,12 @@ namespace Raygun4Maui
             mauiAppBuilder.Services.AddSingleton<IMauiInitializeService, RaygunClientInitializeService>();
 
             mauiAppBuilder.Services.AddSingleton(services => new RaygunMauiClient(raygunMauiSettings, services.GetService<IRaygunUserProvider>()));
+
+            // Make breadcrumbs global 
+            RaygunBreadcrumbs.Storage = new InMemoryBreadcrumbStorage();
             
             if (raygunMauiSettings.EnableRealUserMonitoring)
             {
-                // mauiAppBuilder.Services.AddSingleton<RaygunRum>();
-                
                 mauiAppBuilder.AddRaygunRum();
             }
             

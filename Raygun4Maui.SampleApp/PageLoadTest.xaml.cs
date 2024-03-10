@@ -40,7 +40,7 @@ public partial class PageLoadTest : ContentPage
             }
             catch (Java.IO.IOException ex)
             {
-                RaygunMauiClient.Current.SendInBackground(ex);
+                _ = RaygunMauiClient.Current.SendInBackground(ex);
             }
             finally
             {

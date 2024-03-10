@@ -134,7 +134,7 @@ The Raygun4MauiSettings are added to the service provider so that any DI dependa
 
 ### User Management
 As part of Raygun4Net.NetCore v10.0.0, we are moving away from the use of UserInfo and User. 
-These are now marked as obsolete, but we still support these for now.
+These are now marked as obsolete, and within the Raygun4Maui provider we no longer support this.
 
 We now have introduced the `IRaygunUserProvider`, which offers a `GetUser` function that our crash reporting can use to get the current user.
 Only having GetUser makes sense for NetCore, but since MAUI supports RUM we need a way of notifying the RUM implementation that a user has changed.

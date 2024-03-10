@@ -28,7 +28,7 @@ namespace Raygun4Net.RaygunLogger
                 return;
             }
 
-            RaygunMauiClient.Current.SendInBackground(
+            _ = RaygunMauiClient.Current.SendInBackground(
                 new Exception(formatter(state, exception)),
                 _raygunLoggerConfiguration.SendDefaultTags
                     ? new List<string>() { logLevel.ToString(), Raygun4NetBuildPlatforms.GetBuildPlatform() }

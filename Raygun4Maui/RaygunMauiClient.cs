@@ -12,18 +12,6 @@ namespace Raygun4Maui
 {
     public class RaygunMauiClient : RaygunClient
     {
-        public override RaygunIdentifierMessage UserInfo // Need to make sure this is set correctly with RUM still
-        {
-            get => _userInfo;
-            set
-            {
-                _userInfo = value;
-                RaygunRum.UpdateUser(value);
-            }
-        }
-
-        private RaygunIdentifierMessage _userInfo;
-
         private IDeviceIdProvider _deviceIdProvider;
 
         private readonly Raygun4MauiSettings _mauiSettings;
@@ -69,36 +57,22 @@ namespace Raygun4Maui
             settings.RaygunSettings, userProvider)
         {
             _mauiSettings = settings;
-
-            SendingMessage += (_, e) =>
-            {
-                e.Message.Details.Tags ??= new List<string>();
-                
-                foreach (var tag in BuildTags())
-                {
-                    e.Message.Details.Tags.Add(tag);
-                }
-            };
-        }
-
-        internal IEnumerable<string> BuildTags()
-        {
-            yield return $"Tag: 1";
-            yield return $"Tag: {DeviceInfo.DeviceType}";
-            yield return "Tag: 2 - CSharp";
         }
 
         // Should this really be a RaygunClient feature?
         public void EnableRealUserMonitoring(IDeviceIdProvider deviceIdProvider)
         {
-            if (!_mauiSettings.EnableRealUserMonitoring) return;
+            if (!_mauiSettings.EnableRealUserMonitoring)
+            {
+                return;
+            }
             
             _deviceIdProvider = deviceIdProvider;
 
             // Still need to arrange how this should be dealt with
-            _userInfo = new RaygunIdentifierMessage(_deviceIdProvider.GetDeviceId()) { IsAnonymous = true };
+            var defaultUser = new RaygunIdentifierMessage(_deviceIdProvider.GetDeviceId()) { IsAnonymous = true };
 
-            RaygunRum.Enable(_mauiSettings, _userInfo);
+            RaygunRum.Enable(_mauiSettings, defaultUser);
         }
         
 
