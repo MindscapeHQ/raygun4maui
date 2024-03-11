@@ -49,6 +49,7 @@
                 - Obsoletes UserInfo and User in the Raygun client
                     - This is still supported, but we encourage use of the RaygunMauiUserProvider
                 - Fixes uninstantiated fields in Raygun message causing null pointers
+                - Fixes situations where Raygun client settings did not reflect the RaygunSettings object
             - Brings in fixes from v1.4.2
                 - Fixes SendInBackground so it can work on iOS again
                 - Fixes situations where unhandeled exceptions are not reported on iOS (related to above)

@@ -10,6 +10,13 @@ public class RaygunClientInitializeService : IMauiInitializeService
         
         RaygunMauiClient.Attach(client); // Todo: Switch to DI way of getting Raygun client
         // Thoughts: Do we want to use DI as this is easy to use
+
+        var raygunSettings = services.GetRequiredService<Raygun4MauiSettings>();
+
+        if (!raygunSettings.EnableRealUserMonitoring)
+        {
+            return;
+        }
         
         var deviceIdProvider = services.GetRequiredService<IDeviceIdProvider>();
 
