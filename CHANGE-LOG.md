@@ -1,5 +1,8 @@
 # Full Change Log for Raygun4Maui package
 
+### v1.4.2
+- Fixed issue with SendInBackground where environment variables are collected on the wrong thread causing it to fail silently
+
 ### v1.4.1
 - Fixed issue with resource locking of device environment information on Android causing app to crash
 

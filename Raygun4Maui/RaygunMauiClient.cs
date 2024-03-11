@@ -18,11 +18,8 @@ namespace Raygun4Maui
         
         public static RaygunMauiClient Current { get; private set; }
 
-        private readonly Lazy<RaygunMauiEnvironmentMessageBuilder> _lazyMessageBuilder =
-            new(RaygunMauiEnvironmentMessageBuilder.Init);
-
-        private RaygunMauiEnvironmentMessageBuilder EnvironmentMessageBuilder => _lazyMessageBuilder.Value;
-
+        private readonly RaygunMauiEnvironmentMessageBuilder _environmentMessageBuilder = new();
+        
         private static readonly string Name = Assembly.GetExecutingAssembly().GetName().Name;
         private static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
 
@@ -84,7 +81,7 @@ namespace Raygun4Maui
                 var msg = await BuildMessage(e, tags, userCustomData, userInfo, customiseMessage: raygunMessage =>
                 {
                     raygunMessage.Details.MachineName = DeviceInfo.Current.Name;
-                    raygunMessage.Details.Environment = EnvironmentMessageBuilder.BuildEnvironmentMessage();
+                    raygunMessage.Details.Environment = _environmentMessageBuilder.BuildEnvironmentMessage();
                     raygunMessage.Details.Client = ClientMessage;
                 }).ConfigureAwait(false);
 
@@ -105,7 +102,7 @@ namespace Raygun4Maui
                     var msg = await BuildMessage(ex, tags, userCustomData, userInfo, customiseMessage: raygunMessage =>
                     {
                         raygunMessage.Details.MachineName = DeviceInfo.Current.Name;
-                        raygunMessage.Details.Environment = EnvironmentMessageBuilder.BuildEnvironmentMessage();
+                        raygunMessage.Details.Environment = _environmentMessageBuilder.BuildEnvironmentMessage();
                         raygunMessage.Details.Client = ClientMessage;
                     });
 
