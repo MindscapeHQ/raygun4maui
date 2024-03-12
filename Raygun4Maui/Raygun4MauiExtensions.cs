@@ -1,14 +1,9 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.LifecycleEvents;
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.Breadcrumbs;
-// using Mindscape.Raygun4Net.Breadcrumbs;
 using Raygun4Maui.DeviceIdProvider;
-using Raygun4Maui.MauiRUM;
 using Raygun4Maui.MauiRUM.AppLifecycleHandlers;
-using Raygun4Maui.MauiRUM.EventTrackers;
 using Raygun4Net.RaygunLogger;
 
 namespace Raygun4Maui
