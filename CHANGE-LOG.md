@@ -14,7 +14,7 @@ RC-4:
 - Windows, iOS, and Android network timings (see README)
 - Fixed Android environment locking issue causing app to crash (1.4.1)
 - Bumped Raygun4Net version to 8.2.0, moves responsibility of unhandled exceptions
-- 
+
 RC-5
 - MacCatalyst network timings
 
