@@ -2,6 +2,7 @@
 using System.Globalization;
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.EnvironmentProviders;
+using Raygun4Maui.AppEvents;
 
 namespace Raygun4Maui;
 
@@ -35,9 +36,10 @@ internal class RaygunMauiEnvironmentMessageBuilder
         DeviceDisplay.MainDisplayInfoChanged += UpdateDisplayInfo;
 
         // Ensure that we do have assigned values to the display fields by manually sending an update with the current information
-        MainThread.InvokeOnMainThreadAsync(() => UpdateDisplayInfo(this, new DisplayInfoChangedEventArgs(DeviceDisplay.MainDisplayInfo)));
+        RaygunAppEventPublisher.AppStarted += _ => MainThread.InvokeOnMainThreadAsync(() =>
+            UpdateDisplayInfo(this, new DisplayInfoChangedEventArgs(DeviceDisplay.MainDisplayInfo)));
     }
-    
+
     internal RaygunMauiEnvironmentMessage BuildEnvironmentMessage(RaygunSettingsBase settings)
     {
         return new RaygunMauiEnvironmentMessage
@@ -69,5 +71,8 @@ internal class RaygunMauiEnvironmentMessageBuilder
         WindowBoundsHeight = args.DisplayInfo.Height;
         ResolutionScale = args.DisplayInfo.Density;
         CurrentOrientation = args.DisplayInfo.Orientation.ToString();
+
+        System.Diagnostics.Trace.WriteLine(
+            $"UpdateDisplayInfo: Width={WindowBoundsWidth}, Height={WindowBoundsHeight}, Density={ResolutionScale}, Orientation={CurrentOrientation}");
     }
 }
