@@ -81,7 +81,7 @@ namespace Raygun4Maui
                 var msg = await BuildMessage(e, tags, userCustomData, userInfo, customiseMessage: raygunMessage =>
                 {
                     raygunMessage.Details.MachineName = DeviceInfo.Current.Name;
-                    raygunMessage.Details.Environment = _environmentMessageBuilder.BuildEnvironmentMessage();
+                    raygunMessage.Details.Environment = _environmentMessageBuilder.BuildEnvironmentMessage(_settings);
                     raygunMessage.Details.Client = ClientMessage;
                 }).ConfigureAwait(false);
 
@@ -102,7 +102,7 @@ namespace Raygun4Maui
                     var msg = await BuildMessage(ex, tags, userCustomData, userInfo, customiseMessage: raygunMessage =>
                     {
                         raygunMessage.Details.MachineName = DeviceInfo.Current.Name;
-                        raygunMessage.Details.Environment = _environmentMessageBuilder.BuildEnvironmentMessage();
+                        raygunMessage.Details.Environment = _environmentMessageBuilder.BuildEnvironmentMessage(_settings);
                         raygunMessage.Details.Client = ClientMessage;
                     });
 
