@@ -45,6 +45,9 @@ Adds support for Real User Monitoring (RUM) for Windows, Android, iOS, and MacCa
     - `User` and `UserInfo` are no longer supported in Raygun4Maui
   - Fixes uninstantiated fields in Raygun message causing null pointers
   - Fixes situations where Raygun client settings did not reflect the `RaygunSettings` object
+- Minor version bump for Raygun4Net.NetCore v10.1.0
+  - Allows environment variables to be included in the crash report see [changes](https://github.com/MindscapeHQ/raygun4net/pull/523)
+
 
 ### v1.4.2
 - Fixed issue with SendInBackground where environment variables are collected on the wrong thread causing it to fail silently
