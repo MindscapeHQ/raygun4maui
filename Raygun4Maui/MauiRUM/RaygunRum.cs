@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
 using Mindscape.Raygun4Net;
 using Raygun4Maui.MauiRUM.EventTrackers;
 #if ANDROID
@@ -12,7 +13,7 @@ namespace Raygun4Maui.MauiRUM;
 public static class RaygunRum
 {
     public static bool Enabled { get; private set; } = false;
-    
+
     private static IRaygunWebRequestHandler _requestHandler;
 
     private const string UnknownValue = "Unknown";
@@ -22,12 +23,12 @@ public static class RaygunRum
     public static void Enable(Raygun4MauiSettings settings, RaygunIdentifierMessage user)
     {
         if (Enabled) return;
-        
+
         Enabled = true;
-        
+
         // DI Container for this should be set up by this point
         _mauiSettings = settings;
-        
+
         _requestHandler =
             new RaygunWebRequestHandler(_mauiSettings?.RaygunSettings.ApiKey, _mauiSettings?.RumApiEndpoint, 30_0000);
 
@@ -78,7 +79,8 @@ public static class RaygunRum
         SendEvent(message);
     }
 
-    private static RaygunRumMessage BuildTimingEventMessage(RaygunRumEventTimingType timingType, string name, long duration)
+    private static RaygunRumMessage BuildTimingEventMessage(RaygunRumEventTimingType timingType, string name,
+        long duration)
     {
         var data = new RaygunRumTimingData[1]
         {
@@ -102,15 +104,12 @@ public static class RaygunRum
                     sessionId = RaygunSessionTracker.SessionId,
                     timestamp = DateTime.UtcNow,
                     type = EventTypeToString(RaygunRumEventType.Timing),
-                    user = RaygunSessionTracker.CurrentUser, // Need to look at changing this, IRaygunUserProvider
-                    version = GetVersion(),
+                    user = RaygunSessionTracker.CurrentUser, // Is updated by the MauiUserProvider implementation
+                    version = GetAppVersion(),
                     os = NativeDeviceInfo.Platform(),
-#if WINDOWS
-                    osVersion = GetWindowsVersion(DeviceInfo.Current.VersionString),
-#else
-                    osVersion = DeviceInfo.Current.VersionString,
-#endif
-                    platform = DeviceInfo.Model, // Xamarin uses device model, e.g. iPhone 15, Motherboard Version (windows)
+                    osVersion = NativeDeviceInfo.GetOsVersion(prefix: false),
+                    platform = DeviceInfo
+                        .Model, // Xamarin uses device model, e.g. iPhone 15, Motherboard Version (windows)
                     data = RaygunSerializer.Serialize(data)
                 }
             }
@@ -120,7 +119,7 @@ public static class RaygunRum
         return message;
     }
     
-    private static String GetVersion()
+    private static String GetAppVersion()
     {
         if (!string.IsNullOrEmpty(_mauiSettings.RaygunSettings.ApplicationVersion))
         {
@@ -189,18 +188,13 @@ public static class RaygunRum
                     timestamp = DateTime.UtcNow,
                     type = EventTypeToString(eventType),
                     user = user,
-                    version = GetVersion(),
+                    version = GetAppVersion(),
                     os = NativeDeviceInfo.Platform(),
-#if WINDOWS
-                    osVersion = GetWindowsVersion(DeviceInfo.Current.VersionString),
-#else
-                    osVersion = DeviceInfo.Current.VersionString,
-#endif
+                    osVersion = NativeDeviceInfo.GetOsVersion(prefix: false),
                     platform = DeviceInfo.Model,
                 }
             }
         };
-
         return message;
     }
 
@@ -211,10 +205,6 @@ public static class RaygunRum
         var isOnline = await _requestHandler.IsOnline();
         if (isOnline)
         {
-            // RaygunLogger.Verbose("Sending Payload --------------");
-            // RaygunLogger.Verbose(payload);
-            // RaygunLogger.Verbose("------------------------------");
-
             await _requestHandler.PostAsync(payload);
         }
     }
@@ -239,23 +229,5 @@ public static class RaygunRum
             RaygunRumEventTimingType.CustomTiming => "t",
             _ => throw new ArgumentOutOfRangeException(nameof(timingType), timingType, null)
         };
-    }
-
-    private static string GetWindowsVersion(string buildNumber)
-    {
-        // Extracting the build number (assuming it's in the format "10.0.xxxxx.xxxx")
-        var parts = buildNumber.Split('.');
-        if (parts.Length < 3)
-        {
-            return buildNumber;
-        }
-
-        if (!int.TryParse(parts[2], out var buildPart))
-        {
-            return buildNumber;
-        }
-
-        // Comparing the build number to determine the Windows version (Windows 10 will never be higher than 22000)
-        return buildPart < 22000 ? "10" : "11";
     }
 }

@@ -6,17 +6,15 @@ namespace Raygun4Maui.MauiRUM.EventTrackers.Windows;
 
 public class RaygunWindowsNetworkMonitor : IObserver<DiagnosticListener>, IObserver<KeyValuePair<string, object>>
 {
-    private readonly Dictionary<string, DateTime>
-        _requestStartTimes =
-            new Dictionary<string, DateTime>(); // TODO: Possible memory leak if there is no RequestEnd event
-    
-    
+    private readonly Dictionary<string, DateTime> _requestStartTimes = new();
+
     private const string Request = "Request";
     private const string RequestStart = "System.Net.Http.HttpRequestOut.Start";
     private const string RequestEnd = "System.Net.Http.HttpRequestOut.Stop";
     private const string RaygunId = "X-Raygun-Request-ID";
-    
-    
+
+    private const long ConnectionTimeout = 60000L;
+
     public void OnNext(DiagnosticListener listener)
     {
         if (listener.Name == "HttpHandlerDiagnosticListener")
@@ -24,7 +22,7 @@ public class RaygunWindowsNetworkMonitor : IObserver<DiagnosticListener>, IObser
             listener.Subscribe(this);
         }
     }
-    
+
     public void OnNext(KeyValuePair<string, object> value)
     {
         switch (value.Key)
@@ -36,7 +34,9 @@ public class RaygunWindowsNetworkMonitor : IObserver<DiagnosticListener>, IObser
                 {
                     return;
                 }
-                
+
+                RemoveOldEntries();
+
                 // Check if X-Request-ID already exists
                 if (!request.Headers.Contains(RaygunId))
                 {
@@ -50,11 +50,10 @@ public class RaygunWindowsNetworkMonitor : IObserver<DiagnosticListener>, IObser
                     var existingTrackingId = request.Headers.GetValues(RaygunId).FirstOrDefault();
                     if (existingTrackingId != null)
                     {
-                        _requestStartTimes[existingTrackingId] =
-                            DateTime.UtcNow; // TODO: Inject DateTime as a service to unit test
+                        _requestStartTimes[existingTrackingId] = DateTime.UtcNow;
                     }
                 }
-    
+
                 break;
             }
             case RequestEnd:
@@ -64,44 +63,57 @@ public class RaygunWindowsNetworkMonitor : IObserver<DiagnosticListener>, IObser
                 {
                     return;
                 }
-    
+
                 if (!request.Headers.TryGetValues(RaygunId, out var values))
                 {
                     return;
                 }
-    
+
                 var trackingId = values.FirstOrDefault();
-    
+
                 if (trackingId == null) return;
                 if (!_requestStartTimes.TryGetValue(trackingId, out var startTime))
                 {
                     return;
                 }
-    
+
                 var endTime = DateTime.UtcNow;
                 var duration = (endTime - startTime);
-    
+
                 _requestStartTimes.Remove(trackingId);
-                
+
                 RaygunAppEventPublisher.Publish(new NetworkRequestFinished()
                 {
                     Url = request.RequestUri?.Host ?? "Unknown",
                     Method = request.Method.Method,
                     Duration = duration.Milliseconds,
                 });
-    
+
                 break;
             }
         }
     }
-    
+
     public void OnError(Exception error)
     {
         // Handle any errors here
     }
-    
+
     public void OnCompleted()
     {
         // Handle completion here
+    }
+
+    private void RemoveOldEntries()
+    {
+        var keysToRemove = (from pair in _requestStartTimes
+            let startTime = pair.Value
+            where (DateTime.UtcNow - startTime).Milliseconds > ConnectionTimeout
+            select pair.Key).ToList();
+
+        foreach (var key in keysToRemove)
+        {
+            _requestStartTimes.Remove(key);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 #if WINDOWS
 #elif ANDROID
@@ -153,6 +154,40 @@ namespace Raygun4Maui
 #else
             return "Unknown";
 #endif
+        }
+        
+        public static string GetOsVersion(bool prefix = true)
+        {
+#if WINDOWS
+            var osVersion = GetWindowsVersion(DeviceInfo.Current.VersionString);
+#else
+            var osVersion = DeviceInfo.Current.VersionString;
+#endif
+
+            return prefix ? $"{NativeDeviceInfo.Platform()} {osVersion}" : osVersion;
+        }
+
+        public static string GetWindowsVersion(string buildNumber)
+        {
+            // Could be made static
+            var windowsVersionPatterns = new (string version, Regex pattern)[]
+            {
+                ("11", new Regex(@"\b10\.0\.(2200|22621|22631)")),
+                ("10", new Regex(@"\b10\.0\.")),
+                ("8.1", new Regex(@"\b6\.3\.\d{1,4}")),
+                ("8", new Regex(@"\b6\.2\.\d{1,4}")),
+                ("7", new Regex(@"\b6\.1\.\d{1,4}")),
+            };
+
+            foreach (var (version, pattern) in windowsVersionPatterns)
+            {
+                if (pattern.IsMatch(buildNumber))
+                {
+                    return version;
+                }
+            }
+            
+            return "";
         }
 
         public static string Architecture()

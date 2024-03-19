@@ -8,8 +8,7 @@ public class RaygunClientInitializeService : IMauiInitializeService
     {
         var client = services.GetRequiredService<RaygunMauiClient>();
         
-        RaygunMauiClient.Attach(client); // Todo: Switch to DI way of getting Raygun client
-        // Thoughts: Do we want to use DI as this is easy to use
+        RaygunMauiClient.Attach(client);
 
         var raygunSettings = services.GetRequiredService<Raygun4MauiSettings>();
 

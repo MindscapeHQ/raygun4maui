@@ -8,7 +8,7 @@ namespace Raygun4Maui;
 
 internal class RaygunMauiEnvironmentMessageBuilder
 {
-    public string OSVersion { get; init; } = DeviceInfo.Current.VersionString;
+    public string OSVersion { get; init; } = NativeDeviceInfo.GetOsVersion();
     public string Architecture { get; init; } = NativeDeviceInfo.Architecture();
 
     private string DeviceManufacturer = DeviceInfo.Current.Manufacturer;
@@ -71,8 +71,5 @@ internal class RaygunMauiEnvironmentMessageBuilder
         WindowBoundsHeight = args.DisplayInfo.Height;
         ResolutionScale = args.DisplayInfo.Density;
         CurrentOrientation = args.DisplayInfo.Orientation.ToString();
-
-        System.Diagnostics.Trace.WriteLine(
-            $"UpdateDisplayInfo: Width={WindowBoundsWidth}, Height={WindowBoundsHeight}, Density={ResolutionScale}, Orientation={CurrentOrientation}");
     }
 }

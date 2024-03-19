@@ -1,12 +1,9 @@
 using System.Reflection;
 using Mindscape.Raygun4Net;
-using System.Globalization;
 using System.Collections;
 using Microsoft.Extensions.Options;
-// using Mindscape.Raygun4Net.Breadcrumbs;
 using Raygun4Maui.DeviceIdProvider;
 using Raygun4Maui.MauiRUM;
-using Raygun4Maui.MauiRUM.EventTypes;
 
 namespace Raygun4Maui
 {
@@ -56,7 +53,6 @@ namespace Raygun4Maui
             _mauiSettings = settings;
         }
 
-        // Should this really be a RaygunClient feature?
         public void EnableRealUserMonitoring(IDeviceIdProvider deviceIdProvider)
         {
             if (!_mauiSettings.EnableRealUserMonitoring)
@@ -66,7 +62,6 @@ namespace Raygun4Maui
             
             _deviceIdProvider = deviceIdProvider;
 
-            // Still need to arrange how this should be dealt with
             var defaultUser = new RaygunIdentifierMessage(_deviceIdProvider.GetDeviceId()) { IsAnonymous = true };
 
             RaygunRum.Enable(_mauiSettings, defaultUser);
