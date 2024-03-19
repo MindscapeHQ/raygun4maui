@@ -81,10 +81,10 @@ public class RaygunWindowsNetworkMonitor : IObserver<DiagnosticListener>, IObser
                 var duration = (endTime - startTime);
 
                 _requestStartTimes.Remove(trackingId);
-
+                
                 RaygunAppEventPublisher.Publish(new NetworkRequestFinished()
                 {
-                    Url = request.RequestUri?.Host ?? "Unknown",
+                    Url = request.RequestUri?.AbsoluteUri ?? "Unknown",
                     Method = request.Method.Method,
                     Duration = duration.Milliseconds,
                 });
@@ -106,11 +106,11 @@ public class RaygunWindowsNetworkMonitor : IObserver<DiagnosticListener>, IObser
 
     private void RemoveOldEntries()
     {
-        var keysToRemove = (from pair in _requestStartTimes
-            let startTime = pair.Value
-            where (DateTime.UtcNow - startTime).Milliseconds > ConnectionTimeout
-            select pair.Key).ToList();
-
+        var keysToRemove = _requestStartTimes
+            .Where(x => (DateTime.UtcNow - x.Value).TotalMilliseconds > ConnectionTimeout)
+            .Select(x => x.Key)
+            .ToList();
+        
         foreach (var key in keysToRemove)
         {
             _requestStartTimes.Remove(key);

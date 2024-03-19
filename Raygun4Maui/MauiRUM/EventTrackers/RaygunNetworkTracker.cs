@@ -71,8 +71,11 @@ public static class RaygunNetworkTracker
 
         _settings = settings;
         
-        _defaultIgnoredUrls = new List<string>()
-            { _settings.RumApiEndpoint.Host, _settings.RaygunSettings.ApiEndpoint.Host };
+        _defaultIgnoredUrls = new List<string>
+        {
+            _settings.RumApiEndpoint.AbsoluteUri, 
+            _settings.RaygunSettings.ApiEndpoint.AbsoluteUri
+        };
 
 
         if (!_settings.RumFeatureFlags.HasFlag(RumFeatures.Network))
@@ -101,7 +104,7 @@ public static class RaygunNetworkTracker
     {
         if (string.IsNullOrEmpty(url))
         {
-            return false;
+            return true;
         }
 
         var isUrlInSettingsIgnored = _settings?.IgnoredUrls?.Contains(url) ?? false;
