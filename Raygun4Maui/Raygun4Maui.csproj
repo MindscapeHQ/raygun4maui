@@ -26,40 +26,7 @@
         <PackageProjectUrl>https://raygun.com/platform/crash-reporting</PackageProjectUrl>
         <RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
         <PackageTags>Raygun4Maui; Raygun; Crash Reporting; MAUI; .NET; dotnet</PackageTags>
-        <PackageReleaseNotes>Added support for real user monitoring (RUM) for Windows, Android, iOS, and MacCatalyst
-            Implemented features:
-            - Page Tracking
-            - Page Load Times
-            - Session Tracking
-            - Custom Timings
-            - Native iOS Timings
-            - Network Timings
-
-            RC-4:
-            - Windows, iOS, and Android network timings (see README)
-            - Fixed Android environment locking issue causing app to crash (1.4.1)
-            - Bumped Raygun4Net version to 8.2.0, moves responsibility of unhandled exceptions
-            -
-            RC-5
-            - MacCatalyst network timings
-
-            RC-6
-            - Fixes native binding inclusion in NuGet package
-            - Increases minimum .NET version to .NET 7 as .NET 6 is now unsupported
-
-            RC-7
-            - Major verion bump for Raygun4Net.NetCore to v10.0.0
-                - Brings in IRaygunUserProvider which we wrap in an abstract class called RaygunMauiUserProvider
-                - Obsoletes UserInfo and User in the Raygun client
-                    - User and UserInfo are no longer supported in Raygun4Maui
-                - Fixes uninstantiated fields in Raygun message causing null pointers
-                - Fixes situations where Raygun client settings did not reflect the RaygunSettings object
-            - Brings in fixes from v1.4.2
-                - Fixes SendInBackground so it can work on iOS again
-                - Fixes situations where unhandeled exceptions are not reported on iOS (related to above)
-                - Fixes an issue with spamming of the ILogger causing Android to crash 
-            - Adds Raygun4MauiSettings to service provider for DI dependant services to edit it
-        </PackageReleaseNotes>
+        <PackageReleaseNotes>https://github.com/MindscapeHQ/raygun4maui/blob/master/CHANGE-LOG.md</PackageReleaseNotes>
         <Title>Raygun4Maui</Title>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
