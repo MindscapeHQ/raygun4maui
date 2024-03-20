@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
+using Microsoft.Extensions.Logging;
 
 // Namespace is different, doesn't include Raygun4Maui because we may want to move this to Raygun4Net
 // ReSharper disable once CheckNamespace

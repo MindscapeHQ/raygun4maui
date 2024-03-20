@@ -1,11 +1,14 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using Mindscape.Raygun4Net;
+using Mindscape.Raygun4Net.EnvironmentProviders;
+using Raygun4Maui.AppEvents;
 
 namespace Raygun4Maui;
 
 internal class RaygunMauiEnvironmentMessageBuilder
 {
-    public string OSVersion { get; init; } = DeviceInfo.Current.VersionString;
+    public string OSVersion { get; init; } = NativeDeviceInfo.GetOsVersion();
     public string Architecture { get; init; } = NativeDeviceInfo.Architecture();
 
     private string DeviceManufacturer = DeviceInfo.Current.Manufacturer;
@@ -16,9 +19,7 @@ internal class RaygunMauiEnvironmentMessageBuilder
 
     private double UtcOffset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now).TotalHours;
 
-
     private ulong TotalPhysicalMemory = NativeDeviceInfo.TotalPhysicalMemory();
-
 
     private string Locale = CultureInfo.CurrentCulture.DisplayName;
 
@@ -35,10 +36,11 @@ internal class RaygunMauiEnvironmentMessageBuilder
         DeviceDisplay.MainDisplayInfoChanged += UpdateDisplayInfo;
 
         // Ensure that we do have assigned values to the display fields by manually sending an update with the current information
-        MainThread.InvokeOnMainThreadAsync(() => UpdateDisplayInfo(this, new DisplayInfoChangedEventArgs(DeviceDisplay.MainDisplayInfo)));
+        RaygunAppEventPublisher.AppStarted += _ => MainThread.InvokeOnMainThreadAsync(() =>
+            UpdateDisplayInfo(this, new DisplayInfoChangedEventArgs(DeviceDisplay.MainDisplayInfo)));
     }
-    
-    internal RaygunMauiEnvironmentMessage BuildEnvironmentMessage()
+
+    internal RaygunMauiEnvironmentMessage BuildEnvironmentMessage(RaygunSettingsBase settings)
     {
         return new RaygunMauiEnvironmentMessage
         {
@@ -57,6 +59,7 @@ internal class RaygunMauiEnvironmentMessageBuilder
             AvailablePhysicalMemory =
                 NativeDeviceInfo.AvailablePhysicalMemory(), // Only possible issue for concurrent access
             CurrentOrientation = CurrentOrientation,
+            EnvironmentVariables = EnvironmentVariablesProvider.GetEnvironmentVariables(settings)
         };
     }
 

@@ -1,6 +1,6 @@
 # Raygun4Maui
 
-Raygun's Crash Reporting provider for .NET MAUI
+Raygun's Crash Reporting and Real User Monitoring provider for .NET MAUI
 
 ## Installation
 
@@ -29,45 +29,159 @@ Import the module by:
 using Raygun4Maui;
 ```
 
-To activate sending of unhandled exceptions and logs to Raygun, you must add Raygun4Maui to your MauiApp builder. To do so, open your main MauiProgram class (MauiProgram.cs) and change the `CreateMauiApp` method by adding the `AddRaygun4Maui` extension method:
+To activate sending of unhandled exceptions and logs to Raygun, you must add Raygun4Maui to your MauiApp builder. To do so, open your main MauiProgram class (MauiProgram.cs) and change the `CreateMauiApp` method by adding the `AddRaygun` extension method:
 
 ``` csharp
 var builder = MauiApp.CreateBuilder();
 builder
     .UseMauiApp<App>()
     ...
-    .AddRaygun4Maui("paste_your_api_key_here");
+    .AddRaygun();
 ```
 
-## Additional configuration
+The default method uses the configuration service to pull in your configuration and create the Raygun client
 
-The `AddRaygun4Maui` extension method contains an overloaded method that takes a `RaygunMauiSettings` options object. This extends `RaygunSettings` from [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/).
+## Configuration
 
-**RaygunMauiSettings supports the following configurations:**
-- Any configuration available in the Raygun4Net `RaygunSettings`, such as `ApiKey`.
-- `SendDefaultTags` (defaulted to `true`) adds the Log Level (e.g., Severe, Warning, etc.) and the Build Platform (e.g., Windows, Android, iOS, etc.) to reports and logs sent to Raygun.
-- `SendDefaultCustomData` (defaulted to `true`) adds all available information in the uncaught exception as custom data on the crash report sent to Raygun.
-- `MinLogLevel` and `MaxLogLevel` that specify the range of logging levels to be sent to Raygun.
+### Appsettings 
 
-To use these additional configurations, create and initialize a new `RaygunMauiSettings` object as follows:
+Configuration settings can be added via an appsettings.json file. To add appsettings.json to the bundled app you should add it as an embedded resource (consult IDE specific instructions). If you do not provide one we create a default Raygun4MauiSettings object which you can change using a lambda to change the options. This must be added to the configuration before you call the `.AddRaygun()` method.
+```csharp
+ var a = Assembly.GetExecutingAssembly();
+ using var stream = a.GetManifestResourceStream("Raygun4Maui.SampleApp.appsettings.json");
+        
+ builder.Configuration.AddJsonStream(stream!);
+```
+
+Below is an example appsettings.json file, two key notes are that you need to use Raygun4MauiSettings as the configuration will not pull it in otherwise. Additionally, the RumFeatureFlags are comma seperated so that they can be loaded in correctly as a bitwise feature flag.
+
+```json
+{
+  "Raygun4MauiSettings": {
+    "RaygunSettings": {
+      "ApiKey": "paste_your_api_key_here",
+      "ApplicationVersion": "1.0.0",
+    },
+    "RaygunLoggerConfiguration": {
+      "SendDefaultTags": true, 
+      "SendDefaultCustomData": true,
+      "MinLogLevel": "Debug",
+      "MaxLogLevel": "Critical" 
+    },
+    "IgnoredViews": [
+      "LoginView",
+      "SettingsView"
+    ],
+    "IgnoredUrls": [
+      "https://example.com/ignore"
+    ],
+    "EnableRealUserMonitoring": true,
+    "RumFeatureFlags": "Network, Page, AppleNativeTimings"
+  }
+}
+```
+
+### Lambda Options
+
+Mentioned previously, we provide an options lambda which you can use to make in-code changes to the configuration, e.g. 
+```csharp
+.AddRaygun(options => {
+    options.RaygunSettings.ApiKey = "paste_your_api_key_here";
+    options.EnableRealUserMonitoring = true;
+    options.RumFeatureFlags = RumFeatures.Page | RumFeatures.Network | RumFeatures.AppleNativeTimings;
+})
+```
+
+### Raygun4MauiSettings overload
+
+The `AddRaygun` extension method contains an overloaded method that takes a `Raygun4MauiSettings` options object which can be used instead of the configuration service. This contains a `RaygunSettings` from [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/).
+
+**Raygun4MauiSettings supports the following configurations:**
+- RaygunSettings
+  - Any configuration available in the Raygun4Net `RaygunSettings`, such as `ApiKey`.
+- RaygunLoggerConfiguration
+  - `SendDefaultTags` (defaulted to `true`) adds the Log Level (e.g., Severe, Warning, etc.) and the Build Platform (e.g., Windows, Android, iOS, etc.) to reports and logs sent to Raygun.
+  - `SendDefaultCustomData` (defaulted to `true`) adds all available information in the uncaught exception as custom data on the crash report sent to Raygun.
+  - `MinLogLevel` and `MaxLogLevel` that specify the range of logging levels to be sent to Raygun.
+- `IgnoredViews` a list of views to ignore when tracking
+- `IgnoredUrls` a list of URLs to ignore when tracking
+- `RumApiEndpoint` endpoint to where the RUM data is sent
+- `EnableRealUserMonitoring` to enable RUM 
+- `RumFeatureFlags` a enum flag to enable specific RUM features, (e.g. RumFeatures.Page | RumFeatures.Network)
+
+
+To use these additional configurations, create and initialize a new `RaygunLoggerConfiguration` object as follows:
 
 ``` csharp
 Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
-    ApiKey = "paste_your_api_key_here",
-    SendDefaultTags = true, // defaults to true
-    SendDefaultCustomData = true, // defaults to true
-    MinLogLevel = LogLevel.Debug, // defaults to true
-    MaxLogLevel = LogLevel.Critical // defaults to true
+    RaygunSettings = new RaygunSettings() {
+        ApiKey = "paste_your_api_key_here",
+        
+    },
+    RaygunLoggerConfiguration = new RaygunLoggerConfiguration {
+        SendDefaultTags = true, // defaults to true
+        SendDefaultCustomData = true, // defaults to true
+        MinLogLevel = LogLevel.Debug, // defaults to Debug
+        MaxLogLevel = LogLevel.Critical // defaults to Critical
+    }
+    EnableRealUserMonitoring = true, // defaults to false
+    RumFeatureFlags = RumFeatures.Page | RumFeatures.Network | RumFeatures.AppleNativeTimings // Enables Page, Network, and Native Apple Timings
 };
 ```
 
-Then add Raygun4Maui to your MauiApp builder. This time, passing in the `RaygunMauiSettings` object instead of the API key directly:
+The Raygun4MauiSettings are added to the service provider so that any DI dependent service can pull in the Raygun4MauiSettings and make changes. For example the application version may be obtained from an endpoint, so this can be assigned later rather than at instantiation.
 
-``` csharp
-builder
-    .UseMauiApp<App>()
-    ...
-    .AddRaygun4Maui(raygunMauiSettings);
+
+### User Management
+As part of Raygun4Net.NetCore v10.0.0, we are moving away from the use of UserInfo and User. 
+These are now marked as obsolete, and within the Raygun4Maui provider we no longer support this.
+
+We now have introduced the `IRaygunUserProvider`, which offers a `GetUser` function that our crash reporting can use to get the current user.
+Only having GetUser makes sense for NetCore, but since MAUI supports RUM we need a way of notifying the RUM implementation that a user has changed.
+
+We therefore, provide a `RaygunMauiUserProvider` abstract class which adds an additional `HandleUserChange` which updates the session tracker. 
+This can also be overridden so you can use `HandleUserChange` function to be used to update any of your managed code.
+
+Note: Whenever you change user while using the `RaygunMauiUserProvider` you must call `HandleUserChange` so that the session is updated correctly.
+This is similar to setting UserInfo, but with an explicit function call.
+
+Here is an example of how you could implement the RaygunMauiUserProvider
+```csharp
+public class DynamicRaygunMauiUserProvider : RaygunMauiUserProvider
+{
+    private RaygunIdentifierMessage _currentUser;
+
+    public DynamicRaygunMauiUserProvider()
+    {
+        // Initialize with default anonymous user
+        _currentUser = new RaygunIdentifierMessage("anonymous") { IsAnonymous = true };
+    }
+
+    // Call this method to update the user details whenever the user changes
+    public void UpdateUser(string userId, string fullName = null, string email = null, bool isAnonymous = false)
+    {
+        _currentUser = new RaygunIdentifierMessage(userId)
+        {
+            FullName = fullName,
+            Email = email,
+            IsAnonymous = isAnonymous
+        };
+
+        // Notify Raygun of the user change (only used for RUM)
+        HandleUserChange();
+    }
+
+    public override RaygunIdentifierMessage GetUser()
+    {
+        return _currentUser;
+    }
+}
+```
+
+We obtain this user provider by using dependency injection, so to add your instance of the user provider to the DI container you should do as shown below
+
+```csharp
+builder.AddRaygunUserProvider<DynamicRaygunMauiUserProvider>();
 ```
 
 ---
@@ -142,6 +256,15 @@ Raygun4Maui will automatically collect information specific to the environment t
 | Windows |Total installed ram | Total amount of private memory used by the process at the time of the measurement. For a number of reasons this might not be the actual total memory usage |
 | Android |Total amount of memory that the JVM has allocated for the application | Total amount of free memory that the JVM has available for the application to use | 
 
+
+### Networking
+
+| Platform | Networking support | Conditions                                       |
+| ----- |--------------------|--------------------------------------------------|
+| Mac  | Yes                | HttpClient, NSURLSession, and NSURLConnection                                      |
+| iOS | Yes                | HttpClient, NSURLSession, and NSURLConnection    |
+| Windows | Yes                | HttpClient                                       |
+| Android | Yes                | HttpURLConnection (see SampleApp) | 
 
 ---
 ## Development Instructions

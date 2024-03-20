@@ -15,7 +15,7 @@ namespace Raygun4Net.BuildPlatforms
 #elif ANDROID
             return "Android";
 #else
-            return "UknownBuildPlatform";
+            return "UnknownBuildPlatform";
 #endif
         }
     }
