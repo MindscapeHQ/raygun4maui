@@ -59,8 +59,6 @@ public class RaygunWebRequestHandler : IRaygunWebRequestHandler
         }
         catch (Exception e)
         {
-            // RaygunLogger.Error($"Failed to send message due to error {e?.GetType()?.Name}: {e?.Message}");
-
             // Was this due to the request timing out?
             const string taskCanceledEx = "TaskCanceledException";
 
