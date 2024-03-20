@@ -2,7 +2,6 @@
 
 namespace Raygun4Maui.AppEvents;
 
-// TODO: Make static
 public static class RaygunAppEventPublisher
 {
     public static event Action<AppInitialised> AppInitialised;

@@ -66,8 +66,6 @@ public class RaygunUiViewControllerObserver
         });
 
         var orig = Marshal.GetDelegateForFunctionPointer<OriginalDelegate>(_originalLoadViewImp);
-        // var orig = (OriginalDelegate)Marshal.GetDelegateForFunctionPointer(_originalLoadViewImp,
-        //     typeof(OriginalDelegate));
         orig(self);
     }
 
@@ -88,8 +86,6 @@ public class RaygunUiViewControllerObserver
 
 
         var orig = Marshal.GetDelegateForFunctionPointer<OriginalDelegate>(_originalViewDidLoadImp);
-        // var orig = (OriginalDelegate)Marshal.GetDelegateForFunctionPointer(_originalViewDidLoadImp,
-        //     typeof(OriginalDelegate));
         orig(self);
     }
 
@@ -109,9 +105,6 @@ public class RaygunUiViewControllerObserver
         });
 
         var orig = Marshal.GetDelegateForFunctionPointer<OriginalBooleanDelegate>(_originalViewWillAppearImp);
-
-        // var orig = (OriginalBooleanDelegate)Marshal.GetDelegateForFunctionPointer(_originalViewWillAppearImp,
-        //     typeof(OriginalBooleanDelegate));
         orig(self, animated);
     }
 
@@ -123,9 +116,6 @@ public class RaygunUiViewControllerObserver
     private static void OnViewDidAppearCapture(IntPtr block, IntPtr self, bool animated)
     {
         var orig = Marshal.GetDelegateForFunctionPointer<OriginalBooleanDelegate>(_originalViewDidAppearImp);
-
-        // var orig = (OriginalBooleanDelegate)Marshal.GetDelegateForFunctionPointer(_originalViewDidAppearImp,
-        //     typeof(OriginalBooleanDelegate));
         orig(self, animated);
 
         string name = GetName(Runtime.GetNSObject(self));

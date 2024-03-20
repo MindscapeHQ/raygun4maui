@@ -67,7 +67,6 @@ public static class RaygunSessionTracker
 
       if (changedUser)
       {
-        // RaygunLogger.Debug("RUM detected change in user");
         RotateSession(_currentUser, newUser);
       }
 
@@ -80,31 +79,26 @@ public static class RaygunSessionTracker
 
     private static void OnAppInitialised(AppInitialised args)
     {
-      // RaygunLogger.Debug("RaygunSessionTracker - OnAppInitialised");
       EvaluateSession();
     }
 
     private static void OnAppStarted(AppStarted args)
     {
-      // RaygunLogger.Debug("RaygunSessionTracker - OnAppStarted");
       EvaluateSession();
     }
 
     private static void OnAppResumed(AppResumed args)
     {
-      // RaygunLogger.Debug("RaygunSessionTracker - OnAppResumed");
       EvaluateSession();
     }
 
     private static void OnAppPaused(AppPaused args)
     {
-      // RaygunLogger.Debug("RaygunSessionTracker - OnAppPaused");
       UpdateLastSeenTime();
     }
 
     private static void OnAppStopped(AppStopped args)
     {
-      // RaygunLogger.Debug("RaygunSessionTracker - OnAppStopped");
       UpdateLastSeenTime();
     }
 
@@ -117,7 +111,6 @@ public static class RaygunSessionTracker
     {
       if (string.IsNullOrEmpty(SessionId))
       {
-        // RaygunLogger.Debug("RaygunSessionTracker - Starting new session");
         SessionId = GenerateNewSessionId();
         SessionStarted?.Invoke(new RaygunSessionEventArgs(SessionId, CurrentUser));
       }
@@ -138,7 +131,6 @@ public static class RaygunSessionTracker
 
     private static void RotateSession(RaygunIdentifierMessage currentUser, RaygunIdentifierMessage newUser)
     {
-      // RaygunLogger.Debug("RaygunSessionTracker - Rotating session");
       var newSessionId = GenerateNewSessionId();
       SessionChanged?.Invoke(new RaygunSessionChangedEventArgs(SessionId, newSessionId, currentUser, newUser));
       SessionId = newSessionId;

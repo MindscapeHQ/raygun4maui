@@ -21,7 +21,7 @@ namespace Raygun4Maui
         public IList<string> IgnoredViews { get; set; }
         public IList<string> IgnoredUrls { get; set; }
 
-        public bool EnableRealUserMonitoring { get; set; } = true;
+        public bool EnableRealUserMonitoring { get; set; } = false;
         
         public RumFeatures RumFeatureFlags { get; set; }
         

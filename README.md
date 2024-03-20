@@ -104,7 +104,7 @@ The `AddRaygun` extension method contains an overloaded method that takes a `Ray
   - `SendDefaultCustomData` (defaulted to `true`) adds all available information in the uncaught exception as custom data on the crash report sent to Raygun.
   - `MinLogLevel` and `MaxLogLevel` that specify the range of logging levels to be sent to Raygun.
 - `IgnoredViews` a list of views to ignore when tracking
-- `IgnoredUrls` a list of url's to ignore when tracking
+- `IgnoredUrls` a list of URLs to ignore when tracking
 - `RumApiEndpoint` endpoint to where the RUM data is sent
 - `EnableRealUserMonitoring` to enable RUM 
 - `RumFeatureFlags` a enum flag to enable specific RUM features, (e.g. RumFeatures.Page | RumFeatures.Network)
@@ -124,12 +124,12 @@ Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
         MinLogLevel = LogLevel.Debug, // defaults to Debug
         MaxLogLevel = LogLevel.Critical // defaults to Critical
     }
-    EnableRealUserMonitoring = true, // defaults to true
+    EnableRealUserMonitoring = true, // defaults to false
     RumFeatureFlags = RumFeatures.Page | RumFeatures.Network | RumFeatures.AppleNativeTimings // Enables Page, Network, and Native Apple Timings
 };
 ```
 
-The Raygun4MauiSettings are added to the service provider so that any DI dependant service can pull in the Raygun4MauiSettings and make changes. For example the application version may be obtained from an endpoint, so this can be assigned later rather than at instantiation.
+The Raygun4MauiSettings are added to the service provider so that any DI dependent service can pull in the Raygun4MauiSettings and make changes. For example the application version may be obtained from an endpoint, so this can be assigned later rather than at instantiation.
 
 
 ### User Management
@@ -178,7 +178,7 @@ public class DynamicRaygunMauiUserProvider : RaygunMauiUserProvider
 }
 ```
 
-We obtain this user provider by using dependency injection, so to add your instance of the user provider to the DI container you should do as show below
+We obtain this user provider by using dependency injection, so to add your instance of the user provider to the DI container you should do as shown below
 
 ```csharp
 builder.AddRaygunUserProvider<DynamicRaygunMauiUserProvider>();

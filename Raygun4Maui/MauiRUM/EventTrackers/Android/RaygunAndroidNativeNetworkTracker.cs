@@ -17,9 +17,8 @@ namespace Raygun4Maui.MauiRUM.EventTrackers.Android
             {
                 RaygunNetworkMonitor.Enable();
             }
-            catch (Exception e)
+            catch (Exception ignore)
             {
-                Console.WriteLine(e);
             }
         }
     }

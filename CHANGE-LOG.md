@@ -9,7 +9,6 @@ Adds support for Real User Monitoring (RUM) for Windows, Android, iOS, and MacCa
   - Time between PageDisappearing and PageAppearing 
 - Session Tracking
 - Custom Timings
-  - Supports "t" type timings
 - Native iOS Timings
   - iOS/MacCatalyst specific
 - Network Timings
@@ -25,9 +24,9 @@ Adds support for Real User Monitoring (RUM) for Windows, Android, iOS, and MacCa
   - Keeps overload for `.AddRaygun(Raygun4MauiSettings)` - other two are more recommended
 - Adds more configuration options for RUM features
   - `IgnoredViews` a list of views to ignore when tracking
-  - `IgnoredUrls` a list of url's to ignore when tracking
+  - `IgnoredUrls` a list of URLs to ignore when tracking
   - `RumApiEndpoint` endpoint to where the RUM data is sent
-  - `EnableRealUserMonitoring` to enable RUM - defaults to `true`
+  - `EnableRealUserMonitoring` to enable RUM - defaults to `false`
   - `RumFeatureFlags` a enum flag to enable specific RUM features, (e.g. RumFeatures.Page | RumFeatures.Network)
 - Adds `Raygun4MauiSettings` to service provider for DI dependent services to edit it
 - Includes fixes from Raygun4Maui 1.4.1 and 1.4.2 

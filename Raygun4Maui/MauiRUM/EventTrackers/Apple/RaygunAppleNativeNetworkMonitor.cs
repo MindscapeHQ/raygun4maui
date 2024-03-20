@@ -13,9 +13,8 @@ public class RaygunAppleNativeNetworkMonitor
         {
             RaygunNetworkMonitor.Enable();
         }
-        catch (Exception e)
+        catch (Exception ignore)
         {
-            Console.WriteLine(e);
         }
     }
 }
