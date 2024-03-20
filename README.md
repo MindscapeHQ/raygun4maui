@@ -45,7 +45,7 @@ The default method uses the configuration service to pull in your configuration 
 
 ### Appsettings 
 
-Addition of the configuration settings can be done through the use of an appsettings.json which can be added to the configuration as follows. To add appsettings.json to the bundled app you should add it as an embedded resource (consult IDE specific instructions). If you do not provide one we create a default Raygun4MauiSettings object which you can change using a lambda to change the options. This must be added to the configuration before you call the `.AddRaygun()` method.
+Configuration settings can be added via an appsettings.json file. To add appsettings.json to the bundled app you should add it as an embedded resource (consult IDE specific instructions). If you do not provide one we create a default Raygun4MauiSettings object which you can change using a lambda to change the options. This must be added to the configuration before you call the `.AddRaygun()` method.
 ```csharp
  var a = Assembly.GetExecutingAssembly();
  using var stream = a.GetManifestResourceStream("Raygun4Maui.SampleApp.appsettings.json");
