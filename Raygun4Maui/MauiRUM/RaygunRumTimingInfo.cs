@@ -5,7 +5,7 @@ namespace Raygun4Maui.MauiRUM;
 
 public class RaygunRumTimingInfo
 {
-    public string type { get; set; }
+    public string Type { get; set; }
 
-    public long duration { get; set; }
+    public long Duration { get; set; }
 }

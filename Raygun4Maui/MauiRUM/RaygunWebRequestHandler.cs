@@ -41,7 +41,7 @@ public class RaygunWebRequestHandler : IRaygunWebRequestHandler
 
         try
         {
-            // Create the request contnet.
+            // Create the request content.
             HttpContent content = new StringContent(payload, System.Text.Encoding.UTF8, "application/json");
 
             // Add API key to headers.
@@ -84,7 +84,7 @@ public class RaygunWebRequestHandler : IRaygunWebRequestHandler
 
         try
         {
-            // Create the request contnet.
+            // Create the request content.
             HttpContent content = new StringContent(payload, System.Text.Encoding.UTF8, "application/json");
 
             // Add API key to headers.
@@ -98,8 +98,6 @@ public class RaygunWebRequestHandler : IRaygunWebRequestHandler
         }
         catch (Exception e)
         {
-            // RaygunLogger.Error($"Failed to send message due to error {e.GetType().Name}: {e.Message}");
-
             // Was this due to the request timing out?
             const string taskCanceledEx = "TaskCanceledException";
             // Null reference exception will be thrown if the InnerException is null. coalesce the lookup

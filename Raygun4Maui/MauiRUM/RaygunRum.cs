@@ -29,8 +29,10 @@ public static class RaygunRum
         // DI Container for this should be set up by this point
         _mauiSettings = settings;
 
-        _requestHandler =
-            new RaygunWebRequestHandler(_mauiSettings?.RaygunSettings.ApiKey, _mauiSettings?.RumApiEndpoint, 30_0000);
+        _requestHandler = new RaygunWebRequestHandler(
+            _mauiSettings?.RaygunSettings.ApiKey,
+            _mauiSettings?.RumApiEndpoint, 300_000
+        );
 
         RaygunViewTracker.ViewLoaded += OnViewLoaded;
         RaygunViewTracker.Init(settings);
@@ -86,11 +88,11 @@ public static class RaygunRum
         {
             new RaygunRumTimingData
             {
-                name = name,
-                timing = new RaygunRumTimingInfo
+                Name = name,
+                Timing = new RaygunRumTimingInfo
                 {
-                    type = TimingTypeToString(timingType),
-                    duration = duration
+                    Type = TimingTypeToString(timingType),
+                    Duration = duration
                 }
             }
         };
@@ -118,7 +120,7 @@ public static class RaygunRum
 
         return message;
     }
-    
+
     private static String GetAppVersion()
     {
         if (!string.IsNullOrEmpty(_mauiSettings.RaygunSettings.ApplicationVersion))

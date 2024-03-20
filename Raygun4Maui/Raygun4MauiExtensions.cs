@@ -35,8 +35,7 @@ namespace Raygun4Maui
         }
 
         /// <summary>
-        /// This will attempt to pull in form the Raygun4MauiSettings section in your configuration file, if an options is provided it will apply that to the settings that we pull in.
-        /// If there the configuration is not provided we create a default Raygun4MauiSettings object
+        /// This will attempt to pull in from the Raygun4MauiSettings section in your configuration file, if an options is provided it will apply that to the settings that we pull in.
         /// </summary>
         /// <param name="mauiAppBuilder"></param>
         /// <param name="options">Used to apply changes to a pulled in or default Raygun4MauiSettings object</param>
