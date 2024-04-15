@@ -12,7 +12,7 @@ Adds support for Real User Monitoring (RUM) for Windows, Android, iOS, and MacCa
 - Native iOS Timings
   - iOS/MacCatalyst specific
 - Network Timings
-  - See README.md for support information
+  - See [README.md](https://github.com/MindscapeHQ/raygun4maui/blob/master/README.md) for support information
 
 #### Provider Changes
 - `Raygun4MauiSettings` no longer inherits from `RaygunLoggerConfiguration`

@@ -41,12 +41,6 @@ namespace Raygun4Maui
             Current = client;
         }
 
-        // TODO: Will this actually be used, and how does it work with IRaygunUserProvider
-        public RaygunMauiClient(IOptions<Raygun4MauiSettings> settings) : base(settings.Value.RaygunSettings, null)
-        {
-            _mauiSettings = settings.Value;
-        }
-
         public RaygunMauiClient(Raygun4MauiSettings settings, IRaygunUserProvider userProvider) : base(
             settings.RaygunSettings, userProvider)
         {
