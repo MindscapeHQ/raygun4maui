@@ -33,6 +33,9 @@ public static class MauiProgram
             })
             .AddRaygun();
 
+
+        builder.Services.AddSingleton<MainPage>();
+        
         return builder.Build();
     }
 }

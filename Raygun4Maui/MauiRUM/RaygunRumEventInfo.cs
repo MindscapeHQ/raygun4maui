@@ -1,14 +1,9 @@
-﻿using System.Runtime.Serialization;
-using Mindscape.Raygun4Net;
+﻿using Mindscape.Raygun4Net;
 
 namespace Raygun4Maui.MauiRUM;
 
 public class RaygunRumEventInfo
-{
-    public RaygunRumEventInfo()
-    {
-    }
-
+{ 
     public string sessionId { get; set; }
 
     public DateTime timestamp { get; set; }

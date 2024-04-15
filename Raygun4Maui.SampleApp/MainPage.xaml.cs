@@ -1,4 +1,9 @@
-﻿using System.Reflection;
+﻿using System.Collections;
+using System.Diagnostics;
+using System.Reflection;
+using Mindscape.Raygun4Net;
+using Raygun4Maui.MauiRUM;
+using Raygun4Maui.MauiRUM.EventTypes;
 using Serilog;
 
 namespace Raygun4Maui.SampleApp;
@@ -12,10 +17,15 @@ public partial class MainPage : ContentPage
     int count = 0;
 
     private readonly String _apiKey;
+    private readonly ILogger<MainPage> _logger;
 
-    public MainPage()
+    public MainPage(ILogger<MainPage> logger, IRaygunMauiUserProvider userProvider)
     {
         InitializeComponent();
+        
+        userProvider.SetUser(new RaygunIdentifierMessage("Test User"));
+
+        _logger = logger;
         
         var a = Assembly.GetExecutingAssembly();
         using var stream = a.GetManifestResourceStream("Raygun4Maui.SampleApp.appsettings.json");
@@ -82,6 +92,14 @@ public partial class MainPage : ContentPage
         catch (Exception ex)
         {
             Log.Logger.Error(ex, "Serilog error");
+        }
+    }
+    
+    private void OnTestILoggerSpam(object sender, EventArgs e)
+    {
+        for (int i = 0; i < 1000; i++)
+        {
+            _logger.Log(LogLevel.Information, "Testing ILogger Spam");
         }
     }
 

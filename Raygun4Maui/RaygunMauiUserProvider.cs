@@ -1,18 +1,24 @@
 ﻿using Mindscape.Raygun4Net;
-using Raygun4Maui.MauiRUM.EventTrackers;
+using Raygun4Maui.AppEvents;
 
 namespace Raygun4Maui;
 
-public abstract class RaygunMauiUserProvider : IRaygunUserProvider
+public class RaygunMauiUserProvider : IRaygunMauiUserProvider
 {
+    private RaygunIdentifierMessage _user = null!;
 
-    public void HandleUserChange()
-    {
-        RaygunSessionTracker.CurrentUser = GetUser();
-    }
-    
     public RaygunIdentifierMessage GetUser()
     {
-        throw new NotImplementedException();
+        return _user;
+    }
+
+    public void SetUser(RaygunIdentifierMessage user)
+    {
+        _user = user;
+
+        RaygunAppEventPublisher.Publish(new RaygunUserChanged
+        {
+            User = _user
+        });
     }
 }

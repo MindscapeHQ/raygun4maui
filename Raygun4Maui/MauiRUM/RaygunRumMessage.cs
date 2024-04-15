@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace Raygun4Maui.MauiRUM;
+﻿namespace Raygun4Maui.MauiRUM;
 
 public class RaygunRumMessage
 {

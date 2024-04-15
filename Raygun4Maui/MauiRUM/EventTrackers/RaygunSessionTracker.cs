@@ -32,6 +32,7 @@ public static class RaygunSessionTracker
       RaygunAppEventPublisher.AppResumed += OnAppResumed;
       RaygunAppEventPublisher.AppPaused += OnAppPaused;
       RaygunAppEventPublisher.AppStopped += OnAppStopped;
+      RaygunAppEventPublisher.RaygunUserChanged += OnRaygunUserChanged;
 
       EvaluateSession();
     }
@@ -100,6 +101,11 @@ public static class RaygunSessionTracker
     private static void OnAppStopped(AppStopped args)
     {
       UpdateLastSeenTime();
+    }
+    
+    private static void OnRaygunUserChanged(RaygunUserChanged args)
+    {
+      CurrentUser = args.User;
     }
 
     /// <summary>

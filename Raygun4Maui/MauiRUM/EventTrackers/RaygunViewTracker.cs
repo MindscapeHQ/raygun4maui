@@ -48,7 +48,10 @@ public static class RaygunViewTracker
 
     private static void SetupPageDelegates(AppStarted args)
     {
-        if (Application.Current == null) return;
+        if (Application.Current == null)
+        {
+            return;
+        }
 
         RaygunAppEventPublisher.AppStarted -= SetupPageDelegates;
 
@@ -63,7 +66,10 @@ public static class RaygunViewTracker
 
     private static void OnViewTimingFinished(ViewTimingFinished viewEvent)
     {
-        if (!Timers.Remove(viewEvent.Name, out var value)) return;
+        if (!Timers.Remove(viewEvent.Name, out var value))
+        {
+            return;
+        }
 
         if (!ShouldIgnore(viewEvent.Name))
         {

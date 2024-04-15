@@ -17,6 +17,10 @@ namespace Raygun4Maui
             Raygun4MauiSettings raygunMauiSettings)
         {
             mauiAppBuilder.Services.AddSingleton(raygunMauiSettings);
+
+            mauiAppBuilder.Services.AddSingleton<IRaygunMauiUserProvider, RaygunMauiUserProvider>();
+            
+            mauiAppBuilder.Services.AddSingleton<IRaygunUserProvider>(sp => sp.GetRequiredService<IRaygunMauiUserProvider>());
             
             mauiAppBuilder.Services.AddSingleton<IMauiInitializeService, RaygunClientInitializeService>();
 
@@ -51,12 +55,19 @@ namespace Raygun4Maui
             return mauiAppBuilder.AddRaygun(settings);
         }
 
-        public static MauiAppBuilder AddRaygunUserProvider<T>(this MauiAppBuilder mauiAppBuilder) where T : RaygunMauiUserProvider
+        /// <summary>
+        /// Allows the addition of an unmanaged IRaygunMauiUserProvider rather than the default Raygun implementation
+        /// Note: If you are using RUM you, when you set the user you must create a RaygunAppEventPublisher event for the user update or else your sessions will not capture correctly.
+        /// </summary>
+        /// <param name="mauiAppBuilder"></param>
+        /// <returns></returns>
+        public static MauiAppBuilder AddRaygunUserProvider<T>(this MauiAppBuilder mauiAppBuilder) where T : class, IRaygunMauiUserProvider
         {
-            mauiAppBuilder.Services.AddSingleton<IRaygunUserProvider, T>();
+            mauiAppBuilder.Services.AddSingleton<IRaygunMauiUserProvider, T>();
             return mauiAppBuilder;
         }
-        
+
+
         private static MauiAppBuilder AddRaygunRum(this MauiAppBuilder mauiAppBuilder)
         {
             mauiAppBuilder.AddDeviceIdProvider();
@@ -81,7 +92,9 @@ namespace Raygun4Maui
             mauiAppBuilder.Services.AddSingleton<IDeviceIdProvider, DeviceIdProvider.DeviceIdProvider>();
 
             if (Preferences.Get(DeviceIdKey, null) == null)
+            {
                 Preferences.Set(DeviceIdKey, Guid.NewGuid().ToString());
+            }
 
             return mauiAppBuilder;
         }

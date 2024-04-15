@@ -1,7 +1,4 @@
-﻿using System.Runtime.Serialization;
-using Raygun4Maui.MauiRUM.EventTypes;
-
-namespace Raygun4Maui.MauiRUM;
+﻿namespace Raygun4Maui.MauiRUM;
 
 public class RaygunRumTimingInfo
 {

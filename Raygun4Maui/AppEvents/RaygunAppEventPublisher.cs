@@ -13,6 +13,8 @@ public static class RaygunAppEventPublisher
     public static event Action<ViewTimingStarted> ViewTimingStarted;
     public static event Action<ViewTimingFinished> ViewTimingFinished;
     public static event Action<NetworkRequestFinished> NetworkRequestFinished;
+    public static event Action<RaygunUserChanged> RaygunUserChanged;
+
     
     public static void Publish(IRaygunAppEvent eventInfo)
     {
@@ -44,6 +46,9 @@ public static class RaygunAppEventPublisher
                 break;
             case NetworkRequestFinished info:
                 NetworkRequestFinished?.Invoke(info);
+                break;
+            case RaygunUserChanged info:
+                RaygunUserChanged?.Invoke(info);
                 break;
         }
     }

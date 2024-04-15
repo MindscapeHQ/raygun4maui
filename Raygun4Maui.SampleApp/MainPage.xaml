@@ -65,6 +65,13 @@
                 HorizontalOptions="Center"/>
 
             <Button
+                Text="Test ILogger Spam"
+                SemanticProperties.Hint="Test ILogger Spam"
+                Clicked="OnTestILoggerSpam"
+                HorizontalOptions="Center"
+            />
+            
+            <Button
                 Text="Send using Serilog"
                 SemanticProperties.Hint="Test sending a message using Serilog"
                 Clicked="OnSerilogClicked"
@@ -77,6 +84,8 @@
                 Clicked="OnNavigateButtonClicked"
                 HorizontalOptions="Center"
                 />
+            
+            
 
         </VerticalStackLayout>
     </ScrollView>
