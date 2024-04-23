@@ -1,0 +1,6 @@
+framework module RaygunNetworkMonitor {
+  umbrella header "RaygunNetworkMonitor.h"
+  export *
+
+  module * { export * }
+}

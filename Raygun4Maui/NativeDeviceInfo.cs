@@ -1,7 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 using System.Diagnostics;
-#if WINDOWS
+using System.Text.RegularExpressions;
 
+#if WINDOWS
 #elif ANDROID
 using Android.OS;
 #elif IOS || MACCATALYST
@@ -14,8 +15,15 @@ using ObjCRuntime;
 namespace Raygun4Maui
 {
     internal static class NativeDeviceInfo
-    {
-
+    { 
+        private static readonly (string version, Regex pattern)[] WindowsVersionPatterns = 
+        {
+            ("11", new Regex(@"\b10\.0\.2[2-9]\d{3}")),
+            ("10", new Regex(@"\b10\.0\.")),
+            ("8.1", new Regex(@"\b6\.3\.\d{1,4}")),
+            ("8", new Regex(@"\b6\.2\.\d{1,4}")),
+            ("7", new Regex(@"\b6\.1\.\d{1,4}")),
+        };
 #if IOS || MACCATALYST
         private const string MEM_AVAILABLE_PROP_NAME = "hw.usermem";
         private const string MEM_TOTAL_PROP_NAME = "hw.physmem";
@@ -155,6 +163,30 @@ namespace Raygun4Maui
             return "Unknown";
 #endif
         }
+        
+        public static string GetOsVersion(bool prefix = true)
+        {
+#if WINDOWS
+            var osVersion = GetWindowsVersion(DeviceInfo.Current.VersionString);
+#else
+            var osVersion = DeviceInfo.Current.VersionString;
+#endif
+
+            return prefix ? $"{NativeDeviceInfo.Platform()} {osVersion}" : osVersion;
+        }
+
+        public static string GetWindowsVersion(string buildNumber)
+        {
+            foreach (var (version, pattern) in WindowsVersionPatterns)
+            {
+                if (pattern.IsMatch(buildNumber))
+                {
+                    return version;
+                }
+            }
+            
+            return "";
+        }
 
         public static string Architecture()
         {
@@ -170,7 +202,7 @@ namespace Raygun4Maui
         {
           return RuntimeInformation.ProcessArchitecture.ToString();
         }
-       
+
 #elif IOS
             return RuntimeInformation.ProcessArchitecture.ToString();
 #elif MACCATALYST

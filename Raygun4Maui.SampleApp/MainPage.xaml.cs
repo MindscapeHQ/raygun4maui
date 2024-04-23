@@ -1,4 +1,10 @@
-﻿using Serilog;
+﻿using System.Collections;
+using System.Diagnostics;
+using System.Reflection;
+using Mindscape.Raygun4Net;
+using Raygun4Maui.MauiRUM;
+using Raygun4Maui.MauiRUM.EventTypes;
+using Serilog;
 
 namespace Raygun4Maui.SampleApp;
 
@@ -11,16 +17,25 @@ public partial class MainPage : ContentPage
     int count = 0;
 
     private readonly String _apiKey;
+    private readonly ILogger<MainPage> _logger;
 
-    public MainPage()
+    public MainPage(ILogger<MainPage> logger, IRaygunMauiUserProvider userProvider)
     {
         InitializeComponent();
+        
+        userProvider.SetUser(new RaygunIdentifierMessage("Test User"));
+
+        _logger = logger;
+        
+        var a = Assembly.GetExecutingAssembly();
+        using var stream = a.GetManifestResourceStream("Raygun4Maui.SampleApp.appsettings.json");
 
         var configuration = new ConfigurationBuilder()
-            .AddUserSecrets<MainPage>()
+            .AddJsonStream(stream!)
             .Build();
 
-        _apiKey = configuration["apiKey"] ?? "";
+
+        _apiKey = configuration["Raygun4MauiSettings:RaygunSettings:apiKey"] ?? "";
 
         if (_apiKey != "")
         {
@@ -78,5 +93,18 @@ public partial class MainPage : ContentPage
         {
             Log.Logger.Error(ex, "Serilog error");
         }
+    }
+    
+    private void OnTestILoggerSpam(object sender, EventArgs e)
+    {
+        for (int i = 0; i < 1000; i++)
+        {
+            _logger.Log(LogLevel.Information, "Testing ILogger Spam");
+        }
+    }
+
+    private async void OnNavigateButtonClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new PageLoadTest());
     }
 }

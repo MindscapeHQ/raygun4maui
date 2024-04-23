@@ -5,7 +5,7 @@ using Mindscape.Raygun4Net;
 // ReSharper disable once CheckNamespace
 namespace Raygun4Net.RaygunLogger
 {
-    public class RaygunLoggerConfiguration : RaygunSettings
+    public class RaygunLoggerConfiguration 
     {
         public bool SendDefaultTags{get; set;}
 
