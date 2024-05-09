@@ -16,16 +16,16 @@
         <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <Version>2.0.0</Version>
-        <PackageVersion>2.0.0</PackageVersion>
+        <Version>2.0.1</Version>
+        <PackageVersion>2.0.1</PackageVersion>
         <Authors>Raygun</Authors>
         <Company>Raygun</Company>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <Description>Raygun's Crash Reporting Provider for MAUI .NET</Description>
+        <Description>Raygun's Crash Reporting and Real User Monitoring Provider for MAUI .NET</Description>
         <Copyright>Copyright (C) 2024 Raygun Limited</Copyright>
         <PackageProjectUrl>https://raygun.com/platform/crash-reporting</PackageProjectUrl>
         <RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
-        <PackageTags>Raygun4Maui; Raygun; Crash Reporting; MAUI; .NET; dotnet</PackageTags>
+        <PackageTags>Raygun4Maui; Raygun; Crash Reporting; MAUI; .NET; dotnet; Real User Monitoring</PackageTags>
         <PackageReleaseNotes>https://github.com/MindscapeHQ/raygun4maui/blob/master/CHANGE-LOG.md</PackageReleaseNotes>
         <Title>Raygun4Maui</Title>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
