@@ -1,5 +1,11 @@
 # Full Change Log for Raygun4Maui package
 
+### v2.0.1
+Version bump to Raygun4Net.NetCore v10.1.2
+- Fix issue where uncaught exceptions could sometimes not be reported to Raygun
+  - See: https://github.com/MindscapeHQ/raygun4net/pull/529
+  - Keeps a strong reference to the `OnApplicationUnhandledException` delegate in the client so that reference is alive as long as the client is
+
 ### v2.0.0
 Adds support for Real User Monitoring (RUM) for Windows, Android, iOS, and MacCatalyst
 
