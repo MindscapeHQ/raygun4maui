@@ -120,5 +120,9 @@
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-maccatalyst'">
       <PackageReference Include="Raygun4Maui.Platform" Version="1.0.2" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Platforms\Android\" />
+    </ItemGroup>
     
 </Project>

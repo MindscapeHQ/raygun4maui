@@ -19,9 +19,8 @@ namespace Raygun4Maui
         private static readonly string Name = Assembly.GetExecutingAssembly().GetName().Name;
         private static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
 
-        private static readonly string
-            ClientUrl =
-                "https://github.com/MindscapeHQ/raygun4maui"; //It does not seem like this can be obtained automatically
+        //It does not seem like this can be obtained automatically
+        private static readonly string ClientUrl = "https://github.com/MindscapeHQ/raygun4maui";
 
         public static readonly RaygunClientMessage ClientMessage = new()
         {
