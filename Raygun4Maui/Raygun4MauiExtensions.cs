@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿#nullable enable
+using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.LifecycleEvents;
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.Breadcrumbs;
+using Mindscape.Raygun4Net.Offline;
 using Raygun4Maui.DeviceIdProvider;
 using Raygun4Maui.MauiRUM.AppLifecycleHandlers;
 using Raygun4Net.RaygunLogger;
@@ -44,8 +46,7 @@ namespace Raygun4Maui
         /// <param name="mauiAppBuilder"></param>
         /// <param name="options">Used to apply changes to a pulled in or default Raygun4MauiSettings object</param>
         /// <returns></returns>
-        public static MauiAppBuilder AddRaygun(this MauiAppBuilder mauiAppBuilder,
-            Action<Raygun4MauiSettings> options = null)
+        public static MauiAppBuilder AddRaygun(this MauiAppBuilder mauiAppBuilder, Action<Raygun4MauiSettings>? options = null)
         {
             var settings = mauiAppBuilder.Configuration.GetSection("Raygun4MauiSettings").Get<Raygun4MauiSettings>() ??
                            new Raygun4MauiSettings();
@@ -66,7 +67,41 @@ namespace Raygun4Maui
             mauiAppBuilder.Services.AddSingleton<IRaygunMauiUserProvider, T>();
             return mauiAppBuilder;
         }
-
+        
+        /// <summary>
+        /// Sets the offline store, and a timer to attempt to send any offline crashes at the interval specified. Default 30 seconds.
+        /// </summary>
+        /// <param name="mauiSettings"></param>
+        /// <param name="interval"></param>
+        /// <returns></returns>
+        public static Raygun4MauiSettings UseOfflineStorage(this Raygun4MauiSettings mauiSettings, TimeSpan? interval = null)
+        {
+            return mauiSettings.UseOfflineStorage(new TimerBasedSendStrategy(interval));
+        }
+        
+        /// <summary>
+        /// Sets the offline store, and the internal sending strategy to that specified
+        /// </summary>
+        /// <param name="mauiSettings"></param>
+        /// <param name="backgroundSendStrategy"></param>
+        /// <returns></returns>
+        public static Raygun4MauiSettings UseOfflineStorage(this Raygun4MauiSettings mauiSettings, IBackgroundSendStrategy backgroundSendStrategy)
+        {
+            return mauiSettings.UseOfflineStorage(new RaygunMauiOfflineStore(backgroundSendStrategy));
+        }
+        
+        /// <summary>
+        /// Specify a custom implementation of the offline store to store any crash reports that could not be sent due to connectivity or server issues
+        /// </summary>
+        /// <param name="mauiSettings"></param>
+        /// <param name="offlineStore"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static Raygun4MauiSettings UseOfflineStorage<T>(this Raygun4MauiSettings mauiSettings, T offlineStore) where T : OfflineStoreBase
+        {
+            mauiSettings.RaygunSettings.OfflineStore = offlineStore;
+            return mauiSettings;
+        }
 
         private static MauiAppBuilder AddRaygunRum(this MauiAppBuilder mauiAppBuilder)
         {
