@@ -52,6 +52,11 @@ namespace Raygun4Maui
                            new Raygun4MauiSettings();
             
             options?.Invoke(settings);
+#if ANDROID
+            // TODO
+            //RaygunErrorMessageBuilder.AssemblyReaderProvider = AndroidAssemblyReader.CreateReader; 
+#endif
+
 
             return mauiAppBuilder.AddRaygun(settings);
         }
