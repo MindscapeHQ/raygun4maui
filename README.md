@@ -250,6 +250,44 @@ Raygun4Maui will automatically collect information specific to the environment t
 | Android | Yes                | HttpURLConnection (see SampleApp) | 
 
 ---
+
+## Offline Storage
+
+You can optionally specify an Offline Store for crash reports when creating your `RaygunClient`.
+
+When an offline store is specified, if there are any issues sending an exception to the Raygun API, a copy of the exception may be stored locally to be retried at a later date.
+
+An exception is stored offline when one of the following conditions are met:
+- There was a network connectivity issue, e.g. no active internet connection on a mobile device
+- The Raygun API responded with an HTTP 5xx, indicating an unexpected server error
+
+
+### Configuration
+
+```csharp
+// This will initialize Raygun with the default Application Data Store
+mauiAppBuilder.AddRaygun(options => 
+{
+  options.UseOfflineStorage();
+});
+```
+
+You can also define the background send strategy and store separately
+
+```csharp
+// Attempt to send any offline crash reports every 30 seconds
+var sendStrategy = new TimerBasedSendStrategy(TimeSpan.FromSeconds(30));
+
+// Store crash reports in directory relative to the Application (`FileSystem.AppDataDirectory`)
+var offlineStore = new RaygunMauiOfflineStore(sendStrategy);
+
+mauiAppBuilder.AddRaygun(options => 
+{
+  options.OfflineStore = offlineStore;
+});
+```
+
+---
 ## Development Instructions
 
 ### To build a local nuget package
