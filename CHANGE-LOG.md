@@ -1,5 +1,13 @@
 # Full Change Log for Raygun4Maui package
 
+### v2.1.0
+Version bump to Raygun4Net.NetCore v11.0.0
+- Add support for capturing debug information for PDBs 
+  - This is automatically captured for all platforms
+  - There is limited Android support, due to the changes with single file assembly stores
+- Add support for storing crash reports offline when exceptions fail to send to the Raygun API
+  - See [README.md](https://github.com/MindscapeHQ/raygun4maui/blob/master/README.md#offline-storage) for more information & usage documentation
+
 ### v2.0.1
 Version bump to Raygun4Net.NetCore v10.1.2
 - Fix issue where uncaught exceptions could sometimes not be reported to Raygun
