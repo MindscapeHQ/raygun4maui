@@ -1,9 +1,5 @@
-﻿using System.Diagnostics;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Maui.Controls.Hosting;
-using Mindscape.Raygun4Net;
-using Raygun4Net.RaygunLogger;
 using Serilog;
 
 namespace Raygun4Maui.SampleApp;
@@ -31,7 +27,10 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             })
-            .AddRaygun();
+            .AddRaygun(options =>
+            {
+                options.UseOfflineStorage();
+            });
 
 
         builder.Services.AddSingleton<MainPage>();

@@ -232,22 +232,60 @@ Raygun4Maui will automatically collect information specific to the environment t
 - on iOS, Raygun4Maui cannot obtain the device's name. This is a privacy restriction put in place by Apple. If you would like this information to be collected and sent with crash reports you will have to [request for permission from apple](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_device-information_user-assigned-device-name?language=objc).
 - The `Total physical memory` and `Available physical memory` properties mean different things across platforms. Below is a table explaining the differences for each platform.  
 
-| Platform | Total physical memory | Available physical memory |
-| ----- | ---- | ------- |
-| Mac  | Total installed ram | Total memory available for user-level processes  |
-| iOS | Total installed ram | Total memory available for user-level processes |
-| Windows |Total installed ram | Total amount of private memory used by the process at the time of the measurement. For a number of reasons this might not be the actual total memory usage |
-| Android |Total amount of memory that the JVM has allocated for the application | Total amount of free memory that the JVM has available for the application to use | 
+| Platform | Total physical memory                                                 | Available physical memory                                                                                                                                  |
+|----------|-----------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Mac      | Total installed ram                                                   | Total memory available for user-level processes                                                                                                            |
+| iOS      | Total installed ram                                                   | Total memory available for user-level processes                                                                                                            |
+| Windows  | Total installed ram                                                   | Total amount of private memory used by the process at the time of the measurement. For a number of reasons this might not be the actual total memory usage |
+| Android  | Total amount of memory that the JVM has allocated for the application | Total amount of free memory that the JVM has available for the application to use                                                                          | 
 
 
 ### Networking
 
-| Platform | Networking support | Conditions                                       |
-| ----- |--------------------|--------------------------------------------------|
-| Mac  | Yes                | HttpClient, NSURLSession, and NSURLConnection                                      |
-| iOS | Yes                | HttpClient, NSURLSession, and NSURLConnection    |
-| Windows | Yes                | HttpClient                                       |
-| Android | Yes                | HttpURLConnection (see SampleApp) | 
+| Platform | Networking support | Conditions                                    |
+|----------|--------------------|-----------------------------------------------|
+| Mac      | Yes                | HttpClient, NSURLSession, and NSURLConnection |
+| iOS      | Yes                | HttpClient, NSURLSession, and NSURLConnection |
+| Windows  | Yes                | HttpClient                                    |
+| Android  | Yes                | HttpURLConnection (see SampleApp)             | 
+
+---
+
+## Offline Storage
+
+You can optionally specify an Offline Store for crash reports when creating your `Raygun4MauiClient`.
+
+When an offline store is specified, if there are any issues sending an exception to the Raygun API, a copy of the exception may be stored locally to be retried at a later date.
+
+An exception is stored offline when one of the following conditions are met:
+- There was a network connectivity issue, e.g. no active internet connection on a mobile device
+- The Raygun API responded with an HTTP 5xx, indicating an unexpected server error
+
+
+### Configuration
+
+```csharp
+// This will initialize Raygun with the default Application Data Store
+mauiAppBuilder.AddRaygun(options => 
+{
+  options.UseOfflineStorage();
+});
+```
+
+You can also define the background send strategy and store separately
+
+```csharp
+// Attempt to send any offline crash reports every 30 seconds
+var sendStrategy = new TimerBasedSendStrategy(TimeSpan.FromSeconds(30));
+
+// Store crash reports in directory relative to the Application (`FileSystem.AppDataDirectory`)
+var offlineStore = new RaygunMauiOfflineStore(sendStrategy);
+
+mauiAppBuilder.AddRaygun(options => 
+{
+  options.OfflineStore = offlineStore;
+});
+```
 
 ---
 ## Development Instructions
