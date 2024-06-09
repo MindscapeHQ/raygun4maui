@@ -253,7 +253,7 @@ Raygun4Maui will automatically collect information specific to the environment t
 
 ## Offline Storage
 
-You can optionally specify an Offline Store for crash reports when creating your `RaygunClient`.
+You can optionally specify an Offline Store for crash reports when creating your `Raygun4MauiClient`.
 
 When an offline store is specified, if there are any issues sending an exception to the Raygun API, a copy of the exception may be stored locally to be retried at a later date.
 
