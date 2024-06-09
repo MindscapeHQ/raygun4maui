@@ -3,8 +3,8 @@
 ### v2.1.0
 - Version bump to `Raygun4Net.NetCore v11.0.0`
 - Added support for capturing debug information for PDB symbolication
-  - This is automatically captured for all platforms
-  - There is limited Android support, due to the changes with single file assembly stores
+  - This is automatically captured for supported platforms
+  - Currently, there is limited Android support, due to the changes with single file assembly stores
 - Added support for storing crash reports offline when exceptions fail to send to the Raygun API
   - See [README.md](https://github.com/MindscapeHQ/raygun4maui/blob/master/README.md#offline-storage) for more information and usage documentation
 
