@@ -15,7 +15,7 @@ namespace Raygun4Maui
     public sealed class Raygun4MauiSettings
     {
         private static readonly Uri DefaultRumApiEndpoint = new Uri("https://api.raygun.com/events");
-        public RaygunSettingsBase RaygunSettings { get; set; } = new RaygunSettings();
+        public RaygunSettings RaygunSettings { get; set; } = new RaygunSettings();
         public RaygunLoggerConfiguration RaygunLoggerConfiguration { get; set; } = new RaygunLoggerConfiguration();
         public Uri RumApiEndpoint { get; set; } = DefaultRumApiEndpoint;
         public IList<string> IgnoredViews { get; set; }

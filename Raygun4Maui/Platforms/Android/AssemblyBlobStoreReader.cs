@@ -113,6 +113,9 @@ internal class AssemblyBlobStoreReader : AssemblyReader
             }
         }
 
+        // This is lifted directly from the xamarin tools code base
+        // Effectively this code re-processes all the stores, finds the assemblies by index
+        // and attempts to add them to the hash and name dictionaries for faster lookups
         private void ProcessStores()
         {
             if (Stores.Count == 0 || _indexStore == null)
