@@ -1,5 +1,6 @@
-using System.Buffers;
-using System.IO.Compression;
+#nullable enable
+using System.Buffers.Binary;
+using System.Collections.Immutable;
 using System.Reflection.PortableExecutable;
 using K4os.Compression.LZ4;
 
@@ -7,75 +8,57 @@ namespace Raygun4Maui;
 
 internal abstract class AssemblyReader : IAssemblyReader
 {
-    protected bool TryDecompressLZ4AssemblyBytes(byte[] assemblyBytes, out ReadOnlySpan<byte> decompressedBytes)
-    {
-        var estimatedSize = LZ4Codec.MaximumOutputSize(assemblyBytes.Length);
-        var buffer = ArrayPool<byte>.Shared.Rent(estimatedSize);
-
-        try
-        {
-            var actualDecompressedSize = LZ4Codec.Decode(assemblyBytes, buffer);
-            decompressedBytes = new ReadOnlySpan<byte>(buffer, 0, actualDecompressedSize);
-
-            return true;
-        }
-        catch
-        {
-            decompressedBytes = ReadOnlySpan<byte>.Empty;
-        }
-        finally
-        {
-            // Return the buffer to the pool
-            ArrayPool<byte>.Shared.Return(buffer);
-        }
-
-        return false;
-    }
-
-    /// <summary>
-    /// Factory method to create the correct assembly reader for the current application
-    /// </summary>
-    /// <param name="moduleName"></param>
-    /// <returns></returns>
-    public static IAssemblyReader Create(string moduleName)
-    {
-        var apkPath = Android.App.Application.Context.ApplicationInfo?.SourceDir;
-
-        if (!File.Exists(apkPath))
-        {
-            // No apk, so return nothing
-            return null;
-        }
-
-        if (!IsAndroidArchive(apkPath))
-        {
-            // Not a valid android archive so nothing to return
-            return null;
-        }
-
-        // Open the apk file, and see if it has a manifest, if it does,
-        // we are using the new assembly store method,
-        // else it's just a normal zip with assemblies as archive entries
-        var zipArchive = ZipFile.Open(apkPath, ZipArchiveMode.Read);
-
-        if (zipArchive.GetEntry("assemblies/assemblies.manifest") != null)
-        {
-            return new AssemblyBlobStoreReader(zipArchive);
-        }
-
-        return new AssemblyZipEntryReader(zipArchive);
-    }
-
-    private static bool IsAndroidArchive(string filePath)
-    {
-        return filePath.EndsWith(".aab", StringComparison.OrdinalIgnoreCase) ||
-               filePath.EndsWith(".apk", StringComparison.OrdinalIgnoreCase) ||
-               filePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase);
-    }
+    private const uint CompressedDataMagic = 0x5A4C4158; // 'XALZ', little-endian
 
     public virtual void Dispose()
     {
     }
 
-    public abstract PEReader TryGetReader(string moduleName);
+    public abstract PEReader? TryGetReader(string moduleName);
+
+    protected PEReader CreatePEReader(ReadOnlyMemory<byte> rawBytes)
+    {
+        // Try to decompress the array from LZ4 as it could be LZ4 compressed
+        var actualBytes = TryDecompressLZ4AssemblyBytes(rawBytes, out var decompressedBytes)
+            ? decompressedBytes
+            : rawBytes;
+
+        return new PEReader(actualBytes.Span.ToImmutableArray());
+    }
+
+    // Decompression reference : https://github.com/xamarin/xamarin-android/blob/c92702619f5fabcff0ed88e09160baf9edd70f41/tools/decompress-assemblies/main.cs
+    private bool TryDecompressLZ4AssemblyBytes(ReadOnlyMemory<byte> encodedAssembly, out ReadOnlyMemory<byte> decompressedBytes)
+    {
+        var magicHeader = BinaryPrimitives.ReadUInt32LittleEndian(encodedAssembly.Span[..4]);
+        var decompressedLength = BinaryPrimitives.ReadInt32LittleEndian(encodedAssembly.Span[8..12]);
+
+        if (magicHeader != CompressedDataMagic)
+        {
+            decompressedBytes = ReadOnlyMemory<byte>.Empty;
+            return false;
+        }
+
+        // Skip the header and move to the compressed bytes
+        var assemblyBytes = encodedAssembly.Slice(12);
+        var decompressedArray = new byte[decompressedLength];
+
+        try
+        {
+            var actualDecompressedSize = LZ4Codec.Decode(assemblyBytes.Span, decompressedArray);
+
+            if (actualDecompressedSize != decompressedLength)
+            {
+                throw new Exception($"Could not decompress bytes. Lengths do not match, expected {decompressedLength} but got {actualDecompressedSize}");
+            }
+
+            decompressedBytes = new ReadOnlyMemory<byte>(decompressedArray);
+            return true;
+        }
+        catch
+        {
+            decompressedBytes = ReadOnlyMemory<byte>.Empty;
+        }
+
+        return false;
+    }
 }

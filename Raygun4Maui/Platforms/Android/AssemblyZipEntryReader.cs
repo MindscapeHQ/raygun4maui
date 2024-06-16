@@ -9,10 +9,12 @@ namespace Raygun4Maui;
 internal class AssemblyZipEntryReader : AssemblyReader
 {
     private readonly ZipArchive _zipArchive;
+    private readonly List<string> _supportedAbis;
 
-    public AssemblyZipEntryReader(ZipArchive? zipArchive)
+    public AssemblyZipEntryReader(ZipArchive? zipArchive, List<string> supportedAbis)
     {
         _zipArchive = zipArchive ?? throw new ArgumentNullException(nameof(zipArchive));
+        _supportedAbis = supportedAbis;
     }
 
     public override void Dispose()
@@ -36,21 +38,8 @@ internal class AssemblyZipEntryReader : AssemblyReader
             return null;
         }
 
-        byte[] rawBytes;
-
-        using (var zipStream = zipEntry.Open())
-        using (var memoryStream = new MemoryStream())
-        {
-            zipStream.CopyTo(memoryStream);
-            rawBytes = memoryStream.ToArray();
-        }
-
-        // Try to decompress the array from LZ4 as it could be LZ4 compressed
-        var actualBytes = TryDecompressLZ4AssemblyBytes(rawBytes, out var decompressedBytes)
-            ? decompressedBytes.ToImmutableArray()
-            : rawBytes.ToImmutableArray();
-
-        return new PEReader(actualBytes);
+        using var zipStream = zipEntry.Open();
+        return CreatePEReader(zipStream.AsReadOnlyMemory());
     }
 
     private ZipArchiveEntry? FindZipEntryForModule(string moduleName)
@@ -60,9 +49,7 @@ internal class AssemblyZipEntryReader : AssemblyReader
         if (zipEntry is not null)
             return zipEntry;
 
-        var supportedAbis = Android.OS.Build.SupportedAbis ?? new List<string>();
-
-        foreach (var abi in supportedAbis)
+        foreach (var abi in _supportedAbis)
         {
             zipEntry = _zipArchive.GetEntry($"assemblies/{abi}/{moduleName}");
             if (zipEntry is not null)
