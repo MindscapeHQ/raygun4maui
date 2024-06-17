@@ -1,5 +1,9 @@
 # Full Change Log for Raygun4Maui package
 
+### v2.1.1
+- Added support for reading PDB debug information from Android Assembly Store
+  - This completes the portable pdb support for MAUI, and Android targets are fully compatible
+
 ### v2.1.0
 - Version bump to `Raygun4Net.NetCore v11.0.0`
 - Added support for capturing debug information for PDB symbolication
