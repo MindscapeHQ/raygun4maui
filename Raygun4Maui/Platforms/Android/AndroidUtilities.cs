@@ -32,22 +32,14 @@ internal static class AndroidUtilities
             // Not a valid android archive so nothing to return
             return null;
         }
-
-        Console.WriteLine(apkPath);
         
         // Open the apk file, and see if it has a manifest, if it does,
         // we are using the new assembly store method,
         // else it's just a normal zip with assemblies as archive entries
         using var zipArchive = ZipFile.Open(apkPath, ZipArchiveMode.Read);
 
-        foreach(var entry in zipArchive.Entries)
-        {
-            Console.WriteLine(entry.FullName);
-        }
-
         if (zipArchive.GetEntry("assemblies/assemblies.manifest") != null)
         {
-            Console.WriteLine("Creating Blob");
             return new AssemblyBlobStoreReader(zipArchive, supportedAbis);
         }
 
