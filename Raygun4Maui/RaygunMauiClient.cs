@@ -1,7 +1,6 @@
 using System.Reflection;
 using Mindscape.Raygun4Net;
 using System.Collections;
-using Microsoft.Extensions.Options;
 using Raygun4Maui.DeviceIdProvider;
 using Raygun4Maui.MauiRUM;
 
@@ -12,17 +11,16 @@ namespace Raygun4Maui
         private IDeviceIdProvider _deviceIdProvider;
 
         private readonly Raygun4MauiSettings _mauiSettings;
-        
+
         public static RaygunMauiClient Current { get; private set; }
 
         private readonly RaygunMauiEnvironmentMessageBuilder _environmentMessageBuilder = new();
-        
+
         private static readonly string Name = Assembly.GetExecutingAssembly().GetName().Name;
         private static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
 
-        private static readonly string
-            ClientUrl =
-                "https://github.com/MindscapeHQ/raygun4maui"; //It does not seem like this can be obtained automatically
+        //It does not seem like this can be obtained automatically
+        private static readonly string ClientUrl = "https://github.com/MindscapeHQ/raygun4maui";
 
         public static readonly RaygunClientMessage ClientMessage = new()
         {
@@ -53,14 +51,14 @@ namespace Raygun4Maui
             {
                 return;
             }
-            
+
             _deviceIdProvider = deviceIdProvider;
 
             var defaultUser = new RaygunIdentifierMessage(_deviceIdProvider.GetDeviceId()) { IsAnonymous = true };
 
             RaygunRum.Enable(_mauiSettings, defaultUser);
         }
-        
+
 
         protected override async Task StripAndSend(Exception exception, IList<string> tags, IDictionary userCustomData,
             RaygunIdentifierMessage userInfo)
@@ -91,7 +89,8 @@ namespace Raygun4Maui
                     var msg = await BuildMessage(ex, tags, userCustomData, userInfo, customiseMessage: raygunMessage =>
                     {
                         raygunMessage.Details.MachineName = DeviceInfo.Current.Name;
-                        raygunMessage.Details.Environment = _environmentMessageBuilder.BuildEnvironmentMessage(_settings);
+                        raygunMessage.Details.Environment =
+                            _environmentMessageBuilder.BuildEnvironmentMessage(_settings);
                         raygunMessage.Details.Client = ClientMessage;
                     });
 

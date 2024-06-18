@@ -1,5 +1,13 @@
 # Full Change Log for Raygun4Maui package
 
+### v2.1.1
+- Version bump to `Raygun4Net.NetCore v11.0.1`
+  - This marks the synchronous `Send()` methods as `Obsolete` which can cause deadlocks in MAUI if sending on the UI Thread
+- Added support for reading PDB debug information from Android Assembly Store
+  - This completes the portable pdb support for MAUI, and Android targets are fully compatible
+- Introduce dependency on `K4os.Compression.LZ4@1.3.8` for Android
+  - This is to support decompression of LZ4 binaries in the Assembly Blob Store
+
 ### v2.1.0
 - Version bump to `Raygun4Net.NetCore v11.0.0`
 - Added support for capturing debug information for PDB symbolication

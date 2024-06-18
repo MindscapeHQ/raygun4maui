@@ -13,29 +13,32 @@ namespace Raygun4Maui
     public static class Raygun4MauiExtensions
     {
         internal const string DeviceIdKey = "DeviceID";
-        
-        public static MauiAppBuilder AddRaygun(
-            this MauiAppBuilder mauiAppBuilder,
-            Raygun4MauiSettings raygunMauiSettings)
+
+        public static MauiAppBuilder AddRaygun(this MauiAppBuilder mauiAppBuilder, Raygun4MauiSettings raygunMauiSettings)
         {
             mauiAppBuilder.Services.AddSingleton(raygunMauiSettings);
 
             mauiAppBuilder.Services.AddSingleton<IRaygunMauiUserProvider, RaygunMauiUserProvider>();
-            
+
             mauiAppBuilder.Services.AddSingleton<IRaygunUserProvider>(sp => sp.GetRequiredService<IRaygunMauiUserProvider>());
-            
+
             mauiAppBuilder.Services.AddSingleton<IMauiInitializeService, RaygunClientInitializeService>();
 
             mauiAppBuilder.Services.AddSingleton(services => new RaygunMauiClient(raygunMauiSettings, services.GetService<IRaygunUserProvider>()));
 
             // Makes breadcrumbs have a global context
             RaygunBreadcrumbs.Storage = new InMemoryBreadcrumbStorage();
-            
+
             if (raygunMauiSettings.EnableRealUserMonitoring)
             {
                 mauiAppBuilder.AddRaygunRum();
             }
-            
+
+#if ANDROID
+            var androidAssemblyReader = new Lazy<IAssemblyReader?>(AndroidUtilities.CreateAssemblyReader);
+            RaygunErrorMessageBuilder.AssemblyReaderProvider = moduleName => androidAssemblyReader.Value?.TryGetReader(moduleName);
+#endif
+
             return mauiAppBuilder
                 .AddRaygunLogger(raygunMauiSettings.RaygunLoggerConfiguration);
         }
@@ -50,7 +53,7 @@ namespace Raygun4Maui
         {
             var settings = mauiAppBuilder.Configuration.GetSection("Raygun4MauiSettings").Get<Raygun4MauiSettings>() ??
                            new Raygun4MauiSettings();
-            
+
             options?.Invoke(settings);
 
             return mauiAppBuilder.AddRaygun(settings);
@@ -67,7 +70,7 @@ namespace Raygun4Maui
             mauiAppBuilder.Services.AddSingleton<IRaygunMauiUserProvider, T>();
             return mauiAppBuilder;
         }
-        
+
         /// <summary>
         /// Sets the offline store, and a timer to attempt to send any offline crashes at the interval specified. Default 30 seconds.
         /// </summary>
@@ -78,7 +81,7 @@ namespace Raygun4Maui
         {
             return mauiSettings.UseOfflineStorage(new TimerBasedSendStrategy(interval));
         }
-        
+
         /// <summary>
         /// Sets the offline store, and the internal sending strategy to that specified
         /// </summary>
@@ -89,7 +92,7 @@ namespace Raygun4Maui
         {
             return mauiSettings.UseOfflineStorage(new RaygunMauiOfflineStore(backgroundSendStrategy));
         }
-        
+
         /// <summary>
         /// Specify a custom implementation of the offline store to store any crash reports that could not be sent due to connectivity or server issues
         /// </summary>
