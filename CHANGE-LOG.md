@@ -1,5 +1,9 @@
 # Full Change Log for Raygun4Maui package
 
+### v2.1.2
+- Version bump to `Raygun4Net.NetCore v11.0.3`
+  - Fixes the null signature issue when Debug Symbols are set to None and the application is built in Release mode.
+
 ### v2.1.1
 - Version bump to `Raygun4Net.NetCore v11.0.1`
   - This marks the synchronous `Send()` methods as `Obsolete` which can cause deadlocks in MAUI if sending on the UI Thread
