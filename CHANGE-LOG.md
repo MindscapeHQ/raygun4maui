@@ -1,5 +1,13 @@
 # Full Change Log for Raygun4Maui package
 
+### v2.2.0
+- Version bump to `Raygun4Net.NetCore v11.1.0`
+  - Implements dynamic thread allocation when error spikes occurs
+    - Fixes static thread allocation which caused performance issues on .NET Core and MAUI apps
+  - Removes errors stuck in a 4xx loop when stored in the offline storage 
+    - Edge case allowed for errors that should have been 4xx to put into offline storage and infinitely loop
+    - Large errors would also make concurrent GC heap freed messages in the console
+
 ### v2.1.2
 - Version bump to `Raygun4Net.NetCore v11.0.3`
   - Fixes the null signature issue when Debug Symbols are set to None and the application is built in Release mode.
