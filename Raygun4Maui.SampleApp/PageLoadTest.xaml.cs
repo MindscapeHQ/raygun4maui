@@ -21,6 +21,11 @@ public partial class PageLoadTest : ContentPage
 
     private async void OnNavigateButtonClicked(object sender, EventArgs e)
     {
+        var task = Task.Run(() =>
+        {
+            throw new ApplicationException("This exception will be unobserved");
+        });
+        
         RaygunBreadcrumbs.Record("Breadcrumbs!!");
 
         RaygunBreadcrumbs.Record(new RaygunBreadcrumb()
