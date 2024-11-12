@@ -21,11 +21,13 @@ public class RaygunSwizzle
     [DllImport("/usr/lib/libobjc.dylib")]
     public extern static IntPtr method_getImplementation(IntPtr method);
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void CaptureDelegate(IntPtr block, IntPtr self);
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void CaptureBooleanDelegate(IntPtr block, IntPtr self, bool b);
     
-    [MonoNativeFunctionWrapper]
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void OriginalBooleanDelegate(IntPtr self, bool b);
 
     public static void Hijack(NSObject obj, string selector, ref IntPtr originalImpl, CaptureDelegate captureDelegate)

@@ -1,13 +1,11 @@
-﻿
-using System.Runtime.CompilerServices;
-#if IOS || MACCATALYST
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+#if IOS || MACCATALYST
 using Foundation;
 using ObjCRuntime;
 using UIKit;
 using Raygun4Maui.AppEvents;
 #endif
-
 
 namespace Raygun4Maui.MauiRUM.EventTrackers.Apple;
 
@@ -23,13 +21,16 @@ public class RaygunUiViewControllerObserver
     private static IntPtr _originalViewWillAppearImp;
     private static IntPtr _originalViewDidAppearImp;
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void CaptureDelegate(IntPtr block, IntPtr self);
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void CaptureBooleanDelegate(IntPtr block, IntPtr self, bool b);
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void OriginalDelegate(IntPtr self);
 
-    [MonoNativeFunctionWrapper]
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void OriginalBooleanDelegate(IntPtr self, bool b);
 
     public void Register()
@@ -83,7 +84,6 @@ public class RaygunUiViewControllerObserver
             Name = name,
             OccurredOn = DateTime.UtcNow.Ticks
         });
-
 
         var orig = Marshal.GetDelegateForFunctionPointer<OriginalDelegate>(_originalViewDidLoadImp);
         orig(self);
