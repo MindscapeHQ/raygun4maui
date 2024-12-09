@@ -1,6 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿#if IOS || MACCATALYST
 using System.Runtime.InteropServices;
-#if IOS || MACCATALYST
 using Foundation;
 using ObjCRuntime;
 using UIKit;
