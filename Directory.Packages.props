@@ -1,0 +1,27 @@
+<Project>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+        <!-- See Maui Issue: https://github.com/dotnet/sdk/issues/27840 -->
+        <!-- This whole file is effectively not used, but it should be once MAUI supports centralised versioning -->
+        <DisableImplicitLibraryPacksFolder>true</DisableImplicitLibraryPacksFolder>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Common packages -->
+        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+        <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+        <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
+        
+        <!-- MAUI Packages -->
+        <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.83" />
+
+        <!-- Raygun packages -->
+        <PackageVersion Include="Mindscape.Raygun4Net.NetCore" Version="11.1.2" />
+        <PackageVersion Include="Raygun4Maui.Platform" Version="1.0.2" />
+        <PackageVersion Include="Serilog.Sinks.Raygun" Version="7.3.0" />
+
+        <!-- Other packages -->
+        <PackageVersion Include="K4os.Compression.LZ4" Version="1.3.8" />
+    </ItemGroup>
+</Project>

@@ -1,13 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
-        <Nullable>enable</Nullable>
-        <OutputType>Library</OutputType>
-        <ImplicitUsings>true</ImplicitUsings>
-        <IsBindingProject>true</IsBindingProject>
+        <TargetFrameworks>$(DotNetVersion)-ios;$(DotNetVersion)-maccatalyst</TargetFrameworks>
 
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+        <OutputType>Library</OutputType>
+        <IsBindingProject>true</IsBindingProject>
     </PropertyGroup>
 
     <ItemGroup>

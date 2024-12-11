@@ -1,0 +1,41 @@
+<Project>
+    <PropertyGroup>
+        <!-- .NET Version Configuration -->
+        <LangVersion>latest</LangVersion>
+        <DotNetVersion>net8.0</DotNetVersion>
+        <UseMaui>true</UseMaui>
+
+        <!-- Common properties across all projects -->
+        <ImplicitUsings>enable</ImplicitUsings>
+        
+        <!-- Enable nullable when we make everything null safe -->
+
+        <!-- OS Platform Versions -->
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+
+        <!-- Common package properties -->
+        <Authors>Raygun</Authors>
+        <Company>Raygun</Company>
+        <Copyright>Copyright (C) 2024 Raygun Limited</Copyright>
+        <PackageProjectUrl>https://raygun.com/platform/crash-reporting</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>Raygun-icon-128x128.png</PackageIcon>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+
+        <!-- Build settings -->
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <!-- Common package files -->
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)\README.md" Pack="True" PackagePath="\" />
+        <None Include="$(MSBuildThisFileDirectory)\LICENSE.txt" Pack="True" PackagePath="\" />
+        <None Include="$(MSBuildThisFileDirectory)\Raygun-icon-128x128.png" Pack="True" PackagePath="\" />
+    </ItemGroup>
+</Project>

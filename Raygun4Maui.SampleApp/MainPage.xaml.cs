@@ -18,15 +18,20 @@ public partial class MainPage : ContentPage
 
     private readonly String _apiKey;
     private readonly ILogger<MainPage> _logger;
+    
+    private IRaygunMauiUserProvider _userProvider;
+    private Raygun4MauiSettings _settings;
 
-    public MainPage(ILogger<MainPage> logger, IRaygunMauiUserProvider userProvider)
+    public MainPage(ILogger<MainPage> logger, IRaygunMauiUserProvider userProvider, Raygun4MauiSettings settings)
     {
         InitializeComponent();
         
         userProvider.SetUser(new RaygunIdentifierMessage("Test User"));
 
         _logger = logger;
-        
+        _userProvider = userProvider;
+        _settings = settings;
+
         var a = Assembly.GetExecutingAssembly();
         using var stream = a.GetManifestResourceStream("Raygun4Maui.SampleApp.appsettings.json");
 
@@ -61,7 +66,7 @@ public partial class MainPage : ContentPage
     {
         ManualExceptionButton.Text += ".";
 
-        TestManualExceptionsSent testManualExceptionsSent = new(_apiKey);
+        TestManualExceptionsSent testManualExceptionsSent = new(_userProvider, _settings);
 
         testManualExceptionsSent.RunAllTests();
     }
