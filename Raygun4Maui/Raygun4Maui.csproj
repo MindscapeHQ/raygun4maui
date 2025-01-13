@@ -88,6 +88,15 @@
         <MtouchInterpreter>-all</MtouchInterpreter>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-ios' or '$(TargetFramework)' == 'net7.0-ios'">
+        <CreatePackage>false</CreatePackage>
+        <MtouchDebug>true</MtouchDebug>
+        <BuildIpa>true</BuildIpa>
+        <!-- Enable dSYM generation -->
+        <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+        <IpaIncludeSymbols>true</IpaIncludeSymbols>
+        <GenerateSymbols>true</GenerateSymbols>
+    </PropertyGroup>
 
     <ItemGroup>
         <None Include="..\README.md">

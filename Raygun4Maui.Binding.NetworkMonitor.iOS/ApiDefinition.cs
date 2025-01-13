@@ -19,6 +19,9 @@ namespace Raygun4Maui.Binding.NetworkMonitor.iOS
 
     [Static, Export("enable")]
     void Enable();
+
+    [Static, Export("networkRequestStarted:")]
+    void NetworkRequestStarted(NSUrlSessionTask task);
   }
 }
 
