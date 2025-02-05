@@ -18,7 +18,7 @@ namespace Raygun4Net.RaygunLogger
         {
             SendDefaultTags = true;
             SendDefaultCustomData = true;
-            MinLogLevel = LogLevel.Debug;
+            MinLogLevel = LogLevel.Error;
             MaxLogLevel = LogLevel.Critical;
         }
     }
