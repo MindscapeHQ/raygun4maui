@@ -1,5 +1,17 @@
 # Full Change Log for Raygun4Maui package
 
+### v2.2.3
+- Raise min log level to `Error` for the Raygun4Maui ILogger
+  - This is to prevent spamming of irrelevant log to Raygun
+
+### 2.2.2
+- Fix Attempting to JIT compile method while in AOT only mode for Swizzled Apple Native Timings
+
+### 2.2.1
+* Bump to v11.1.2 of Raygun4Net and add example of UnobservedTaskException
+  * UnobservedTaskException is now automatically unwrapped if there is only one exception in the AggregateException
+  * UnobservedTaskExceptions are now tagged as UnobservedTaskException instead of UnhandledException
+
 ### v2.2.0
 - Version bump to `Raygun4Net.NetCore v11.1.0`
   - Implements dynamic thread allocation when error spikes occurs
