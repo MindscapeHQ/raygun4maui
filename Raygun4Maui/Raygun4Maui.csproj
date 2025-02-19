@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net7.0;net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
-        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
+        <TargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
         <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
         <!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
         <UseMaui>true</UseMaui>
@@ -13,11 +13,11 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-        <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+        <TargxetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargxetPlatformMinVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <Version>2.2.2</Version>
-        <PackageVersion>2.2.2</PackageVersion>
+        <Version>2.3.0</Version>
+        <PackageVersion>2.3.0</PackageVersion>
         <Authors>Raygun</Authors>
         <Company>Raygun</Company>
         <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -34,52 +34,52 @@
         <UserSecretsId>54661550-a31d-44d7-a748-7ac67fc82450</UserSecretsId>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <ApplicationTitle>Raygun Crash Reporting Provider for .NET MAUI</ApplicationTitle>
     </PropertyGroup>
@@ -109,17 +109,29 @@
         <PackageReference Include="Mindscape.Raygun4Net.NetCore" Version="11.1.2" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
-      <PackageReference Include="Raygun4Maui.Platform" Version="1.0.2" />
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+<!--      <PackageReference Include="Raygun4Maui.Platform" Version="1.0.2" />-->
       <PackageReference Include="K4os.Compression.LZ4" Version="1.3.8" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
-      <PackageReference Include="Raygun4Maui.Platform" Version="1.0.2" />
+<!--    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-ios'">-->
+<!--      <PackageReference Include="Raygun4Maui.Platform" Version="1.0.2" />-->
+<!--    </ItemGroup>-->
+
+<!--    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-maccatalyst'">-->
+<!--      <PackageReference Include="Raygun4Maui.Platform" Version="1.0.2" />-->
+<!--    </ItemGroup>-->
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android34.0'">
+        <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.Android\Raygun4Maui.Binding.NetworkMonitor.Android.csproj">
+            <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+        </ProjectReference>
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-maccatalyst'">
-      <PackageReference Include="Raygun4Maui.Platform" Version="1.0.2" />
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-ios17.0' Or '$(TargetFramework)' == 'net8.0-maccatalyst17.0'">
+        <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.iOS\Raygun4Maui.Binding.NetworkMonitor.iOS.csproj">
+            <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+        </ProjectReference>
     </ItemGroup>
     
 </Project>

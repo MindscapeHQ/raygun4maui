@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+        <TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
 
         <RootNamespace>Raygun4Maui.Platform</RootNamespace>
         <UseMaui>true</UseMaui>
@@ -35,10 +35,15 @@
             $(AllowedOutputExtensionsInPackageBuildOutputFolder);.zip
             $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
             $(AllowedOutputExtensionsInPackageBuildOutputFolder);.aar
+            $(AllowedOutputExtensionsInPackageBuildOutputFolder);.dsym
         </AllowedOutputExtensionsInPackageBuildOutputFolder>
     </PropertyGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
+<!--    <ItemGroup>-->
+<!--        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.72" />-->
+<!--    </ItemGroup>-->
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
         <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.Android\Raygun4Maui.Binding.NetworkMonitor.Android.csproj">
             <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
             <IncludeAssets>Raygun4Maui.Binding.NetworkMonitor.Android.dll</IncludeAssets>
@@ -47,19 +52,23 @@
         <None Include="..\Raygun4Maui.Binding.NetworkMonitor.Android\Jars\networkmonitorlibrary.aar" />
     </ItemGroup>
     
-    <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios' Or '$(TargetFramework)' == 'net7.0-maccatalyst'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-ios' Or '$(TargetFramework)' == 'net8.0-maccatalyst'">
         <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.iOS\Raygun4Maui.Binding.NetworkMonitor.iOS.csproj">
             <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
             <IncludeAssets>Raygun4Maui.Binding.NetworkMonitor.iOS.dll</IncludeAssets>
         </ProjectReference>
-        
+<!--        // include statement for dsym here-->
         <None Include="..\Raygun4Maui.Binding.NetworkMonitor.iOS\bin\$(TargetFramework)\Raygun4Maui.Binding.NetworkMonitor.iOS.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\" />
+        <None Include="..\Raygun4Maui.Binding.NetworkMonitor.iOS\Frameworks\RaygunNetworkMonitor.xcframework\ios-arm64\dSYMs\RaygunNetworkMonitor.framework.dSYM" Pack="true" PackagePath="lib\$(TargetFramework)\" />
+        <None Include="..\Raygun4Maui.Binding.NetworkMonitor.iOS\Frameworks\RaygunNetworkMonitor.xcframework\ios-arm64_x86_64-simulator\dSYMs\RaygunNetworkMonitor.framework.dSYM" Pack="true" PackagePath="lib\$(TargetFramework)\" />
+        <None Include="..\Raygun4Maui.Binding.NetworkMonitor.iOS\Frameworks\RaygunNetworkMonitor.xcframework\ios-arm64-maccatalyst\dSYMs\RaygunNetworkMonitor.framework.dSYM" Pack="true" PackagePath="lib\$(TargetFramework)\" />
     </ItemGroup>
 
     <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
         <ItemGroup>
             <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
-            <BuildOutputInPackage  Condition="'$(TargetFramework)' == 'net7.0-android'" Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')->Replace('Raygun4Maui.Binding.NetworkMonitor.Android.dll', 'networkmonitorlibrary.aar'))" />
+<!--            // if it doesn't work, add in this hack-->
+            <BuildOutputInPackage  Condition="'$(TargetFramework)' == 'net8.0-android'" Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')->Replace('Raygun4Maui.Binding.NetworkMonitor.Android.dll', 'networkmonitorlibrary.aar'))" />
         </ItemGroup>
     </Target>
 
