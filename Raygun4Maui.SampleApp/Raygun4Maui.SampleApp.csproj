@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
-        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+        <TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
         <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
         <!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
         <OutputType>Exe</OutputType>
@@ -23,7 +23,7 @@
         <ApplicationTitle>Raygun4Maui.SampleApp</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.mycompany.raygun4maui.sampleapp</ApplicationId>
+        <ApplicationId>com.companyname.raygun4maui.sampleapp</ApplicationId>
         <ApplicationIdGuid>67358BD8-28C8-40DF-8205-9F75C840BD4F</ApplicationIdGuid>
 
         <!-- Versions -->
@@ -69,16 +69,6 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows10.0.19041.0|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <DebugSymbols>false</DebugSymbols>
-        <DebugType>none</DebugType>
-        <CodesignKey>Apple Distribution: Mindscape Limited (7AK2557CXR)</CodesignKey>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <CodesignKey>Apple Distribution: Mindscape Limited (7AK2557CXR)</CodesignKey>
     </PropertyGroup>
 
     <ItemGroup>
