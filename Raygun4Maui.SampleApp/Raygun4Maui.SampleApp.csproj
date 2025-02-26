@@ -14,9 +14,7 @@
         <AssemblyVersion>3.3.4</AssemblyVersion>
         <FileVersion>3.3.4</FileVersion>
         <Version>3.3.4</Version>
-
-<!--        <BundleIdentifier>com.mycompany.raygun4maui.sampleapp</BundleIdentifier>-->
-
+        
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
         
         <!-- Display name -->
