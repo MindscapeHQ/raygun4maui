@@ -39,8 +39,8 @@ namespace Raygun4Maui
             Current = client;
         }
 
-        public RaygunMauiClient(Raygun4MauiSettings settings, IRaygunUserProvider userProvider) : base(
-            settings.RaygunSettings, userProvider)
+        public RaygunMauiClient(Raygun4MauiSettings settings, IRaygunUserProvider userProvider, IEnumerable<IMessageBuilder> messageBuilders) : base(
+            settings.RaygunSettings, userProvider, messageBuilders)
         {
             _mauiSettings = settings;
         }

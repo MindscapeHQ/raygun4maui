@@ -24,7 +24,7 @@ namespace Raygun4Maui
 
             mauiAppBuilder.Services.AddSingleton<IMauiInitializeService, RaygunClientInitializeService>();
 
-            mauiAppBuilder.Services.AddSingleton(services => new RaygunMauiClient(raygunMauiSettings, services.GetService<IRaygunUserProvider>()));
+            mauiAppBuilder.Services.AddSingleton(services => new RaygunMauiClient(raygunMauiSettings, services.GetService<IRaygunUserProvider>(), services.GetServices<IMessageBuilder>()));
 
             // Makes breadcrumbs have a global context
             RaygunBreadcrumbs.Storage = new InMemoryBreadcrumbStorage();
