@@ -19,6 +19,8 @@ namespace Raygun4Maui
             mauiAppBuilder.Services.AddSingleton(raygunMauiSettings);
 
             mauiAppBuilder.Services.AddSingleton<IRaygunMauiUserProvider, RaygunMauiUserProvider>();
+            
+            mauiAppBuilder.Services.AddSingleton<IMessageBuilder, AppVersionMessageBuilder>();
 
             mauiAppBuilder.Services.AddSingleton<IRaygunUserProvider>(sp => sp.GetRequiredService<IRaygunMauiUserProvider>());
 
