@@ -73,6 +73,14 @@ namespace Raygun4Maui
             return mauiAppBuilder;
         }
         
+        
+        /// <summary>
+        /// Allows the addition of a IMessageBuilder implementation which can modify messages before
+        /// being sent to Raygun. Multiple can be registered.
+        /// </summary>
+        /// <param name="mauiAppBuilder"></param>
+        /// <typeparam name="T">Implemented type of IMessageBuilder</typeparam>
+        /// <returns></returns>
         public static MauiAppBuilder AddRaygunMessageBuilder<T>(this MauiAppBuilder mauiAppBuilder) where T : class, IMessageBuilder
         {
             mauiAppBuilder.Services.AddSingleton<IMessageBuilder, T>();
