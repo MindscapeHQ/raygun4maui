@@ -70,6 +70,12 @@ namespace Raygun4Maui
             mauiAppBuilder.Services.AddSingleton<IRaygunMauiUserProvider, T>();
             return mauiAppBuilder;
         }
+        
+        public static MauiAppBuilder AddRaygunMessageBuilder<T>(this MauiAppBuilder mauiAppBuilder) where T : class, IMessageBuilder
+        {
+            mauiAppBuilder.Services.AddSingleton<IMessageBuilder, T>();
+            return mauiAppBuilder;
+        }
 
         /// <summary>
         /// Sets the offline store, and a timer to attempt to send any offline crashes at the interval specified. Default 30 seconds.
