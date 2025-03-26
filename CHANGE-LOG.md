@@ -1,5 +1,8 @@
 # Full Change Log for Raygun4Maui package
 
+### v2.3.0
+- Add app versioning reporting
+
 ### v2.2.3
 - Raise min log level to `Error` for the Raygun4Maui ILogger
   - This is to prevent spamming of irrelevant log to Raygun
