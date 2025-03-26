@@ -23,6 +23,8 @@ namespace Raygun4Maui
 
         public bool EnableRealUserMonitoring { get; set; } = false;
         
+        public bool UseAppVersion { get; set; } = false;
+        
         public RumFeatures RumFeatureFlags { get; set; }
         
         public Raygun4MauiSettings() {}
