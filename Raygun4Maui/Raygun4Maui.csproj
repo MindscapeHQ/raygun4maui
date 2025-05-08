@@ -3,8 +3,7 @@
     <PropertyGroup>
         <TargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
         <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
-        <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-        <!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+
         <UseMaui>true</UseMaui>
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -15,6 +14,7 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
         <TargxetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargxetPlatformMinVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+        
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Version>2.3.0</Version>
         <PackageVersion>2.3.0</PackageVersion>
@@ -122,13 +122,13 @@
 <!--      <PackageReference Include="Raygun4Maui.Platform" Version="1.0.2" />-->
 <!--    </ItemGroup>-->
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android34.0'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
         <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.Android\Raygun4Maui.Binding.NetworkMonitor.Android.csproj">
             <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
         </ProjectReference>
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-ios17.0' Or '$(TargetFramework)' == 'net8.0-maccatalyst17.0'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-ios' Or '$(TargetFramework)' == 'net8.0-maccatalyst'">
         <ProjectReference Include="..\Raygun4Maui.Binding.NetworkMonitor.iOS\Raygun4Maui.Binding.NetworkMonitor.iOS.csproj">
             <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
         </ProjectReference>

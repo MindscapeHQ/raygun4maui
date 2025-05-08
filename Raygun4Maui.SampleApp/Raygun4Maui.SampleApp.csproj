@@ -3,8 +3,7 @@
     <PropertyGroup>
         <TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
         <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
-        <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-        <!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
+        
         <OutputType>Exe</OutputType>
         <RootNamespace>Raygun4Maui.SampleApp</RootNamespace>
         <UseMaui>true</UseMaui>
@@ -66,8 +65,10 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <DebugSymbols>false</DebugSymbols>
-        <DebugType>none</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>portable</DebugType>
+<!--        <MtouchDebug>true</MtouchDebug>-->
+        <MtouchExtraArgs>$(MtouchExtraArgs) --dsym=true</MtouchExtraArgs>
     </PropertyGroup>
 
     <ItemGroup>
