@@ -1,0 +1,88 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     '/Users/dev/Library/Developer/Xcode/DerivedData/NetworkMonitor-emsbhvcqolkytkeybmmoksgektsx/Build/Products/Release-iphonesimulator/RaygunNetworkMonitor.framework/RaygunNetworkMonitor'
+relocations:
+  - { offset: 0x5A6C0, size: 0x8, addend: 0x0, symName: _RaygunNetworkMonitorVersionString, symObjAddr: 0x0, symBinAddr: 0x3DE0, symSize: 0x0 }
+  - { offset: 0x5A6F5, size: 0x8, addend: 0x0, symName: _RaygunNetworkMonitorVersionNumber, symObjAddr: 0x40, symBinAddr: 0x3E20, symSize: 0x0 }
+  - { offset: 0x5A732, size: 0x8, addend: 0x0, symName: '-[RaygunSessionTaskDelegate URLSession:task:didCompleteWithError:]', symObjAddr: 0x0, symBinAddr: 0x1282, symSize: 0xB6 }
+  - { offset: 0x5A75F, size: 0x8, addend: 0x0, symName: '-[RaygunSessionTaskDelegate URLSession:task:didCompleteWithError:]', symObjAddr: 0x0, symBinAddr: 0x1282, symSize: 0xB6 }
+  - { offset: 0x5A93A, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor RequestOccurredNotificationName]', symObjAddr: 0x0, symBinAddr: 0x1338, symSize: 0xD }
+  - { offset: 0x5A948, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor enable]', symObjAddr: 0x34, symBinAddr: 0x136C, symSize: 0x2B }
+  - { offset: 0x5A96E, size: 0x8, addend: 0x0, symName: _enable.onceToken, symObjAddr: 0x11220, symBinAddr: 0x6108, symSize: 0x0 }
+  - { offset: 0x5A9AF, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor swizzleUrlSessionTaskMethods]', symObjAddr: 0x224, symBinAddr: 0x155C, symSize: 0x24 }
+  - { offset: 0x5A9D5, size: 0x8, addend: 0x0, symName: _swizzleUrlSessionTaskMethods.onceToken, symObjAddr: 0x11240, symBinAddr: 0x6128, symSize: 0x0 }
+  - { offset: 0x5AA0F, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor swizzleUrlSessionMethods]', symObjAddr: 0x3F4, symBinAddr: 0x172C, symSize: 0x24 }
+  - { offset: 0x5AA35, size: 0x8, addend: 0x0, symName: _swizzleUrlSessionMethods.onceToken, symObjAddr: 0x11258, symBinAddr: 0x6140, symSize: 0x0 }
+  - { offset: 0x5AA6F, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor swizzleUrlConnectionMethods]', symObjAddr: 0x11D1, symBinAddr: 0x2509, symSize: 0x24 }
+  - { offset: 0x5AA95, size: 0x8, addend: 0x0, symName: _swizzleUrlConnectionMethods.onceToken, symObjAddr: 0x112A0, symBinAddr: 0x6188, symSize: 0x0 }
+  - { offset: 0x5AACF, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor swizzleUrlSessionDelegateMethods]', symObjAddr: 0x148F, symBinAddr: 0x27C7, symSize: 0x58 }
+  - { offset: 0x5AAF5, size: 0x8, addend: 0x0, symName: _swizzleUrlSessionDelegateMethods.onceToken, symObjAddr: 0x112B8, symBinAddr: 0x61A0, symSize: 0x0 }
+  - { offset: 0x5AB6A, size: 0x8, addend: 0x0, symName: __original_resume_imp, symObjAddr: 0x11248, symBinAddr: 0x6130, symSize: 0x0 }
+  - { offset: 0x5AB86, size: 0x8, addend: 0x0, symName: __original_cancel_imp, symObjAddr: 0x11250, symBinAddr: 0x6138, symSize: 0x0 }
+  - { offset: 0x5AB9C, size: 0x8, addend: 0x0, symName: __original_sendAsynchronousRequest_imp, symObjAddr: 0x112A8, symBinAddr: 0x6190, symSize: 0x0 }
+  - { offset: 0x5ABB2, size: 0x8, addend: 0x0, symName: __original_sendSynchronousRequest_imp, symObjAddr: 0x112B0, symBinAddr: 0x6198, symSize: 0x0 }
+  - { offset: 0x5ABC8, size: 0x8, addend: 0x0, symName: __original_sessionWithConfiguration_imp, symObjAddr: 0x11260, symBinAddr: 0x6148, symSize: 0x0 }
+  - { offset: 0x5ABDE, size: 0x8, addend: 0x0, symName: __original_dataTaskWithRequestAsync_imp, symObjAddr: 0x11268, symBinAddr: 0x6150, symSize: 0x0 }
+  - { offset: 0x5ABF4, size: 0x8, addend: 0x0, symName: __original_downloadTaskWithRequestNoHandlerAsync_imp, symObjAddr: 0x11270, symBinAddr: 0x6158, symSize: 0x0 }
+  - { offset: 0x5AC0A, size: 0x8, addend: 0x0, symName: __original_downloadTaskWithRequestAsync_imp, symObjAddr: 0x11278, symBinAddr: 0x6160, symSize: 0x0 }
+  - { offset: 0x5AC20, size: 0x8, addend: 0x0, symName: __original_uploadTaskWithRequestFromDataNoHandler_imp, symObjAddr: 0x11280, symBinAddr: 0x6168, symSize: 0x0 }
+  - { offset: 0x5AC36, size: 0x8, addend: 0x0, symName: __original_uploadTaskWithRequestFromData_imp, symObjAddr: 0x11288, symBinAddr: 0x6170, symSize: 0x0 }
+  - { offset: 0x5AC4C, size: 0x8, addend: 0x0, symName: __original_uploadTaskWithRequestFromFileNoHandler_imp, symObjAddr: 0x11290, symBinAddr: 0x6178, symSize: 0x0 }
+  - { offset: 0x5AC62, size: 0x8, addend: 0x0, symName: __original_uploadTaskWithRequestFromFile_imp, symObjAddr: 0x11298, symBinAddr: 0x6180, symSize: 0x0 }
+  - { offset: 0x5AC78, size: 0x8, addend: 0x0, symName: _enabled, symObjAddr: 0x11218, symBinAddr: 0x6100, symSize: 0x0 }
+  - { offset: 0x5AC9C, size: 0x8, addend: 0x0, symName: _timers, symObjAddr: 0x11228, symBinAddr: 0x6110, symSize: 0x0 }
+  - { offset: 0x5ACB7, size: 0x8, addend: 0x0, symName: _ignoredUrls, symObjAddr: 0x11238, symBinAddr: 0x6120, symSize: 0x0 }
+  - { offset: 0x5ACD2, size: 0x8, addend: 0x0, symName: _sessionDelegate, symObjAddr: 0x11230, symBinAddr: 0x6118, symSize: 0x0 }
+  - { offset: 0x5AEA3, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor RequestOccurredNotificationName]', symObjAddr: 0x0, symBinAddr: 0x1338, symSize: 0xD }
+  - { offset: 0x5AED6, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor RequestUrlNotificationKey]', symObjAddr: 0xD, symBinAddr: 0x1345, symSize: 0xD }
+  - { offset: 0x5AF09, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor RequestMethodNotificationKey]', symObjAddr: 0x1A, symBinAddr: 0x1352, symSize: 0xD }
+  - { offset: 0x5AF3C, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor RequestDurationNotificationKey]', symObjAddr: 0x27, symBinAddr: 0x135F, symSize: 0xD }
+  - { offset: 0x5AFE4, size: 0x8, addend: 0x0, symName: '___30+[RaygunNetworkMonitor enable]_block_invoke', symObjAddr: 0x5F, symBinAddr: 0x1397, symSize: 0x110 }
+  - { offset: 0x5B0C3, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor isEnabled]', symObjAddr: 0x16F, symBinAddr: 0x14A7, symSize: 0xC }
+  - { offset: 0x5B0F6, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor getSessionTaskDelegate]', symObjAddr: 0x17B, symBinAddr: 0x14B3, symSize: 0x11 }
+  - { offset: 0x5B129, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor isNullOrEmpty:]', symObjAddr: 0x18C, symBinAddr: 0x14C4, symSize: 0x98 }
+  - { offset: 0x5B20F, size: 0x8, addend: 0x0, symName: '___52+[RaygunNetworkMonitor swizzleUrlSessionTaskMethods]_block_invoke', symObjAddr: 0x248, symBinAddr: 0x1580, symSize: 0xD6 }
+  - { offset: 0x5B363, size: 0x8, addend: 0x0, symName: __swizzle_resume, symObjAddr: 0x31E, symBinAddr: 0x1656, symSize: 0x51 }
+  - { offset: 0x5B3F4, size: 0x8, addend: 0x0, symName: __swizzle_cancel, symObjAddr: 0x36F, symBinAddr: 0x16A7, symSize: 0x85 }
+  - { offset: 0x5B50E, size: 0x8, addend: 0x0, symName: '___48+[RaygunNetworkMonitor swizzleUrlSessionMethods]_block_invoke', symObjAddr: 0x418, symBinAddr: 0x1750, symSize: 0x1AA }
+  - { offset: 0x5B75C, size: 0x8, addend: 0x0, symName: __swizzle_sessionWithConfiguration, symObjAddr: 0x5C2, symBinAddr: 0x18FA, symSize: 0x112 }
+  - { offset: 0x5B8D0, size: 0x8, addend: 0x0, symName: __swizzle_dataTaskWithRequestAsync, symObjAddr: 0x6D4, symBinAddr: 0x1A0C, symSize: 0x1FE }
+  - { offset: 0x5BB0F, size: 0x8, addend: 0x0, symName: __swizzle_downloadTaskWithRequestNoHandlerAsync, symObjAddr: 0x8D2, symBinAddr: 0x1C0A, symSize: 0xF3 }
+  - { offset: 0x5BC5B, size: 0x8, addend: 0x0, symName: __swizzle_downloadTaskWithRequestAsync, symObjAddr: 0x9C5, symBinAddr: 0x1CFD, symSize: 0x1FE }
+  - { offset: 0x5BE9A, size: 0x8, addend: 0x0, symName: __swizzle_uploadTaskWithRequestFromDataNoHandler, symObjAddr: 0xBC3, symBinAddr: 0x1EFB, symSize: 0x12C }
+  - { offset: 0x5C015, size: 0x8, addend: 0x0, symName: __swizzle_uploadTaskWithRequestFromData, symObjAddr: 0xCEF, symBinAddr: 0x2027, symSize: 0x1DB }
+  - { offset: 0x5C237, size: 0x8, addend: 0x0, symName: __swizzle_uploadTaskWithRequestFromFileNoHandler, symObjAddr: 0xECA, symBinAddr: 0x2202, symSize: 0x12C }
+  - { offset: 0x5C3B2, size: 0x8, addend: 0x0, symName: __swizzle_uploadTaskWithRequestFromFile, symObjAddr: 0xFF6, symBinAddr: 0x232E, symSize: 0x1DB }
+  - { offset: 0x5C5D4, size: 0x8, addend: 0x0, symName: '___51+[RaygunNetworkMonitor swizzleUrlConnectionMethods]_block_invoke', symObjAddr: 0x11F5, symBinAddr: 0x252D, symSize: 0x7E }
+  - { offset: 0x5C68A, size: 0x8, addend: 0x0, symName: __swizzle_sendAsynchronousRequest, symObjAddr: 0x1273, symBinAddr: 0x25AB, symSize: 0x127 }
+  - { offset: 0x5C88C, size: 0x8, addend: 0x0, symName: __swizzle_sendSynchronousRequest, symObjAddr: 0x139A, symBinAddr: 0x26D2, symSize: 0xF5 }
+  - { offset: 0x5C9D5, size: 0x8, addend: 0x0, symName: '___56+[RaygunNetworkMonitor swizzleUrlSessionDelegateMethods]_block_invoke', symObjAddr: 0x14E7, symBinAddr: 0x281F, symSize: 0x12C }
+  - { offset: 0x5CC24, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor swizzleDidCompleteWithError:]', symObjAddr: 0x1613, symBinAddr: 0x294B, symSize: 0x1D9 }
+  - { offset: 0x5CF76, size: 0x8, addend: 0x0, symName: '___52+[RaygunNetworkMonitor swizzleDidCompleteWithError:]_block_invoke', symObjAddr: 0x17EC, symBinAddr: 0x2B24, symSize: 0x19 }
+  - { offset: 0x5CFF8, size: 0x8, addend: 0x0, symName: '___52+[RaygunNetworkMonitor swizzleDidCompleteWithError:]_block_invoke_2', symObjAddr: 0x1805, symBinAddr: 0x2B3D, symSize: 0x1DF }
+  - { offset: 0x5D299, size: 0x8, addend: 0x0, symName: '___52+[RaygunNetworkMonitor swizzleDidCompleteWithError:]_block_invoke_3', symObjAddr: 0x19E4, symBinAddr: 0x2D1C, symSize: 0x23 }
+  - { offset: 0x5D320, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48s56s64b, symObjAddr: 0x1A07, symBinAddr: 0x2D3F, symSize: 0x52 }
+  - { offset: 0x5D379, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s56s64s, symObjAddr: 0x1A59, symBinAddr: 0x2D91, symSize: 0x3A }
+  - { offset: 0x5D3D4, size: 0x8, addend: 0x0, symName: '___52+[RaygunNetworkMonitor swizzleDidCompleteWithError:]_block_invoke.153', symObjAddr: 0x1A93, symBinAddr: 0x2DCB, symSize: 0x22 }
+  - { offset: 0x5D45B, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48s56s, symObjAddr: 0x1AB5, symBinAddr: 0x2DED, symSize: 0x33 }
+  - { offset: 0x5D4B4, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s56s, symObjAddr: 0x1AE8, symBinAddr: 0x2E20, symSize: 0x33 }
+  - { offset: 0x5D503, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32b, symObjAddr: 0x1B1B, symBinAddr: 0x2E53, symSize: 0x17 }
+  - { offset: 0x5D52C, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s, symObjAddr: 0x1B32, symBinAddr: 0x2E6A, symSize: 0xF }
+  - { offset: 0x5D557, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor logWithoutDuplicationForObject:selector:networkLoggingBlock:originalImplementationBlock:]', symObjAddr: 0x1B41, symBinAddr: 0x2E79, symSize: 0x11E }
+  - { offset: 0x5D731, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor URLSession:task:didCompleteWithError:]', symObjAddr: 0x1C5F, symBinAddr: 0x2F97, symSize: 0xB6 }
+  - { offset: 0x5D83A, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor checkForDelegateImp:]', symObjAddr: 0x1D15, symBinAddr: 0x304D, symSize: 0xB4 }
+  - { offset: 0x5D97B, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor networkRequestStarted:]', symObjAddr: 0x1DC9, symBinAddr: 0x3101, symSize: 0xE2 }
+  - { offset: 0x5DA9E, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor networkRequestEnded:withTaskId:]', symObjAddr: 0x1EAB, symBinAddr: 0x31E3, symSize: 0x10F }
+  - { offset: 0x5DBDE, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor networkRequestCanceled:]', symObjAddr: 0x1FBA, symBinAddr: 0x32F2, symSize: 0x20 }
+  - { offset: 0x5DC29, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor sendTimingEvent:withDuration:]', symObjAddr: 0x1FDA, symBinAddr: 0x3312, symSize: 0x248 }
+  - { offset: 0x5DE36, size: 0x8, addend: 0x0, symName: '+[RaygunNetworkMonitor shouldIgnore:]', symObjAddr: 0x2222, symBinAddr: 0x355A, symSize: 0x298 }
+  - { offset: 0x5DFD9, size: 0x8, addend: 0x0, symName: ____swizzle_sendAsynchronousRequest_block_invoke, symObjAddr: 0x24BA, symBinAddr: 0x37F2, symSize: 0xBD }
+  - { offset: 0x5E139, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40b, symObjAddr: 0x2577, symBinAddr: 0x38AF, symSize: 0x30 }
+  - { offset: 0x5E16E, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s, symObjAddr: 0x25A7, symBinAddr: 0x38DF, symSize: 0x25 }
+  - { offset: 0x5E1A5, size: 0x8, addend: 0x0, symName: ____swizzle_dataTaskWithRequestAsync_block_invoke, symObjAddr: 0x25CC, symBinAddr: 0x3904, symSize: 0xAB }
+  - { offset: 0x5E2E3, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48b, symObjAddr: 0x2677, symBinAddr: 0x39AF, symSize: 0x44 }
+  - { offset: 0x5E324, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s, symObjAddr: 0x26BB, symBinAddr: 0x39F3, symSize: 0x2C }
+  - { offset: 0x5E367, size: 0x8, addend: 0x0, symName: ____swizzle_downloadTaskWithRequestAsync_block_invoke, symObjAddr: 0x26E7, symBinAddr: 0x3A1F, symSize: 0xAB }
+  - { offset: 0x5E4A5, size: 0x8, addend: 0x0, symName: ____swizzle_uploadTaskWithRequestFromData_block_invoke, symObjAddr: 0x2792, symBinAddr: 0x3ACA, symSize: 0xAB }
+  - { offset: 0x5E5E3, size: 0x8, addend: 0x0, symName: ____swizzle_uploadTaskWithRequestFromFile_block_invoke, symObjAddr: 0x283D, symBinAddr: 0x3B75, symSize: 0xAB }
+...
