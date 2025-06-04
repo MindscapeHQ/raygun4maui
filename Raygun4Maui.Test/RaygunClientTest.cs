@@ -3,58 +3,45 @@ using Xunit;
 
 namespace Raygun4Maui.Test
 {
-    public class RaygunClientTest
+    public class RaygunClientTest(SendingMessageTestFixture fixture) : IClassFixture<SendingMessageTestFixture>
     {
         [Fact]
-        public void MessageDetailsTest()
+        public async Task MessageDetailsTest()
         {
-            var t = new RaygunMauiClient("x"); //API key must be set otherwise the message will not be created
-            RaygunMessage message = null;
-
-            t.SendingMessage += (sender, e) =>
-            {
-                e.Cancel = true;
-                message = e.Message;         
-            };
-     
-            t.Send(new Exception());
-
-            Assert.NotNull(message.Details);
+            await RaygunMauiClient.Current.SendAsync(new Exception());
+            Assert.NotNull(fixture.Message.Details);
         }
 
         [Fact]
-        public void MessageDetailsEnvironmentTest()
+        public async Task MessageDetailsEnvironmentTest()
         {
-            var t = new RaygunMauiClient("x"); //API key must be set otherwise the message will not be created
-            RaygunMessage message = null;
-
-            t.SendingMessage += (sender, e) =>
-            {
-                e.Cancel = true;
-                message = e.Message;
-            };
-
-            t.Send(new Exception());
-
-            Assert.NotNull(message.Details.Environment);
-
+            await RaygunMauiClient.Current.SendAsync(new Exception());
+            Assert.NotNull(fixture.Message.Details.Environment);
         }
 
         [Fact]
-        public void MessageDetailsClientTest()
+        public async Task MessageDetailsClientTest()
         {
-            var t = new RaygunMauiClient("x"); //API key must be set otherwise the message will not be created
-            RaygunMessage message = null;
-
-            t.SendingMessage += (sender, e) =>
-            {
-                e.Cancel = true;
-                message = e.Message;
-
-            };
-
-            t.Send(new Exception());
-            Assert.NotNull(message.Details.Client);
+            await RaygunMauiClient.Current.SendAsync(new Exception());
+            Assert.NotNull(fixture.Message.Details.Client);
         }
+    }
+
+    public class SendingMessageTestFixture : IDisposable
+    {
+        public RaygunMessage Message { get; set; }
+        
+        public SendingMessageTestFixture()
+        {
+            RaygunMauiClient.Current.SendingMessage += OnSendingMessage;
+        }
+
+        private void OnSendingMessage(object sender, RaygunSendingMessageEventArgs e)
+        {
+            e.Cancel = true;
+            Message = e.Message;
+        }
+
+        public void Dispose() => RaygunMauiClient.Current.SendingMessage -= OnSendingMessage;
     }
 }

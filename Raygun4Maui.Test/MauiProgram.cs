@@ -14,6 +14,10 @@ namespace Raygun4Maui.testtest
                  }
              })
              .UseVisualRunner()
+             .AddRaygun(options =>
+             {
+                 options.UseOfflineStorage();
+             })
              .Build();
     }
 }

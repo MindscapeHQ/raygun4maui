@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using Raygun4Maui.SampleApp.TestingLogic;
 using Serilog;
 
 namespace Raygun4Maui.SampleApp;
@@ -30,7 +31,8 @@ public static class MauiProgram
             .AddRaygun(options =>
             {
                 options.UseOfflineStorage();
-            });
+            })
+            .AddRaygunUserProvider<RaygunMauiUserProvider>();
 
 
         builder.Services.AddSingleton<MainPage>();
