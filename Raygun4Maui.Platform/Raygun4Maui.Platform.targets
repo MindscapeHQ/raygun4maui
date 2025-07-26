@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Target to copy dSYMs from .xcframework to application bundle -->
+  <Target Name="CopydSYMsFromXCFrameworks" AfterTargets="_GenerateDSym">
+    <ItemGroup>
+      <dSYMsForXCFrameworks Include="@(_FrameworkNativeReference->'%(RootDir)%(Directory)/../dSYMs/%(Filename).framework.dSYM')" />
+    </ItemGroup>
+    <Copy SourceFolders="@(dSYMsForXCFrameworks)" DestinationFolder="$(AppBundleDir)/../" />
+  </Target>
+</Project>
