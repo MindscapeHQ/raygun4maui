@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="GenerateDSymForXCFramework" AfterTargets="_GenerateDSym" Condition="$(TargetFramework.Contains('-ios')) Or $(TargetFramework.Contains('-maccatalyst'))">
+      <PropertyGroup>
+          <FrameworkName>RaygunNetworkMonitor</FrameworkName>
+          <FrameworkInAppBundle>$(AppBundleDir)/Frameworks/$(FrameworkName).framework/$(FrameworkName)</FrameworkInAppBundle>
+          <DsymOutputPath>$(OutputPath)$(FrameworkName).framework.dSYM</DsymOutputPath>
+      </PropertyGroup>
+      
+      <!-- Generate and suppress expected warnings when working with pre-built framework -->
+      <Exec Command="dsymutil '$(FrameworkInAppBundle)' -o '$(DsymOutputPath)' 2>/dev/null" ContinueOnError="true" Condition="Exists('$(FrameworkInAppBundle)')" />
+      <Message Importance="High" Text="Generated dSYM for $(FrameworkName) framework at: $(DsymOutputPath)" Condition="Exists('$(FrameworkInAppBundle)')" />
+  </Target>
+</Project>

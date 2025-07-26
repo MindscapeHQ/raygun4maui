@@ -76,6 +76,10 @@
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
+        <None Include="Raygun4Maui.Platform.targets">
+            <Pack>True</Pack>
+            <PackagePath>buildTransitive\</PackagePath>
+        </None>
     </ItemGroup>
 
 </Project>
