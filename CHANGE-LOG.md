@@ -1,5 +1,9 @@
 # Full Change Log for Raygun4Maui package
 
+### v2.4.0
+- Update to target .NET 8 SDK
+- Include dSYM for `RaygunNetworkMonitor`
+
 ### v2.3.0
 - Add app versioning reporting
 
