@@ -4,21 +4,21 @@ namespace Raygun4Maui.SampleApp.TestingLogic
 {
     internal class TestManualExceptionsSent
     {
-        private readonly string _apiKey;
-        public TestManualExceptionsSent(string apiKey)
+        private readonly IRaygunMauiUserProvider _userProvider;
+
+        public TestManualExceptionsSent(IRaygunMauiUserProvider userProvider)
         {
-            _apiKey = apiKey;
+            _userProvider = userProvider;
         }
 
-        public void RunAllTests()
+        public async Task RunAllTests()
         {
-            TestSend();
-            TestSendInBackground();
-            TestCustomGrouping();
-            TestUniqueUserTracking();
-            TestTags();
-            TestCustomData();
-            TestVersionNumbering();
+            await TestSendAsync();
+            await TestSendInBackground();
+            await TestCustomGrouping();
+            await TestUniqueUserTracking();
+            await TestTags();
+            await TestCustomData();
         }
 
         private static Exception GenerateException(string methodName)
@@ -26,58 +26,53 @@ namespace Raygun4Maui.SampleApp.TestingLogic
             return new Exception("Raygun4Maui.SampleApp.TestManualExceptionsSent: " + methodName + " @ " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
 
-        private void TestSend()
+        private async Task TestSendAsync()
         {
-            RaygunMauiClient.Current.Send(GenerateException("TestSend"));
+            await RaygunMauiClient.Current.SendAsync(GenerateException("TestSend"));
         }
 
-        private void TestSendInBackground()
+        private async Task TestSendInBackground()
         {
-            RaygunMauiClient.Current.SendInBackground(GenerateException("TestSendInBackground")).Wait();
+            await RaygunMauiClient.Current.SendInBackground(GenerateException("TestSendInBackground"));
         }
 
-        private void TestCustomGrouping()
+        private async Task TestCustomGrouping()
         {
             RaygunMauiClient.Current.CustomGroupingKey += RaygunClient_CustomGroupingKey;
 
-            RaygunMauiClient.Current.Send(GenerateException("TestCustomGrouping"));
-            RaygunMauiClient.Current.Send(GenerateException("TestCustomGrouping"));
+            await RaygunMauiClient.Current.SendAsync(GenerateException("TestCustomGrouping"));
+            await RaygunMauiClient.Current.SendAsync(GenerateException("TestCustomGrouping"));
         }
         private static void RaygunClient_CustomGroupingKey(object sender, RaygunCustomGroupingKeyEventArgs e)
         {
             e.CustomGroupingKey = "TestCustomGrouping";
         }
 
-        private void TestUniqueUserTracking()
+        private async Task TestUniqueUserTracking()
         {
-            RaygunMauiClient.Current.User = "user1@email.com";
-            RaygunMauiClient.Current.Send(GenerateException("TestUniqueUserTracking"));
+            _userProvider.SetUser(new RaygunIdentifierMessage("user1@email.com"));
+            await RaygunMauiClient.Current.SendAsync(GenerateException("TestUniqueUserTracking"));
 
-            RaygunMauiClient.Current.UserInfo = new RaygunIdentifierMessage("user2@email.com")
+            _userProvider.SetUser(new RaygunIdentifierMessage("user2@email.com")
             {
                 IsAnonymous = false,
                 FullName = "Robbie Robot",
                 FirstName = "Robbie"
-            };
-            RaygunMauiClient.Current.Send(GenerateException("TestUniqueUserTracking"));
-
-            RaygunMauiClient.Current.SendInBackground(GenerateException("TestUniqueUserTracking"), null, null, new RaygunIdentifierMessage("user3@email.com") { IsAnonymous = false, FullName = "Robbie Robot", FirstName = "Robbie" });
+            });
+            await RaygunMauiClient.Current.SendAsync(GenerateException("TestUniqueUserTracking"));
+            await RaygunMauiClient.Current.SendInBackground(GenerateException("TestUniqueUserTracking"), null, null, new RaygunIdentifierMessage("user3@email.com") { IsAnonymous = false, FullName = "Robbie Robot", FirstName = "Robbie" });
+            
+            _userProvider.SetUser(new RaygunIdentifierMessage(null) { IsAnonymous = true });
         }
 
-        private void TestTags()
+        private async Task TestTags()
         {
-            RaygunMauiClient.Current.Send(GenerateException("TestTags"), new List<string>() { "tag1", "tag2" });
+            await RaygunMauiClient.Current.SendAsync(GenerateException("TestTags"), new List<string>() { "tag1", "tag2" });
         }
 
-        private void TestCustomData()
+        private async Task TestCustomData()
         {
-            RaygunMauiClient.Current.Send(GenerateException("TestCustomData"), null, new Dictionary<string, object>() { { "key", "value" } });
-        }
-
-        private void TestVersionNumbering()
-        {
-            RaygunMauiClient.Current.ApplicationVersion = "TestVersionNumbering";
-            RaygunMauiClient.Current.Send(GenerateException("TestVersionNumbering"));
+            await RaygunMauiClient.Current.SendAsync(GenerateException("TestCustomData"), null, new Dictionary<string, object>() { { "key", "value" } });
         }
     }
 }
