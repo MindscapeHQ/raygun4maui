@@ -57,13 +57,15 @@ public partial class MainPage : ContentPage
         SemanticScreenReader.Announce(CounterBtn.Text);
     }
 
-    private void OnManualExceptionClicked(object sender, EventArgs e)
+    private async void OnManualExceptionClicked(object sender, EventArgs e)
     {
         ManualExceptionButton.Text += ".";
+        
+        IRaygunMauiUserProvider userProvider = Handler!.MauiContext!.Services.GetService<IRaygunMauiUserProvider>();
 
-        TestManualExceptionsSent testManualExceptionsSent = new(_apiKey);
+        TestManualExceptionsSent testManualExceptionsSent = new(userProvider);
 
-        testManualExceptionsSent.RunAllTests();
+        await testManualExceptionsSent.RunAllTests();
     }
 
     private void OnUnhandledExceptionClicked(object sender, EventArgs e)
@@ -79,7 +81,7 @@ public partial class MainPage : ContentPage
 
         ILogger logger = Handler!.MauiContext!.Services.GetService<ILogger<MainPage>>();
 
-        TestLoggerErrorsSent testLoggerErrorsSent = new(_apiKey, logger);
+        TestLoggerErrorsSent testLoggerErrorsSent = new(logger);
         testLoggerErrorsSent.RunAllTests();
     }
 

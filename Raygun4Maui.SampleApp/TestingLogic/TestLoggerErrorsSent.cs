@@ -6,11 +6,11 @@ namespace Raygun4Maui.SampleApp.TestingLogic
     {
         private readonly ILogger _logger;
 
-        public TestLoggerErrorsSent(string apiKey, ILogger logger)
+        public TestLoggerErrorsSent(ILogger logger)
         {
             _logger = logger;
         }
-
+        
         public void RunAllTests()
         {
             TestLogTrace();
@@ -25,29 +25,29 @@ namespace Raygun4Maui.SampleApp.TestingLogic
         private void TestLogTrace()
         {
             //CA2254 (incorrectly?) prevents exporting all templates into a string field
-            _logger.LogTrace("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogTrace", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            _logger.LogTrace("Raygun4Maui.SampleApp.Test_loggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogTrace", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
 
         private void TestLogDebug()
         {
-            _logger.LogDebug("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogDebug", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            _logger.LogDebug("Raygun4Maui.SampleApp.Test_loggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogDebug", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
 
         private void TestLogInformation()
         {
-            _logger.LogInformation("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogInformation", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            _logger.LogInformation("Raygun4Maui.SampleApp.Test_loggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogInformation", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
         private void TestLogWarning()
         {
-            _logger.LogWarning("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogWarning", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            _logger.LogWarning("Raygun4Maui.SampleApp.Test_loggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogWarning", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
         private void TestLogError()
         {
-            _logger.LogError("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogError", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            _logger.LogError("Raygun4Maui.SampleApp.Test_loggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogError", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
         private void TestLogCritical()
         {
-            _logger.LogCritical("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogCritical", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            _logger.LogCritical("Raygun4Maui.SampleApp.Test_loggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogCritical", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
         private void TestLogException()
         {

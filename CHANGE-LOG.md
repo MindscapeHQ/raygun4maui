@@ -1,5 +1,8 @@
 # Full Change Log for Raygun4Maui package
 
+### v2.4.0
+- Generate dSYM for `RaygunNetworkMonitor`
+
 ### v2.3.0
 - Add app versioning reporting
 

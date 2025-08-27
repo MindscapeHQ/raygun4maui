@@ -14,13 +14,13 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
 
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <Version>1.0.2</Version>
-        <PackageVersion>1.0.2</PackageVersion>
+        <Version>1.1.0</Version>
+        <PackageVersion>1.1.0</PackageVersion>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Authors>Raygun</Authors>
         <Company>Raygun</Company>
         <Description>This is a supporting library only and you should not be installing this. This provides native binding libraries for Raygun4Maui; Raygun's Crash Reporting and Real User Monitoring Provider for MAUI .NET</Description>
-        <Copyright>Copyright (C) 2024 Raygun Limited</Copyright>
+        <Copyright>Copyright (C) 2025 Raygun Limited</Copyright>
         <PackageProjectUrl>https://raygun.com/platform/real-user-monitoring</PackageProjectUrl>
         <RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
         <PackageTags>Raygun4Maui; Raygun; RUM; MAUI; .NET; dotnet; Networking</PackageTags>
@@ -75,6 +75,10 @@
         <None Include="..\Raygun-icon-128x128.png">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
+        </None>
+        <None Include="Raygun4Maui.Platform.targets">
+            <Pack>True</Pack>
+            <PackagePath>buildTransitive\</PackagePath>
         </None>
     </ItemGroup>
 
