@@ -1,0 +1,51 @@
+name: Build Raygun4Maui
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Use .NET 7 SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '7.0.x'
+        
+    - name: Install MAUI workload
+      run: dotnet workload install maui
+      
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      
+    - name: Install Android SDK Platform 33
+      run: |
+        $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platforms;android-33"
+
+    - name: Add local NuGet package source
+      run: |
+        mkdir -p ./packages
+        dotnet nuget add source ${{ github.workspace }}/packages --name Local
+      
+    - name: Build Raygun4Maui.Platform
+      run: |
+        dotnet build Raygun4Maui.Platform/Raygun4Maui.Platform.csproj -c Release
+        cp ./Raygun4Maui.Platform/bin/Release/*.nupkg ./packages
+
+    - name: Build Raygun4Maui
+      run: |
+        dotnet build Raygun4Maui/Raygun4Maui.csproj -c Release
+        cp ./Raygun4Maui/bin/Release/*.nupkg ./packages
+      
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: packages
+        path: "./packages/*.nupkg"
