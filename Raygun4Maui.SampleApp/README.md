@@ -4,14 +4,13 @@ Sample application for testing the Raygun4Maui SDK.
 
 ## Build pre-release packages
 
-### Add pre-release suffix to package versions e.g. `1.1.0-preview1`:
+### Add pre-release suffix e.g. `1.1.0-preview1`:
 
-- `Raygun4Maui.Platform/Raygun4Maui.Platform.csproj`
-- `Raygun4Maui/Raygun4Maui.csproj`
+- `Directory.Build.props`
 
 ### Add a local package source NuGet.config
 
-- Create `/Packages` folder in root directory
+- Create `/.nuget-local` folder in root directory
 - Add `nuget.config` to root directory:
 
 ```xml
@@ -28,10 +27,10 @@ Sample application for testing the Raygun4Maui SDK.
 
 ```bash
 Raygun4Maui.Platform % dotnet build -c Release
-# Copy bin/Release/Raygun4Maui.Platform.x.x.x.nupkg to /Packages
+# Copy bin/Release/Raygun4Maui.Platform.x.x.x.nupkg to /.nuget-local
 
 Raygun4Maui % dotnet build -c Release
-# Copy bin/Release/Raygun4Maui.x.x.x.nupkg to /Packages
+# Copy bin/Release/Raygun4Maui.x.x.x.nupkg to /.nuget-local
 ```
 
 ## Build and publish sample app for Xcode validation
@@ -60,7 +59,7 @@ Use the full string in quotes as the `CodesignKey` in the .csproj:
 Publish the `.xcarchive`:
 
 ```bash
-dotnet publish -f:net7.0-ios -c Release -r ios-arm64 /p:ArchiveOnBuild=true /p:Platform=iPhone
+dotnet publish -f:net10.0-ios -c Release -r ios-arm64 /p:ArchiveOnBuild=true /p:Platform=iPhone
 ```
 
 Validate the `.xcarchive`:
