@@ -15,8 +15,4 @@
         <TransformFile Include="Transforms\EnumFields.xml" />
         <TransformFile Include="Transforms\EnumMethods.xml" />
     </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="Additions\AboutAdditions.txt" />
-    </ItemGroup>
 </Project>

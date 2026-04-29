@@ -105,6 +105,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
         <PackageReference Include="Mindscape.Raygun4Net.NetCore" Version="11.2.1" />
     </ItemGroup>
