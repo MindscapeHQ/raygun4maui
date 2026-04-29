@@ -4,7 +4,7 @@ Sample application for testing the Raygun4Maui SDK.
 
 ## Build pre-release packages
 
-### Add pre-release suffix e.g. `1.1.0-preview1`:
+### Add pre-release suffix e.g. `3.0.0-preview1`:
 
 - `Directory.Build.props`
 

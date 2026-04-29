@@ -1,3 +1,5 @@
+#nullable enable
+
 namespace Raygun4Maui.SampleApp;
 
 public partial class App : Application
@@ -7,7 +9,7 @@ public partial class App : Application
 		InitializeComponent();
 	}
 
-	protected override Window CreateWindow(IActivationState activationState)
+	protected override Window CreateWindow(IActivationState? activationState)
 	{
 		return new Window(new AppShell());
 	}

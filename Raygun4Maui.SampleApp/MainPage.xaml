@@ -79,8 +79,8 @@
                 />
             
             <Button
-                Text="Go to another page"
-                SemanticProperties.Hint="Test page load times"
+                Text="Open page-load &amp; network test"
+                SemanticProperties.Hint="Open the page-load and network test page"
                 Clicked="OnNavigateButtonClicked"
                 HorizontalOptions="Center"
                 />
