@@ -1,5 +1,12 @@
 # Full Change Log for Raygun4Maui package
 
+### v3.0.0
+- Migrate to .NET 10
+- **Breaking:** iOS and MacCatalyst minimum platform raised to `15.0` (was `14.2` and `14.0` respectively)
+- Centralize NuGet package versioning across `Raygun4Maui` and `Raygun4Maui.Platform`
+  - Both packages now release in lockstep; `Raygun4Maui.Platform` jumps from `1.1.0` to `3.0.0` to match
+  - **Breaking:** consumers with a version pin in the `[1.x, 2.x)` range on `Raygun4Maui.Platform` will need to update manually
+
 ### v2.4.0
 - Generate dSYM for `RaygunNetworkMonitor`
 

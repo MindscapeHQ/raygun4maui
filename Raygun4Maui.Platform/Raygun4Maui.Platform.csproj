@@ -18,8 +18,6 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
 
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <Version>1.1.0</Version>
-        <PackageVersion>1.1.0</PackageVersion>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Authors>Raygun</Authors>
         <Company>Raygun</Company>
