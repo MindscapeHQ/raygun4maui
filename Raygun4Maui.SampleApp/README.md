@@ -2,37 +2,57 @@
 
 Sample application for testing the Raygun4Maui SDK.
 
-## Build pre-release packages
+## Test against a pre-release NuGet (instead of a ProjectReference)
 
-### Add pre-release suffix to package versions e.g. `1.1.0-preview1`:
+By default the sample app references `Raygun4Maui` via `<ProjectReference>` for fast
+iteration. Before shipping a release, validate the SDK as it will actually be consumed
+by customers — i.e. as a NuGet package. A `ProjectReference` skips the packaging step,
+so it does not exercise:
 
-- `Raygun4Maui.Platform/Raygun4Maui.Platform.csproj`
-- `Raygun4Maui/Raygun4Maui.csproj`
+- `GeneratePackageOnBuild` output (what ends up in the `.nupkg`)
+- The `Raygun4Maui.Platform` package's `buildTransitive` targets
+- Native asset packing (`networkmonitorlibrary.aar`, `RaygunNetworkMonitor.framework`)
+- TFM-conditional `PackageReference`s the main project declares for each platform
 
-### Add a local package source NuGet.config
+To catch packaging regressions, switch the sample app to a `PackageReference` against a
+locally-built pre-release `.nupkg`:
 
-- Create `/Packages` folder in root directory
-- Add `nuget.config` to root directory:
+### 1. Bump the shared version to a pre-release
+
+In `Directory.Build.props`, add a pre-release suffix, e.g. `3.0.1-pre.1`:
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?>
-<configuration>
-  <packageSources>
-    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
-    <add key="Local Packages" value="./Packages" />
-  </packageSources>
-</configuration>
+<Version>3.0.1-pre.1</Version>
 ```
 
-### Build and publish the pre-release packages
+### 2. Build the pre-release packages
+
+The repo's NuGet config already registers `./.nuget-local` as the user-level
+`Raygun4MauiLocal` source (verify with `dotnet nuget list source`). Build the two
+shipping packages and copy them into that folder:
 
 ```bash
-Raygun4Maui.Platform % dotnet build -c Release
-# Copy bin/Release/Raygun4Maui.Platform.x.x.x.nupkg to /Packages
+dotnet build Raygun4Maui.Platform/Raygun4Maui.Platform.csproj -c Release
+cp Raygun4Maui.Platform/bin/Release/Raygun4Maui.Platform.<version>.nupkg .nuget-local/
 
-Raygun4Maui % dotnet build -c Release
-# Copy bin/Release/Raygun4Maui.x.x.x.nupkg to /Packages
+dotnet build Raygun4Maui/Raygun4Maui.csproj -c Release
+cp Raygun4Maui/bin/Release/Raygun4Maui.<version>.nupkg .nuget-local/
+
+# Force NuGet to re-read the local feed
+dotnet nuget locals http-cache --clear
 ```
+
+### 3. Swap the sample app's reference
+
+In `Raygun4Maui.SampleApp.csproj`, replace the `<ProjectReference>` to
+`Raygun4Maui.csproj` with a `<PackageReference>` at the pre-release version:
+
+```xml
+<PackageReference Include="Raygun4Maui" Version="3.0.1-pre.1" />
+```
+
+After testing, revert the version bump in `Directory.Build.props` and restore the
+`<ProjectReference>` so day-to-day development still uses the in-tree project.
 
 ## Build and publish sample app for Xcode validation
 
@@ -60,7 +80,7 @@ Use the full string in quotes as the `CodesignKey` in the .csproj:
 Publish the `.xcarchive`:
 
 ```bash
-dotnet publish -f:net7.0-ios -c Release -r ios-arm64 /p:ArchiveOnBuild=true /p:Platform=iPhone
+dotnet publish -f:net10.0-ios -c Release -r ios-arm64 /p:ArchiveOnBuild=true /p:Platform=iPhone
 ```
 
 Validate the `.xcarchive`:

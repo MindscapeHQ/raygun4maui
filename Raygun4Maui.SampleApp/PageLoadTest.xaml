@@ -11,9 +11,11 @@
                 Spacing="20"
                 Padding="25,0"
                 VerticalOptions="Center">
+                <Label
+                    Text="Tap the button below to record breadcrumbs, send a test exception, fire an HTTP GET (tracked by the native network monitor), and navigate back."
+                    HorizontalTextAlignment="Center" />
                 <Button
-                    Text="Go Back"
-                    SemanticProperties.Hint="Test page load times"
+                    Text="Run network &amp; crash test, then go back"
                     Clicked="OnNavigateButtonClicked"
                     HorizontalOptions="Center" />
             </VerticalStackLayout>

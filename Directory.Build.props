@@ -1,0 +1,6 @@
+<Project>
+    <PropertyGroup>
+        <!-- Shared version for all shipping NuGet packages -->
+        <Version>3.0.0</Version>
+    </PropertyGroup>
+</Project>

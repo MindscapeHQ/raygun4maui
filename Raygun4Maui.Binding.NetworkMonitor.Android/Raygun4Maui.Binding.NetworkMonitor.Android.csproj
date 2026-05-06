@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net7.0-android</TargetFramework>
+        <TargetFramework>net10.0-android</TargetFramework>
         <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -14,9 +14,5 @@
         <TransformFile Include="Transforms\Metadata.xml" />
         <TransformFile Include="Transforms\EnumFields.xml" />
         <TransformFile Include="Transforms\EnumMethods.xml" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="Additions\AboutAdditions.txt" />
     </ItemGroup>
 </Project>

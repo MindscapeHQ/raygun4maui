@@ -12,28 +12,27 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
-    - name: Use .NET 7 SDK
-      uses: actions/setup-dotnet@v4
+    - name: Use .NET 10 SDK
+      uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: '7.0.x'
+        dotnet-version: '10.0.x'
         
+    - name: Install Java 17 JDK
+      uses: actions/setup-java@v5
+      with:
+        distribution: 'microsoft'
+        java-version: '17'
+
     - name: Install MAUI workload
       run: dotnet workload install maui
-      
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
-      
-    - name: Install Android SDK Platform 33
-      run: |
-        $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platforms;android-33"
-      
+
     - name: Build Raygun4Maui.Platform
       run: dotnet build Raygun4Maui.Platform/Raygun4Maui.Platform.csproj -c Release
-      
+
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: package-platform
         path: "./Raygun4Maui.Platform/bin/Release/*.nupkg"
@@ -41,39 +40,39 @@ jobs:
   build:
     needs: build-platform
     runs-on: windows-latest
-    
+
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: Use .NET 7 SDK
-      uses: actions/setup-dotnet@v4
+      uses: actions/checkout@v5
+
+    - name: Use .NET 10 SDK
+      uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: '7.0.x'
-        
-    - name: Install MAUI workload
-      run: dotnet workload install maui
-      
-    - name: Install Java 11 JDK
-      uses: actions/setup-java@v4
+        dotnet-version: '10.0.x'
+
+    - name: Install Java 17 JDK
+      uses: actions/setup-java@v5
       with:
         distribution: 'microsoft'
-        java-version: '11'
-      
+        java-version: '17'
+
+    - name: Install MAUI workload
+      run: dotnet workload install maui
+
     - name: Download artifact
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v5
       with:
         name: package-platform
         path: ./packages
-        
+
     - name: Add local NuGet package source
       run: dotnet nuget add source ${{ github.workspace }}/packages --name Local
-      
+
     - name: Build Raygun4Maui
       run: dotnet build Raygun4Maui/Raygun4Maui.csproj -c Release
-      
+
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: package
         path: "./Raygun4Maui/bin/Release/*.nupkg"
