@@ -20,7 +20,7 @@
         <Company>Raygun</Company>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Description>Raygun's Crash Reporting and Real User Monitoring Provider for MAUI .NET</Description>
-        <Copyright>Copyright (C) 2025 Raygun Limited</Copyright>
+        <Copyright>Copyright (C) 2026 Raygun Limited</Copyright>
         <PackageProjectUrl>https://raygun.com/platform/crash-reporting</PackageProjectUrl>
         <RepositoryUrl>https://github.com/MindscapeHQ/raygun4maui</RepositoryUrl>
         <PackageTags>Raygun4Maui; Raygun; Crash Reporting; MAUI; .NET; dotnet; Real User Monitoring</PackageTags>
