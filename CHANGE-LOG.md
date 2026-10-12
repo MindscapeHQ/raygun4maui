@@ -1,5 +1,13 @@
 # Full Change Log for Raygun4Maui package
 
+### v3.0.1
+- Fix: #45 - `FileLoadException` when the app uses `Raygun4Net.NetCore` 11.2.2 or later
+  - Raygun4Net 11.2.1 was the only release stamped with AssemblyVersion `11.2.1.0`; all later 11.2.x releases ship `11.2.0.0`
+- Version bump to `Raygun4Net.NetCore v11.2.6`
+  - Fixes `maxWorkers` not being respected in `ThrottledBackgroundMessageProcessor`
+  - Improves thread safety in `ThrottledBackgroundMessageProcessor`
+  - Adds `DynamicDependency` declarations to preserve types under trimming on iOS, MacCatalyst, Android and Windows
+
 ### v3.0.0
 - Migrate to .NET 10
 - **Breaking:** iOS and MacCatalyst minimum platform raised to `15.0` (was `14.2` and `14.0` respectively)
