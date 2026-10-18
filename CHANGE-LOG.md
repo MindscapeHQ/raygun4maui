@@ -1,5 +1,26 @@
 # Full Change Log for Raygun4Maui package
 
+### v4.0.0
+- #22 - Depend on `Raygun4Net.NetCore.Common` instead of `Raygun4Net.NetCore`, matching the other Raygun4Net providers
+- **Breaking:** `RaygunMauiClient` now extends `RaygunClientBase` instead of the `Raygun4Net.NetCore` `RaygunClient`
+- **Breaking:** `Raygun4MauiSettings` now extends `RaygunSettingsBase`; the nested `RaygunSettings` property is removed
+  - Configuration moves up a level: `Raygun4MauiSettings:RaygunSettings:ApiKey` becomes `Raygun4MauiSettings:ApiKey`
+  - `AddRaygun` throws an `InvalidOperationException` at startup if the old `Raygun4MauiSettings:RaygunSettings` section is still present
+  - Code moves up a level: `options.RaygunSettings.ApiKey` becomes `options.ApiKey`
+- **Breaking:** The built-in `ILogger` provider is removed, along with `RaygunLoggerConfiguration` and the `Raygun4Net.RaygunLogger` and `Raygun4Net.BuildPlatforms` namespaces
+  - To keep sending logs to Raygun, add `Mindscape.Raygun4Net.Extensions.Logging` and call `builder.Logging.AddRaygunLogger()`
+  - `AddRaygun` throws an `InvalidOperationException` at startup if the old `Raygun4MauiSettings:RaygunLoggerConfiguration` section is still present
+  - The built-in logger replaced logged exceptions with a new exception holding only the log message, so their type and stack trace were lost; `Extensions.Logging` sends the original exception
+  - `Extensions.Logging` only sends log entries that carry an exception by default; set `OnlyLogExceptions = false` to also send entries without one
+  - Raygun4Maui no longer registers a logger on its own, so apps that send `ILogger` logs through Serilog's Raygun sink no longer report each error twice
+- `RaygunMauiClient` is registered with the service provider as `RaygunClientBase` as well, so packages built on it share the same client
+- **Breaking:** `RaygunMauiOfflineStore` now extends `OfflineStoreBase` directly; `FileSystemCrashReportStore` is part of `Raygun4Net.NetCore` and is no longer available through Raygun4Maui
+  - Crash reports saved offline by earlier versions are still found and sent, as the storage location and file format are unchanged
+- **Breaking:** Raygun4Maui no longer brings in `Raygun4Net.NetCore`; apps that use its types directly must reference `Mindscape.Raygun4Net.NetCore` themselves
+- `Serilog.Sinks.Raygun` users should update to `8.2.0` or later
+  - `8.2.0` resolves `Raygun4Net.NetCore` `11.1.0` next to `Raygun4Net.NetCore.Common` `11.2.6`, which is compatible
+  - Older sinks resolve to `Raygun4Net.NetCore` `8.0.0-pre-1`
+
 ### v3.0.1
 - Fix: #45 - `FileLoadException` when the app uses `Raygun4Net.NetCore` 11.2.2 or later
   - Raygun4Net 11.2.1 was the only release stamped with AssemblyVersion `11.2.1.0`; all later 11.2.x releases ship `11.2.0.0`
