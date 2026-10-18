@@ -37,8 +37,15 @@ public sealed class RaygunMauiOfflineStore : OfflineStoreBase
 
     public override async Task<List<CrashReportStoreEntry>> GetAll(CancellationToken cancellationToken)
     {
-        var crashFiles = Directory.GetFiles(_storageDirectory, $"*.{CacheFileExtension}");
         var errorRecords = new List<CrashReportStoreEntry>();
+
+        // The directory is only created on the first Save, so the background send would otherwise throw on every tick until then
+        if (!Directory.Exists(_storageDirectory))
+        {
+            return errorRecords;
+        }
+
+        var crashFiles = Directory.GetFiles(_storageDirectory, $"*.{CacheFileExtension}");
 
         foreach (var crashFile in crashFiles)
         {
