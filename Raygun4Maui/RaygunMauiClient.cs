@@ -6,7 +6,7 @@ using Raygun4Maui.MauiRUM;
 
 namespace Raygun4Maui
 {
-    public class RaygunMauiClient : RaygunClient
+    public class RaygunMauiClient : RaygunClientBase
     {
         private IDeviceIdProvider _deviceIdProvider;
 
@@ -40,7 +40,7 @@ namespace Raygun4Maui
         }
 
         public RaygunMauiClient(Raygun4MauiSettings settings, IRaygunUserProvider userProvider, IEnumerable<IMessageBuilder> messageBuilders) : base(
-            settings.RaygunSettings, userProvider, messageBuilders)
+            settings, userProvider, messageBuilders)
         {
             _mauiSettings = settings;
         }

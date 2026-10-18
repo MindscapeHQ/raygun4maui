@@ -1,5 +1,4 @@
 ﻿using Mindscape.Raygun4Net;
-using Raygun4Net.RaygunLogger;
 
 namespace Raygun4Maui
 {
@@ -12,11 +11,9 @@ namespace Raygun4Maui
         AppleNativeTimings = 1 << 3
     }
     
-    public sealed class Raygun4MauiSettings
+    public sealed class Raygun4MauiSettings : RaygunSettingsBase
     {
         private static readonly Uri DefaultRumApiEndpoint = new Uri("https://api.raygun.com/events");
-        public RaygunSettings RaygunSettings { get; set; } = new RaygunSettings();
-        public RaygunLoggerConfiguration RaygunLoggerConfiguration { get; set; } = new RaygunLoggerConfiguration();
         public Uri RumApiEndpoint { get; set; } = DefaultRumApiEndpoint;
         public IList<string> IgnoredViews { get; set; }
         public IList<string> IgnoredUrls { get; set; }

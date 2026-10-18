@@ -18,7 +18,7 @@ dotnet add package Raygun4Maui
 
 Alternatively, you can specify a version tag to install a specific version of the package. See [Raygun4Maui NuGet Gallery page](https://nuget.org/packages/Raygun4Maui) for information on available versions.
 ```
-dotnet add package Raygun4Maui --version 3.0.0
+dotnet add package Raygun4Maui --version 4.0.0
 ```
 
 ### Step 2 - Add Raygun4Maui to your MauiApp builder
@@ -29,7 +29,7 @@ Import the module by:
 using Raygun4Maui;
 ```
 
-To activate sending of unhandled exceptions and logs to Raygun, you must add Raygun4Maui to your MauiApp builder. To do so, open your main MauiProgram class (MauiProgram.cs) and change the `CreateMauiApp` method by adding the `AddRaygun` extension method:
+To activate sending of unhandled exceptions to Raygun, you must add Raygun4Maui to your MauiApp builder. To do so, open your main MauiProgram class (MauiProgram.cs) and change the `CreateMauiApp` method by adding the `AddRaygun` extension method:
 
 ``` csharp
 var builder = MauiApp.CreateBuilder();
@@ -58,16 +58,8 @@ Below is an example appsettings.json file, two key notes are that you need to us
 ```json
 {
   "Raygun4MauiSettings": {
-    "RaygunSettings": {
-      "ApiKey": "paste_your_api_key_here",
-      "ApplicationVersion": "1.0.0",
-    },
-    "RaygunLoggerConfiguration": {
-      "SendDefaultTags": true, 
-      "SendDefaultCustomData": true,
-      "MinLogLevel": "Debug",
-      "MaxLogLevel": "Critical" 
-    },
+    "ApiKey": "paste_your_api_key_here",
+    "ApplicationVersion": "1.0.0",
     "IgnoredViews": [
       "LoginView",
       "SettingsView"
@@ -86,7 +78,7 @@ Below is an example appsettings.json file, two key notes are that you need to us
 Mentioned previously, we provide an options lambda which you can use to make in-code changes to the configuration, e.g. 
 ```csharp
 .AddRaygun(options => {
-    options.RaygunSettings.ApiKey = "paste_your_api_key_here";
+    options.ApiKey = "paste_your_api_key_here";
     options.EnableRealUserMonitoring = true;
     options.RumFeatureFlags = RumFeatures.Page | RumFeatures.Network | RumFeatures.AppleNativeTimings;
 })
@@ -94,15 +86,10 @@ Mentioned previously, we provide an options lambda which you can use to make in-
 
 ### Raygun4MauiSettings overload
 
-The `AddRaygun` extension method contains an overloaded method that takes a `Raygun4MauiSettings` options object which can be used instead of the configuration service. This contains a `RaygunSettings` from [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/).
+The `AddRaygun` extension method contains an overloaded method that takes a `Raygun4MauiSettings` options object which can be used instead of the configuration service. `Raygun4MauiSettings` extends `RaygunSettingsBase` from [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/).
 
 **Raygun4MauiSettings supports the following configurations:**
-- RaygunSettings
-  - Any configuration available in the Raygun4Net `RaygunSettings`, such as `ApiKey`.
-- RaygunLoggerConfiguration
-  - `SendDefaultTags` (defaulted to `true`) adds the Log Level (e.g., Severe, Warning, etc.) and the Build Platform (e.g., Windows, Android, iOS, etc.) to reports and logs sent to Raygun.
-  - `SendDefaultCustomData` (defaulted to `true`) adds all available information in the uncaught exception as custom data on the crash report sent to Raygun.
-  - `MinLogLevel` and `MaxLogLevel` that specify the range of logging levels to be sent to Raygun.
+- Any configuration available in the Raygun4Net `RaygunSettingsBase`, such as `ApiKey`, `ApplicationVersion` and `CatchUnhandledExceptions`
 - `IgnoredViews` a list of views to ignore when tracking
 - `IgnoredUrls` a list of URLs to ignore when tracking
 - `RumApiEndpoint` endpoint to where the RUM data is sent
@@ -110,20 +97,11 @@ The `AddRaygun` extension method contains an overloaded method that takes a `Ray
 - `RumFeatureFlags` a enum flag to enable specific RUM features, (e.g. RumFeatures.Page | RumFeatures.Network)
 
 
-To use these additional configurations, create and initialize a new `RaygunLoggerConfiguration` object as follows:
+To use these configurations, create and initialize a new `Raygun4MauiSettings` object as follows:
 
 ``` csharp
 Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
-    RaygunSettings = new RaygunSettings() {
-        ApiKey = "paste_your_api_key_here",
-        
-    },
-    RaygunLoggerConfiguration = new RaygunLoggerConfiguration {
-        SendDefaultTags = true, // defaults to true
-        SendDefaultCustomData = true, // defaults to true
-        MinLogLevel = LogLevel.Debug, // defaults to Debug
-        MaxLogLevel = LogLevel.Critical // defaults to Critical
-    }
+    ApiKey = "paste_your_api_key_here",
     EnableRealUserMonitoring = true, // defaults to false
     RumFeatureFlags = RumFeatures.Page | RumFeatures.Network | RumFeatures.AppleNativeTimings // Enables Page, Network, and Native Apple Timings
 };
@@ -178,7 +156,7 @@ Raygun4Maui stores an instance of a `RaygunMauiClient` object that is initialize
 RaygunMauiClient.Current
 ```
 
-This client extends the Raygun4Net.NetCore `RaygunClient`, as a result any features supported by the Raygun4Net.NetCore Client are supported here. 
+This client extends the Raygun4Net `RaygunClientBase`, as a result any features supported by the Raygun4Net.NetCore Client are supported here. It is also registered with the service provider as `RaygunClientBase`, so other Raygun4Net packages that depend on it use the same client.
 
 ---
 
@@ -200,22 +178,35 @@ An exception needs to be thrown in order for its stack trace to be populated. If
 ### Other examples
 For additional examples on how to use the `RaygunMauiClient` object refer to the [Raygun4Net.NetCore  documentation](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/)
 ## ILogger logging
-Raygun4Maui will automatically send any logger logs to Raygun.
+Raygun4Maui does not send logs to Raygun by itself. To send `ILogger` logs, install the [Raygun4Net Microsoft Logger](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/ms-logger/) package:
 
-To make a log entry, obtain the reference to the ILogger services that your MAUI app maintains:
+```
+dotnet add package Mindscape.Raygun4Net.Extensions.Logging
+```
+
+Then register it after `AddRaygun`:
+
+``` csharp
+using Mindscape.Raygun4Net.Extensions.Logging;
+
+builder
+    .UseMauiApp<App>()
+    .AddRaygun();
+
+builder.Logging.AddRaygunLogger(options =>
+{
+    options.MinimumLogLevel = LogLevel.Error; // defaults to Error
+    options.OnlyLogExceptions = true; // defaults to true; set to false to also send log entries that have no exception
+});
+```
+
+The logger uses the same `RaygunMauiClient` object accessible from `RaygunMauiClient.Current`. To make a log entry, obtain the reference to the ILogger services that your MAUI app maintains:
 
 ``` csharp
 ILogger logger = Handler.MauiContext.Services.GetService<ILogger<MainPage>>();
 ```
 
-You may now use the appropriate ILogger log method from the logger object. This uses the same `RaygunMauiClient` object accessible from `RaygunMauiClient.Current`
-
-```csharp
-logger.LogInformation("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogInformation", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
-logger.LogCritical("Raygun4Maui.SampleApp.TestLoggerErrorsSent: {MethodName} @ {Timestamp}", "TestLogCritical", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
-```
-
-This functionality also allows you to manually catch and log exceptions as shown below:
+You can then catch and log exceptions as shown below:
 
 ``` csharp
 try {
@@ -225,6 +216,23 @@ try {
     logger.Log(LogLevel.Error, e, "Exception caught at {Timestamp}", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
 }
 ```
+
+## Serilog
+If your app logs with Serilog, use the [Raygun Serilog sink](https://github.com/MindscapeHQ/serilog-sinks-raygun) instead of the Microsoft Logger package. Use version `8.2.0` or later:
+
+```
+dotnet add package Serilog.Sinks.Raygun
+```
+
+``` csharp
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Raygun(builder.Configuration["Raygun4MauiSettings:ApiKey"])
+    .CreateLogger();
+```
+
+The sink creates its own Raygun client, so reports sent through Serilog do not include the device information, user or offline storage configured for Raygun4Maui. Unhandled exceptions are still sent by Raygun4Maui.
+
+If you also route `ILogger` logs into Serilog, for example with `AddSerilog`, do not add `AddRaygunLogger` as well, or each error will be sent to Raygun twice.
 
 ---
 ## Platform specific information

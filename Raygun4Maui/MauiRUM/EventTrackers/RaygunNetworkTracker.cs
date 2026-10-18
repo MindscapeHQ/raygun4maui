@@ -74,7 +74,7 @@ public static class RaygunNetworkTracker
         _defaultIgnoredUrls = new List<string>
         {
             _settings.RumApiEndpoint.AbsoluteUri, 
-            _settings.RaygunSettings.ApiEndpoint.AbsoluteUri
+            _settings.ApiEndpoint.AbsoluteUri
         };
 
 

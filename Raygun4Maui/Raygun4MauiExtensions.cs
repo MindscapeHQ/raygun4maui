@@ -6,7 +6,6 @@ using Mindscape.Raygun4Net.Breadcrumbs;
 using Mindscape.Raygun4Net.Offline;
 using Raygun4Maui.DeviceIdProvider;
 using Raygun4Maui.MauiRUM.AppLifecycleHandlers;
-using Raygun4Net.RaygunLogger;
 
 namespace Raygun4Maui
 {
@@ -26,7 +25,11 @@ namespace Raygun4Maui
 
             mauiAppBuilder.Services.AddSingleton<IMauiInitializeService, RaygunClientInitializeService>();
 
-            mauiAppBuilder.Services.AddSingleton(services => new RaygunMauiClient(raygunMauiSettings, services.GetService<IRaygunUserProvider>(), services.GetServices<IMessageBuilder>()));
+            // Resolved on first use, so that a user provider or message builder depending on ILogger does not form a cycle through the Raygun logger, which needs this client
+            mauiAppBuilder.Services.AddSingleton(services => new RaygunMauiClient(raygunMauiSettings, new LazyRaygunUserProvider(() => services.GetService<IRaygunUserProvider>()), new LazyMessageBuilders(() => services.GetServices<IMessageBuilder>())));
+
+            // Lets Raygun4Net packages that depend on the base client, such as Mindscape.Raygun4Net.Extensions.Logging, resolve the same instance
+            mauiAppBuilder.Services.AddSingleton<RaygunClientBase>(services => services.GetRequiredService<RaygunMauiClient>());
 
             // Makes breadcrumbs have a global context
             RaygunBreadcrumbs.Storage = new InMemoryBreadcrumbStorage();
@@ -41,8 +44,7 @@ namespace Raygun4Maui
             RaygunErrorMessageBuilder.AssemblyReaderProvider = moduleName => androidAssemblyReader.Value?.TryGetReader(moduleName);
 #endif
 
-            return mauiAppBuilder
-                .AddRaygunLogger(raygunMauiSettings.RaygunLoggerConfiguration);
+            return mauiAppBuilder;
         }
 
         /// <summary>
@@ -53,8 +55,21 @@ namespace Raygun4Maui
         /// <returns></returns>
         public static MauiAppBuilder AddRaygun(this MauiAppBuilder mauiAppBuilder, Action<Raygun4MauiSettings>? options = null)
         {
-            var settings = mauiAppBuilder.Configuration.GetSection("Raygun4MauiSettings").Get<Raygun4MauiSettings>() ??
-                           new Raygun4MauiSettings();
+            var section = mauiAppBuilder.Configuration.GetSection("Raygun4MauiSettings");
+
+            // Without this check, a config from before 4.0.0 loads with no ApiKey and Raygun silently sends nothing
+            if (section.GetSection("RaygunSettings").Exists())
+            {
+                throw new InvalidOperationException("Raygun4MauiSettings:RaygunSettings was removed in Raygun4Maui 4.0.0. Move its settings up into Raygun4MauiSettings, for example Raygun4MauiSettings:ApiKey.");
+            }
+
+            // Without this check, a config from before 4.0.0 loads with no built-in logger and Raygun silently stops sending ILogger logs
+            if (section.GetSection("RaygunLoggerConfiguration").Exists())
+            {
+                throw new InvalidOperationException("Raygun4MauiSettings:RaygunLoggerConfiguration was removed in Raygun4Maui 4.0.0. Remove the section, then to keep sending ILogger logs add Mindscape.Raygun4Net.Extensions.Logging and call builder.Logging.AddRaygunLogger().");
+            }
+
+            var settings = section.Get<Raygun4MauiSettings>() ?? new Raygun4MauiSettings();
 
             options?.Invoke(settings);
 
@@ -118,7 +133,7 @@ namespace Raygun4Maui
         /// <returns></returns>
         public static Raygun4MauiSettings UseOfflineStorage<T>(this Raygun4MauiSettings mauiSettings, T offlineStore) where T : OfflineStoreBase
         {
-            mauiSettings.RaygunSettings.OfflineStore = offlineStore;
+            mauiSettings.OfflineStore = offlineStore;
             return mauiSettings;
         }
 

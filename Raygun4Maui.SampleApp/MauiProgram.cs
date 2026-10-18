@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using Mindscape.Raygun4Net.Extensions.Logging;
 using Raygun4Maui.SampleApp.TestingLogic;
 using Serilog;
 
@@ -18,7 +19,7 @@ public static class MauiProgram
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
-            .WriteTo.Raygun(builder.Configuration["Raygun4MauiSettings:RaygunSettings:apiKey"])
+            .WriteTo.Raygun(builder.Configuration["Raygun4MauiSettings:ApiKey"])
             .CreateLogger();
 
         builder
@@ -34,6 +35,11 @@ public static class MauiProgram
             })
             .AddRaygunUserProvider<RaygunMauiUserProvider>();
 
+        // Send errors logged without an exception too, so TestLoggerErrorsSent reaches Raygun
+        builder.Logging.AddRaygunLogger(options =>
+        {
+            options.OnlyLogExceptions = false;
+        });
 
         builder.Services.AddSingleton<MainPage>();
         
