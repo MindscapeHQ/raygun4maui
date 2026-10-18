@@ -35,7 +35,7 @@ public partial class MainPage : ContentPage
             .Build();
 
 
-        _apiKey = configuration["Raygun4MauiSettings:RaygunSettings:apiKey"] ?? "";
+        _apiKey = configuration["Raygun4MauiSettings:ApiKey"] ?? "";
 
         if (_apiKey != "")
         {

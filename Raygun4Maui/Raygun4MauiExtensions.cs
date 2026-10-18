@@ -53,8 +53,15 @@ namespace Raygun4Maui
         /// <returns></returns>
         public static MauiAppBuilder AddRaygun(this MauiAppBuilder mauiAppBuilder, Action<Raygun4MauiSettings>? options = null)
         {
-            var settings = mauiAppBuilder.Configuration.GetSection("Raygun4MauiSettings").Get<Raygun4MauiSettings>() ??
-                           new Raygun4MauiSettings();
+            var section = mauiAppBuilder.Configuration.GetSection("Raygun4MauiSettings");
+
+            // Without this check, a config from before 4.0.0 loads with no ApiKey and Raygun silently sends nothing
+            if (section.GetSection("RaygunSettings").Exists())
+            {
+                throw new InvalidOperationException("Raygun4MauiSettings:RaygunSettings was removed in Raygun4Maui 4.0.0. Move its settings up into Raygun4MauiSettings, for example Raygun4MauiSettings:ApiKey.");
+            }
+
+            var settings = section.Get<Raygun4MauiSettings>() ?? new Raygun4MauiSettings();
 
             options?.Invoke(settings);
 
@@ -118,7 +125,7 @@ namespace Raygun4Maui
         /// <returns></returns>
         public static Raygun4MauiSettings UseOfflineStorage<T>(this Raygun4MauiSettings mauiSettings, T offlineStore) where T : OfflineStoreBase
         {
-            mauiSettings.RaygunSettings.OfflineStore = offlineStore;
+            mauiSettings.OfflineStore = offlineStore;
             return mauiSettings;
         }
 

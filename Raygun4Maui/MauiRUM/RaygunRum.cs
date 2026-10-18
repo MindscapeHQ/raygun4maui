@@ -30,7 +30,7 @@ public static class RaygunRum
         _mauiSettings = settings;
 
         _requestHandler = new RaygunWebRequestHandler(
-            _mauiSettings?.RaygunSettings.ApiKey,
+            _mauiSettings?.ApiKey,
             _mauiSettings?.RumApiEndpoint, 300_000
         );
 
@@ -123,9 +123,9 @@ public static class RaygunRum
 
     private static String GetAppVersion()
     {
-        if (!string.IsNullOrEmpty(_mauiSettings.RaygunSettings.ApplicationVersion))
+        if (!string.IsNullOrEmpty(_mauiSettings.ApplicationVersion))
         {
-            return _mauiSettings.RaygunSettings.ApplicationVersion;
+            return _mauiSettings.ApplicationVersion;
         }
 
         var entryAssembly = System.Reflection.Assembly.GetEntryAssembly();

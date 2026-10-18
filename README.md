@@ -58,10 +58,8 @@ Below is an example appsettings.json file, two key notes are that you need to us
 ```json
 {
   "Raygun4MauiSettings": {
-    "RaygunSettings": {
-      "ApiKey": "paste_your_api_key_here",
-      "ApplicationVersion": "1.0.0",
-    },
+    "ApiKey": "paste_your_api_key_here",
+    "ApplicationVersion": "1.0.0",
     "RaygunLoggerConfiguration": {
       "SendDefaultTags": true, 
       "SendDefaultCustomData": true,
@@ -86,7 +84,7 @@ Below is an example appsettings.json file, two key notes are that you need to us
 Mentioned previously, we provide an options lambda which you can use to make in-code changes to the configuration, e.g. 
 ```csharp
 .AddRaygun(options => {
-    options.RaygunSettings.ApiKey = "paste_your_api_key_here";
+    options.ApiKey = "paste_your_api_key_here";
     options.EnableRealUserMonitoring = true;
     options.RumFeatureFlags = RumFeatures.Page | RumFeatures.Network | RumFeatures.AppleNativeTimings;
 })
@@ -94,11 +92,10 @@ Mentioned previously, we provide an options lambda which you can use to make in-
 
 ### Raygun4MauiSettings overload
 
-The `AddRaygun` extension method contains an overloaded method that takes a `Raygun4MauiSettings` options object which can be used instead of the configuration service. This contains a `RaygunSettings` from [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/).
+The `AddRaygun` extension method contains an overloaded method that takes a `Raygun4MauiSettings` options object which can be used instead of the configuration service. `Raygun4MauiSettings` extends `RaygunSettingsBase` from [Raygun4Net](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/net-core/).
 
 **Raygun4MauiSettings supports the following configurations:**
-- RaygunSettings
-  - Any configuration available in the Raygun4Net `RaygunSettings`, such as `ApiKey`.
+- Any configuration available in the Raygun4Net `RaygunSettingsBase`, such as `ApiKey`, `ApplicationVersion` and `CatchUnhandledExceptions`
 - RaygunLoggerConfiguration
   - `SendDefaultTags` (defaulted to `true`) adds the Log Level (e.g., Severe, Warning, etc.) and the Build Platform (e.g., Windows, Android, iOS, etc.) to reports and logs sent to Raygun.
   - `SendDefaultCustomData` (defaulted to `true`) adds all available information in the uncaught exception as custom data on the crash report sent to Raygun.
@@ -110,14 +107,11 @@ The `AddRaygun` extension method contains an overloaded method that takes a `Ray
 - `RumFeatureFlags` a enum flag to enable specific RUM features, (e.g. RumFeatures.Page | RumFeatures.Network)
 
 
-To use these additional configurations, create and initialize a new `RaygunLoggerConfiguration` object as follows:
+To use these configurations, create and initialize a new `Raygun4MauiSettings` object as follows:
 
 ``` csharp
 Raygun4MauiSettings raygunMauiSettings = new Raygun4MauiSettings {
-    RaygunSettings = new RaygunSettings() {
-        ApiKey = "paste_your_api_key_here",
-        
-    },
+    ApiKey = "paste_your_api_key_here",
     RaygunLoggerConfiguration = new RaygunLoggerConfiguration {
         SendDefaultTags = true, // defaults to true
         SendDefaultCustomData = true, // defaults to true
@@ -178,7 +172,7 @@ Raygun4Maui stores an instance of a `RaygunMauiClient` object that is initialize
 RaygunMauiClient.Current
 ```
 
-This client extends the Raygun4Net.NetCore `RaygunClient`, as a result any features supported by the Raygun4Net.NetCore Client are supported here. 
+This client extends the Raygun4Net `RaygunClientBase`, as a result any features supported by the Raygun4Net.NetCore Client are supported here.
 
 ---
 

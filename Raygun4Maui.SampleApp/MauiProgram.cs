@@ -18,7 +18,7 @@ public static class MauiProgram
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
-            .WriteTo.Raygun(builder.Configuration["Raygun4MauiSettings:RaygunSettings:apiKey"])
+            .WriteTo.Raygun(builder.Configuration["Raygun4MauiSettings:ApiKey"])
             .CreateLogger();
 
         builder
