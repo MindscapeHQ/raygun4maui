@@ -62,7 +62,7 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0"/>
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.0"/>
         <PackageReference Include="Mindscape.Raygun4Net.Extensions.Logging" Version="11.2.6"/>
-        <PackageReference Include="Serilog.Sinks.Raygun" Version="7.3.0"/>
+        <PackageReference Include="Serilog.Sinks.Raygun" Version="8.2.0"/>
     </ItemGroup>
 
     <ItemGroup>

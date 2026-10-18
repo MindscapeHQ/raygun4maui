@@ -217,6 +217,23 @@ try {
 }
 ```
 
+## Serilog
+If your app logs with Serilog, use the [Raygun Serilog sink](https://github.com/MindscapeHQ/serilog-sinks-raygun) instead of the Microsoft Logger package. Use version `8.2.0` or later:
+
+```
+dotnet add package Serilog.Sinks.Raygun
+```
+
+``` csharp
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Raygun(builder.Configuration["Raygun4MauiSettings:ApiKey"])
+    .CreateLogger();
+```
+
+The sink creates its own Raygun client, so reports sent through Serilog do not include the device information, user or offline storage configured for Raygun4Maui. Unhandled exceptions are still sent by Raygun4Maui.
+
+If you also route `ILogger` logs into Serilog, for example with `AddSerilog`, do not add `AddRaygunLogger` as well, or each error will be sent to Raygun twice.
+
 ---
 ## Platform specific information
 Raygun4Maui will automatically collect information specific to the environment the application is being run in. However, there are inconsistencies between certain values across platforms.
